@@ -16,8 +16,9 @@
         .modal-overlay { background: rgba(0,0,0,0.95); backdrop-filter: blur(12px); position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 500; }
         .hidden { display: none; }
         .tab-active { border-bottom: 3px solid #14f195; color: #14f195 !important; }
-        .auth-input { background: #0b0c0d; border: 1px solid #2d3139; padding: 16px; border-radius: 16px; width: 100%; outline: none; text-align: center; color: white; font-weight: bold; }
-        .verify-box { background: #1c1f23; border: 2px dashed #14f195; padding: 15px; border-radius: 12px; margin: 15px 0; }
+        .auth-input { background: #141619; border: 2px solid #2d3139; padding: 18px; border-radius: 16px; width: 100%; outline: none; text-align: center; color: white; font-weight: 800; font-size: 1.2rem; }
+        .auth-input:focus { border-color: #14f195; }
+        .verify-box { background: #0b0c0d; border: 2px dashed #14f195; padding: 15px; border-radius: 12px; margin: 15px 0; }
         ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-thumb { background: #1c1f23; border-radius: 10px; }
     </style>
@@ -46,7 +47,6 @@
         <div class="flex gap-10 border-b border-gray-800 mb-8">
             <button onclick="switchTab('lobby')" id="tab-lobby" class="pb-3 tab-active font-bold text-sm tracking-widest uppercase">Lobby</button>
             <button onclick="switchTab('history')" id="tab-history" class="pb-3 text-gray-500 font-bold text-sm tracking-widest uppercase hover:text-white transition">History</button>
-            <button onclick="toggleModal('leaderboardModal')" class="pb-3 text-gray-500 font-bold text-sm tracking-widest uppercase hover:text-white transition">Leaderboard</button>
         </div>
 
         <div id="lobbyContainer">
@@ -78,30 +78,21 @@
         </div>
     </aside>
 
-    <div id="leaderboardModal" class="modal-overlay hidden" onclick="toggleModal('leaderboardModal')">
-        <div class="bg-[#141619] border border-gray-800 w-[450px] p-10 rounded-[2.5rem]" onclick="event.stopPropagation()">
-            <h2 class="text-2xl font-black mb-6 uppercase neon-text italic">🏆 Legends</h2>
-            <div id="leaderRows" class="space-y-3">
-                <p class="text-center text-gray-600 py-4 uppercase text-[10px]">No Data Available</p>
-            </div>
-        </div>
-    </div>
-
     <div id="loginModal" class="modal-overlay hidden">
         <div class="bg-[#141619] border border-gray-800 w-[400px] p-10 rounded-[2.5rem] text-center">
             <div id="loginStep1">
-                <h2 class="text-2xl font-black mb-6 uppercase">Login</h2>
+                <h2 class="text-2xl font-black mb-8 uppercase tracking-widest">Login</h2>
                 <input type="text" id="usernameInput" placeholder="Roblox Username" class="auth-input mb-4">
-                <p id="authError" class="text-red-500 text-[10px] font-bold uppercase mb-4 hidden"></p>
+                <p id="authError" class="text-red-500 text-[10px] font-bold uppercase mb-6 hidden">User not found!</p>
                 <button id="nextBtn" onclick="verifyRobloxUser()" class="premium-btn w-full py-5 rounded-2xl uppercase">Next Step</button>
-                <button onclick="toggleModal('loginModal')" class="mt-4 text-gray-600 text-[10px] uppercase font-bold">Close</button>
+                <button onclick="toggleModal('loginModal')" class="mt-6 text-gray-600 text-[10px] uppercase font-black hover:text-white transition">Close</button>
             </div>
             <div id="loginStep2" class="hidden">
                 <h2 class="text-xl font-black mb-2 uppercase">Verify</h2>
-                <p class="text-gray-400 text-[10px] mb-4 uppercase italic">Paste this in your Roblox "About" section:</p>
-                <div class="verify-box"><span id="verifyCode" class="text-2xl font-black text-white italic tracking-widest"></span></div>
+                <p class="text-gray-400 text-[10px] mb-4 uppercase">Paste this in your Roblox "About":</p>
+                <div class="verify-box"><span id="verifyCode" class="text-2xl font-black text-white italic"></span></div>
                 <button id="finalLoginBtn" onclick="checkRobloxBio()" class="premium-btn w-full py-5 rounded-2xl uppercase mb-4">Verify Bio</button>
-                <button onclick="resetAuth()" class="text-gray-600 text-[10px] uppercase font-bold">Back</button>
+                <button onclick="resetAuth()" class="text-gray-600 text-[10px] uppercase font-bold hover:text-white transition">Back</button>
             </div>
         </div>
     </div>
@@ -111,22 +102,29 @@
         let robloxId = null;
         let generatedCode = "";
         
-        // Çoklu Proxy Desteği (Bağlantı hatalarını çözmek için)
+        // Çoklu Proxy Zinciri - Biri çalışmazsa diğeri devreye girer
         const proxies = [
+            "https://api.allorigins.win/raw?url=",
             "https://corsproxy.io/?",
-            "https://api.allorigins.win/raw?url="
+            "https://thingproxy.freeboard.io/fetch/"
         ];
 
         function toggleModal(id) { document.getElementById(id).classList.toggle('hidden'); }
 
-        async function fetchWithProxy(url) {
-            for (let proxy of proxies) {
+        async function tryFetch(url) {
+            let lastError = null;
+            for (const proxy of proxies) {
                 try {
                     const response = await fetch(proxy + encodeURIComponent(url));
-                    if (response.ok) return await response.json();
-                } catch (e) { console.warn("Proxy failed, trying next..."); }
+                    if (response.ok) {
+                        return await response.json();
+                    }
+                } catch (err) {
+                    lastError = err;
+                    console.log(`Proxy ${proxy} failed, trying next...`);
+                }
             }
-            throw new Error("All proxies failed.");
+            throw lastError || new Error("Connection failed");
         }
 
         async function verifyRobloxUser() {
@@ -138,10 +136,12 @@
             btn.disabled = true; btn.innerText = "Searching..."; err.classList.add('hidden');
 
             try {
+                // Roblox kullanıcı arama API'si
                 const url = `https://users.roblox.com/v1/users/search?keyword=${user}&limit=1`;
-                const data = await fetchWithProxy(url);
+                const data = await tryFetch(url);
                 
-                if(data.data && data.data.length > 0) {
+                // Roblox API bazen tam eşleşme vermez, o yüzden ilk sonucu kontrol ediyoruz
+                if(data.data && data.data.length > 0 && data.data.name.toLowerCase() === user.toLowerCase()) {
                     robloxId = data.data.id;
                     generatedCode = "BX-" + Math.floor(1000 + Math.random() * 9000);
                     document.getElementById('verifyCode').innerText = generatedCode;
@@ -152,8 +152,9 @@
                     err.classList.remove('hidden');
                 }
             } catch (e) {
-                err.innerText = "Connection Error! Try refreshing."; 
+                err.innerText = "System Error: Proxy connection failed. Please try again."; 
                 err.classList.remove('hidden');
+                console.error(e);
             } finally { btn.disabled = false; btn.innerText = "Next Step"; }
         }
 
@@ -162,16 +163,19 @@
             btn.disabled = true; btn.innerText = "Checking...";
             try {
                 const url = `https://users.roblox.com/v1/users/${robloxId}`;
-                const data = await fetchWithProxy(url);
+                const data = await tryFetch(url);
                 if((data.description || "").includes(generatedCode)) {
                     currentUser = data.name;
                     toggleModal('loginModal');
                     document.getElementById('loginBtn').classList.add('hidden');
                     document.getElementById('userInfo').classList.remove('hidden');
                     document.getElementById('displayUsername').innerText = currentUser;
-                } else { alert("Code not found in your Roblox bio!"); }
-            } catch { alert("Failed to fetch profile. Check internet."); }
-            finally { btn.disabled = false; btn.innerText = "Verify Bio"; }
+                } else { 
+                    alert("Code not found! Make sure you saved your Roblox profile bio."); 
+                }
+            } catch (e) { 
+                alert("Connection failed during bio check."); 
+            } finally { btn.disabled = false; btn.innerText = "Verify Bio"; }
         }
 
         function switchTab(tab) {
