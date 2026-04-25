@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BloxCrash | Premium Auth</title>
+    <title>BloxCrash | Premium</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
@@ -13,14 +13,32 @@
         .brand-crash { color: #ffffff; text-shadow: 0 0 15px rgba(255, 255, 255, 0.3); }
         .premium-btn { background: linear-gradient(135deg, #14f195 0%, #0dbb72 100%); color: #000; font-weight: 900; transition: 0.3s; border: none; }
         .premium-btn:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 8px 20px #14f19544; cursor: pointer; }
+        .premium-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        
+        .elevate { transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .elevate:hover { transform: translateY(-8px); }
+        
+        .item-card { background: #141619; border: 2px solid #1c1f23; cursor: pointer; transition: all 0.2s; }
+        .item-card:hover { transform: translateY(-5px); border-color: #333; }
+        .item-card.selected { border-color: #14f195; background: #14f19511; transform: translateY(-8px); }
+        
         .modal-overlay { background: rgba(0,0,0,0.95); backdrop-filter: blur(12px); position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 500; }
-        .hidden { display: none; }
-        .tab-active { border-bottom: 3px solid #14f195; color: #14f195 !important; }
-        .auth-input { background: #141619; border: 2px solid #2d3139; padding: 18px; border-radius: 16px; width: 100%; outline: none; text-align: center; color: white; font-weight: 800; font-size: 1.2rem; }
-        .auth-input:focus { border-color: #14f195; }
-        .verify-box { background: #0b0c0d; border: 2px dashed #14f195; padding: 15px; border-radius: 12px; margin: 15px 0; }
+        .hidden { display: none !important; }
+        .tab-active { border-bottom: 3px solid #14f195 !important; color: #14f195 !important; }
+        
         ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-thumb { background: #1c1f23; border-radius: 10px; }
+        
+        .view-row { background: #1c1f23; border: 1px solid #2d3139; border-radius: 12px; padding: 8px 12px; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; }
+        
+        /* Buton Parlama Ayarı */
+        .btn-subtle { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); transition: 0.2s; }
+        .btn-subtle:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); }
+
+        .coin-wrapper { perspective: 1000px; width: 140px; height: 140px; margin: 0 auto 30px; }
+        .coin { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .coin-side { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; align-items: center; justify-content: center; }
+        .side-t { transform: rotateY(180deg); }
     </style>
 </head>
 <body class="flex flex-col md:flex-row">
@@ -33,12 +51,16 @@
             <div id="authSection">
                 <button id="loginBtn" onclick="toggleModal('loginModal')" class="bg-[#1c1f23] hover:bg-[#25282c] px-8 py-2.5 rounded-xl font-bold transition border border-gray-700 uppercase tracking-widest text-xs text-white">Login</button>
                 <div id="userInfo" class="hidden flex items-center gap-3">
-                    <div class="bg-[#141619] px-5 py-2.5 rounded-xl border border-gray-800 flex flex-col items-end">
-                        <span id="displayUsername" class="text-white font-bold text-[10px] uppercase">User</span>
+                    <img id="navAvatar" src="" class="w-10 h-10 rounded-full border border-[#14f195] bg-[#0b0c0d]">
+                    <div class="flex flex-col items-end mr-2">
+                        <span class="text-gray-500 text-[10px] font-black uppercase tracking-widest">Logged in as</span>
+                        <span id="displayUserName" class="text-white font-black text-sm uppercase italic">User</span>
+                    </div>
+                    <div class="bg-[#141619] px-5 py-2.5 rounded-xl border border-gray-800 flex flex-col items-end cursor-pointer hover:border-gray-600 transition" onclick="viewOnlyInventory()">
                         <span id="invValueDisplay" class="neon-text font-black text-lg leading-none">0 Value</span>
                     </div>
-                    <button onclick="logout()" class="bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white p-3 rounded-xl transition border border-red-500/20">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                    <button onclick="confirmLogout()" class="bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white p-3 rounded-xl transition border border-red-500/20 shadow-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
                     </button>
                 </div>
             </div>
@@ -46,161 +68,421 @@
 
         <div class="flex gap-10 border-b border-gray-800 mb-8">
             <button onclick="switchTab('lobby')" id="tab-lobby" class="pb-3 tab-active font-bold text-sm tracking-widest uppercase">Lobby</button>
-            <button onclick="switchTab('history')" id="tab-history" class="pb-3 text-gray-500 font-bold text-sm tracking-widest uppercase hover:text-white transition">History</button>
+            <button onclick="switchTab('history')" id="tab-history" class="pb-3 text-gray-500 font-bold text-sm tracking-widest hover:text-white transition uppercase">History</button>
+            <button onclick="toggleModal('leaderboardModal')" class="pb-3 text-gray-500 font-bold text-sm tracking-widest hover:text-white transition uppercase">Leaderboard</button>
         </div>
 
         <div id="lobbyContainer">
             <div class="flex justify-between items-center mb-6">
-                <h2 class="text-xl font-black uppercase tracking-tight">Active Battles</h2>
-                <button onclick="checkAuth()" class="premium-btn px-8 py-3 rounded-xl text-sm uppercase">Create Match</button>
+                <h2 class="text-xl font-black uppercase tracking-tight">Lobby</h2>
+                <button onclick="checkAuth()" class="premium-btn px-8 py-3 rounded-xl text-sm shadow-xl uppercase">Create Match</button>
             </div>
-            <div id="matchList" class="grid gap-4">
-                <div id="emptyMsg" class="text-center py-24 border-2 border-dashed border-gray-800 rounded-3xl text-gray-600 font-bold uppercase tracking-widest">No Active Matches</div>
-            </div>
+            <div id="matchList" class="grid gap-4"></div>
         </div>
 
         <div id="historyContainer" class="hidden">
-            <h2 class="text-xl font-black mb-6 text-[#14f195] uppercase italic">Recent Battles</h2>
+            <h2 class="text-xl font-black mb-6 text-[#14f195] uppercase tracking-tighter italic">Recent Battles</h2>
             <div id="historyList" class="grid gap-3"></div>
         </div>
     </main>
 
-    <aside class="w-full md:w-80 bg-[#0e0f10] border-l border-gray-800 flex flex-col shadow-2xl">
-        <div class="p-5 border-b border-gray-800 bg-[#0b0c0d]">
+    <aside class="w-full md:w-80 bg-[#0e0f10] border-l border-gray-800 flex flex-col shadow-2xl relative">
+        <div class="p-5 border-b border-gray-800 bg-[#0b0c0d] flex justify-between items-center">
             <h3 class="font-black text-[#14f195] text-xs tracking-widest uppercase">Global Chat</h3>
+            <span class="text-[10px] font-bold text-gray-500 uppercase"><span id="onlineCount" class="text-[#14f195]">1</span> Online</span>
         </div>
         <div id="chatArea" class="p-5 space-y-4 flex-1 overflow-y-auto text-xs"></div>
         <div class="p-5 bg-[#0b0c0d] border-t border-gray-800">
             <div class="flex gap-2">
-                <input type="text" id="chatInput" placeholder="Write message..." class="flex-1 bg-[#1c1f23] border border-gray-700 rounded-xl p-3 outline-none text-white">
-                <button onclick="sendMessage()" class="premium-btn px-4 rounded-xl uppercase text-[10px]">Send</button>
+                <input type="text" id="chatInput" placeholder="Write message..." class="flex-1 bg-[#1c1f23] border border-gray-700 rounded-xl p-3.5 outline-none focus:border-[#14f195] transition text-white">
+                <button onclick="sendMessage()" class="premium-btn px-5 rounded-xl uppercase text-[10px]">Send</button>
             </div>
         </div>
     </aside>
 
-    <div id="loginModal" class="modal-overlay hidden">
-        <div class="bg-[#141619] border border-gray-800 w-[400px] p-10 rounded-[2.5rem] text-center">
+    <div id="loginModal" class="modal-overlay hidden" onclick="closeModalOnOuter(event)">
+        <div class="bg-[#141619] border border-gray-800 w-[400px] p-10 rounded-[3rem] text-center shadow-2xl" onclick="event.stopPropagation()">
+            <h2 id="loginTitle" class="text-2xl font-black mb-8 uppercase tracking-widest">Welcome</h2>
+            
             <div id="loginStep1">
-                <h2 class="text-2xl font-black mb-8 uppercase tracking-widest">Login</h2>
-                <input type="text" id="usernameInput" placeholder="Roblox Username" class="auth-input mb-4">
-                <p id="authError" class="text-red-500 text-[10px] font-bold uppercase mb-6 hidden">User not found!</p>
-                <button id="nextBtn" onclick="verifyRobloxUser()" class="premium-btn w-full py-5 rounded-2xl uppercase">Next Step</button>
-                <button onclick="toggleModal('loginModal')" class="mt-6 text-gray-600 text-[10px] uppercase font-black hover:text-white transition">Close</button>
+                <p class="text-gray-500 text-[10px] font-bold uppercase mb-4 tracking-widest">Enter your roblox username</p>
+                <input type="text" id="usernameInput" placeholder="Username" class="w-full bg-[#0b0c0d] border border-gray-800 p-5 rounded-2xl mb-6 outline-none focus:border-[#14f195] text-center font-black transition text-white text-lg">
+                <button onclick="searchRobloxUser()" id="searchBtn" class="premium-btn w-full py-5 rounded-2xl uppercase shadow-lg">Continue</button>
             </div>
-            <div id="loginStep2" class="hidden">
-                <h2 class="text-xl font-black mb-2 uppercase">Verify</h2>
-                <p class="text-gray-400 text-[10px] mb-4 uppercase">Paste this in your Roblox "About":</p>
-                <div class="verify-box"><span id="verifyCode" class="text-2xl font-black text-white italic"></span></div>
-                <button id="finalLoginBtn" onclick="checkRobloxBio()" class="premium-btn w-full py-5 rounded-2xl uppercase mb-4">Verify Bio</button>
-                <button onclick="resetAuth()" class="text-gray-600 text-[10px] uppercase font-bold hover:text-white transition">Back</button>
+
+            <div id="loginStep2" class="hidden animate-in fade-in zoom-in duration-300">
+                <div class="bg-[#0b0c0d] p-8 rounded-[2.5rem] border border-gray-800 mb-6">
+                    <img id="tempAvatar" src="" class="w-28 h-28 rounded-full mx-auto mb-4 border-4 border-[#14f195] shadow-2xl object-cover">
+                    <h3 id="tempNameDisplay" class="font-black text-white uppercase text-lg mb-2">---</h3>
+                    <p class="text-gray-500 text-[9px] font-bold uppercase tracking-widest mb-4">Paste this into your bio</p>
+                    <div id="verificationCode" class="bg-black p-4 rounded-xl font-mono text-[#14f195] text-xl tracking-[0.3em] border border-[#14f195]/20 font-black select-all">LOADING...</div>
+                </div>
+                <button onclick="verifyAndLogin()" id="verifyBtn" class="premium-btn w-full py-5 rounded-2xl uppercase mb-3">Verify Account</button>
+                <button onclick="resetLogin()" class="text-gray-600 text-[10px] font-black uppercase hover:text-white transition">Change Username</button>
             </div>
         </div>
     </div>
 
+    <div id="matchViewModal" class="modal-overlay hidden" onclick="closeModalOnOuter(event)">
+        <div class="bg-[#141619] border border-gray-800 w-[600px] p-10 rounded-[3rem]" onclick="event.stopPropagation()">
+            <div id="viewContent" class="flex gap-6 items-stretch">
+                <div class="flex-1 bg-[#0b0c0d] p-6 rounded-3xl border border-gray-800 text-center">
+                    <div class="relative inline-block mb-3">
+                        <img id="vCreatorImg" src="" class="w-20 h-20 rounded-full border-2 border-[#14f195]">
+                        <img id="vCreatorSide" src="" class="w-7 h-7 absolute -bottom-1 -right-1 border-2 border-[#0b0c0d] rounded-full">
+                    </div>
+                    <h3 id="vCreatorName" class="font-black uppercase text-sm mb-4">---</h3>
+                    <div id="vCreatorItems" class="space-y-2 max-h-[180px] overflow-y-auto pr-2"></div>
+                    <p class="mt-4 neon-text font-black text-xl" id="vCreatorVal">$0</p>
+                </div>
+                <div class="flex items-center font-black text-gray-800 italic">VS</div>
+                <div class="flex-1 bg-[#0b0c0d] p-6 rounded-3xl border border-dashed border-gray-800 flex flex-col items-center justify-center opacity-30">
+                    <div class="w-20 h-20 rounded-full border-4 border-gray-800 flex items-center justify-center text-3xl font-black text-gray-700">?</div>
+                    <p class="mt-4 text-[10px] font-bold uppercase tracking-widest">Waiting...</p>
+                </div>
+            </div>
+            <button onclick="toggleModal('matchViewModal')" class="mt-8 btn-subtle w-full py-4 rounded-2xl font-black uppercase text-xs text-gray-400">Close Details</button>
+        </div>
+    </div>
+
+    <div id="itemSelectModal" class="modal-overlay hidden" onclick="closeModalOnOuter(event)">
+        <div class="bg-[#141619] border border-gray-800 w-[580px] p-8 rounded-[2.5rem]" onclick="event.stopPropagation()">
+            <div class="flex justify-between items-center mb-6 border-b border-gray-800 pb-4">
+                <h2 class="text-xl font-black uppercase tracking-tighter">Select Items</h2>
+                <span id="totalSelectedValue" class="neon-text font-black text-lg">0 Value</span>
+            </div>
+            <div id="invGrid" class="grid grid-cols-3 gap-3 mb-8 max-h-[350px] overflow-y-auto pr-2"></div>
+            <button id="itemActionBtn" onclick="processItemAction()" class="premium-btn w-full py-4 rounded-2xl font-black uppercase">Continue</button>
+        </div>
+    </div>
+
+    <div id="sideSelectModal" class="modal-overlay hidden" onclick="closeModalOnOuter(event)">
+        <div class="bg-[#141619] border border-gray-800 w-[420px] p-10 rounded-[2.5rem] text-center" onclick="event.stopPropagation()">
+            <h2 class="text-xl font-black mb-10 uppercase tracking-widest">Choose Side</h2>
+            <div class="flex justify-center gap-10">
+                <div onclick="createMatchAuto('H')" class="side-box elevate"><img src="https://bloxluck.com/img/dog.png" class="w-20"></div>
+                <div onclick="createMatchAuto('T')" class="side-box elevate"><img src="https://bloxluck.com/img/gem.png" class="w-20"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="flipModal" class="modal-overlay hidden">
+        <div class="bg-[#141619] border border-gray-800 w-[400px] p-12 rounded-[3rem] text-center">
+            <div class="coin-wrapper">
+                <div id="coin" class="coin">
+                    <div class="coin-side side-h"><img src="https://bloxluck.com/img/dog.png" class="w-24"></div>
+                    <div class="coin-side side-t"><img src="https://bloxluck.com/img/gem.png" class="w-24"></div>
+                </div>
+            </div>
+            <h2 id="flipStatus" class="text-2xl font-black uppercase italic">Flipping...</h2>
+        </div>
+    </div>
+
+    <div id="leaderboardModal" class="modal-overlay hidden" onclick="closeModalOnOuter(event)">
+        <div class="bg-[#141619] border border-gray-800 w-[450px] p-10 rounded-[2.5rem]" onclick="event.stopPropagation()">
+            <h2 class="text-2xl font-black uppercase neon-text mb-6 italic">Top Players</h2>
+            <div id="leaderRows" class="space-y-4"></div>
+        </div>
+    </div>
+
     <script>
-        let currentUser = null;
-        let robloxId = null;
-        let generatedCode = "";
-        
-        // Çoklu Proxy Zinciri - Biri çalışmazsa diğeri devreye girer
-        const proxies = [
-            "https://api.allorigins.win/raw?url=",
-            "https://corsproxy.io/?",
-            "https://thingproxy.freeboard.io/fetch/"
-        ];
+        // --- DATA & SYNC ---
+        let currentUser = sessionStorage.getItem('blox_user_session') || null;
+        let leaders = JSON.parse(localStorage.getItem('blox_leaders')) || {}; 
+        let activeMatches = JSON.parse(localStorage.getItem('blox_active_matches')) || {};
+        let gameHistory = JSON.parse(localStorage.getItem('blox_history')) || [];
+        let chatHistory = JSON.parse(localStorage.getItem('blox_chat')) || [];
+        let userAvatars = JSON.parse(localStorage.getItem('blox_user_avatars')) || {};
+        let allInventories = JSON.parse(localStorage.getItem('blox_all_inventories')) || {};
 
-        function toggleModal(id) { document.getElementById(id).classList.toggle('hidden'); }
+        let myInventory = [];
+        let selectedItems = [];
+        let isActivelyPlaying = false;
+        let currentMode = 'create';
+        let currentJoinMatchId = null;
+        let tempRobloxId, tempUsername, generatedAuthCode;
+        const proxyUrl = "https://cors-anywhere.herokuapp.com/";
 
-        async function tryFetch(url) {
-            let lastError = null;
-            for (const proxy of proxies) {
-                try {
-                    const response = await fetch(proxy + encodeURIComponent(url));
-                    if (response.ok) {
-                        return await response.json();
-                    }
-                } catch (err) {
-                    lastError = err;
-                    console.log(`Proxy ${proxy} failed, trying next...`);
-                }
-            }
-            throw lastError || new Error("Connection failed");
-        }
-
-        async function verifyRobloxUser() {
+        // --- ROBLOX AUTH ---
+        async function searchRobloxUser() {
             const user = document.getElementById('usernameInput').value;
-            const err = document.getElementById('authError');
-            const btn = document.getElementById('nextBtn');
             if(!user) return;
-
-            btn.disabled = true; btn.innerText = "Searching..."; err.classList.add('hidden');
+            const btn = document.getElementById('searchBtn');
+            btn.innerText = "Finding..."; btn.disabled = true;
 
             try {
-                // Roblox kullanıcı arama API'si
-                const url = `https://users.roblox.com/v1/users/search?keyword=${user}&limit=1`;
-                const data = await tryFetch(url);
-                
-                // Roblox API bazen tam eşleşme vermez, o yüzden ilk sonucu kontrol ediyoruz
-                if(data.data && data.data.length > 0 && data.data.name.toLowerCase() === user.toLowerCase()) {
-                    robloxId = data.data.id;
-                    generatedCode = "BX-" + Math.floor(1000 + Math.random() * 9000);
-                    document.getElementById('verifyCode').innerText = generatedCode;
+                const res = await fetch(`${proxyUrl}https://users.roblox.com/v1/usernames/users`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ usernames: [user], excludeBannedUsers: true })
+                });
+                const data = await res.json();
+                if(data.data && data.data[0]) {
+                    const u = data.data[0];
+                    tempRobloxId = u.id; tempUsername = u.requestedUsername;
+                    generatedAuthCode = "CRASH-" + Math.floor(1000 + Math.random()*8999);
+                    document.getElementById('verificationCode').innerText = generatedAuthCode;
+                    document.getElementById('tempNameDisplay').innerText = tempUsername;
+                    
+                    const tRes = await fetch(`${proxyUrl}https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${u.id}&size=150x150&format=Png&isCircular=true`);
+                    const tData = await tRes.json();
+                    if(tData.data) {
+                        userAvatars[tempUsername] = tData.data[0].imageUrl;
+                        document.getElementById('tempAvatar').src = tData.data[0].imageUrl;
+                    }
                     document.getElementById('loginStep1').classList.add('hidden');
                     document.getElementById('loginStep2').classList.remove('hidden');
-                } else {
-                    err.innerText = "English: Username not found on Roblox!"; 
-                    err.classList.remove('hidden');
-                }
-            } catch (e) {
-                err.innerText = "System Error: Proxy connection failed. Please try again."; 
-                err.classList.remove('hidden');
-                console.error(e);
-            } finally { btn.disabled = false; btn.innerText = "Next Step"; }
+                } else alert("User not found!");
+            } catch(e) { alert("CORS Error! Check demo access."); }
+            finally { btn.innerText = "Continue"; btn.disabled = false; }
         }
 
-        async function checkRobloxBio() {
-            const btn = document.getElementById('finalLoginBtn');
-            btn.disabled = true; btn.innerText = "Checking...";
-            try {
-                const url = `https://users.roblox.com/v1/users/${robloxId}`;
-                const data = await tryFetch(url);
-                if((data.description || "").includes(generatedCode)) {
-                    currentUser = data.name;
-                    toggleModal('loginModal');
-                    document.getElementById('loginBtn').classList.add('hidden');
-                    document.getElementById('userInfo').classList.remove('hidden');
-                    document.getElementById('displayUsername').innerText = currentUser;
-                } else { 
-                    alert("Code not found! Make sure you saved your Roblox profile bio."); 
-                }
-            } catch (e) { 
-                alert("Connection failed during bio check."); 
-            } finally { btn.disabled = false; btn.innerText = "Verify Bio"; }
+        async function verifyAndLogin() {
+            const res = await fetch(`${proxyUrl}https://users.roblox.com/v1/users/${tempRobloxId}`);
+            const data = await res.json();
+            if(data.description && data.description.includes(generatedAuthCode)) {
+                sessionStorage.setItem('blox_user_session', tempUsername);
+                localStorage.setItem('blox_user_avatars', JSON.stringify(userAvatars));
+                location.reload();
+            } else alert("Code not found in bio!");
         }
 
-        function switchTab(tab) {
-            const isLobby = tab === 'lobby';
-            document.getElementById('lobbyContainer').classList.toggle('hidden', !isLobby);
-            document.getElementById('historyContainer').classList.toggle('hidden', isLobby);
-            document.getElementById('tab-lobby').className = isLobby ? 'pb-3 tab-active font-bold text-sm tracking-widest uppercase' : 'pb-3 text-gray-500 font-bold text-sm tracking-widest uppercase';
-            document.getElementById('tab-history').className = !isLobby ? 'pb-3 tab-active font-bold text-sm tracking-widest uppercase' : 'pb-3 text-gray-500 font-bold text-sm tracking-widest uppercase';
-        }
-
-        function resetAuth() {
-            document.getElementById('loginStep2').classList.add('hidden');
+        function resetLogin() {
             document.getElementById('loginStep1').classList.remove('hidden');
+            document.getElementById('loginStep2').classList.add('hidden');
         }
 
+        // --- GAME LOGIC ---
+        function initUser() {
+            if(currentUser) {
+                document.getElementById('loginBtn').classList.add('hidden');
+                document.getElementById('userInfo').classList.remove('hidden');
+                document.getElementById('displayUserName').innerText = currentUser;
+                document.getElementById('navAvatar').src = userAvatars[currentUser] || "";
+                if(!allInventories[currentUser]) {
+                    allInventories[currentUser] = [
+                        { id: "i1", name: 'Harvester', img: 'https://supremevalues.com/media/mm2ancients/Harvester.png', val: 310 },
+                        { id: "i2", name: 'Icepiercer', img: 'https://supremevalues.com/media/mm2ancients/Icepiercer.png', val: 210 },
+                        { id: "i3", name: 'Bat', img: 'https://supremevalues.com/media/mm2godlys/Bat.png', val: 120 }
+                    ];
+                }
+                myInventory = allInventories[currentUser];
+                saveState();
+            }
+        }
+
+        function saveState() {
+            localStorage.setItem('blox_active_matches', JSON.stringify(activeMatches));
+            localStorage.setItem('blox_history', JSON.stringify(gameHistory));
+            localStorage.setItem('blox_leaders', JSON.stringify(leaders));
+            localStorage.setItem('blox_chat', JSON.stringify(chatHistory));
+            localStorage.setItem('blox_user_avatars', JSON.stringify(userAvatars));
+            if(currentUser) {
+                allInventories[currentUser] = myInventory;
+                localStorage.setItem('blox_all_inventories', JSON.stringify(allInventories));
+            }
+        }
+
+        function refreshAllUI() {
+            const list = document.getElementById('matchList');
+            if(list) {
+                list.innerHTML = '';
+                Object.keys(activeMatches).forEach(id => renderMatchHTML(id, activeMatches[id]));
+                if(list.innerHTML === '') list.innerHTML = '<div class="text-center py-24 border-2 border-dashed border-gray-800 rounded-3xl text-gray-600 font-bold uppercase tracking-widest opacity-30">No Active Matches</div>';
+            }
+            const hList = document.getElementById('historyList');
+            if(hList) { hList.innerHTML = ''; gameHistory.forEach(h => renderHistoryHTML(h)); }
+            updateLeaderboard(); updateInvValue(); renderChat();
+        }
+
+        function renderMatchHTML(id, data) {
+            const list = document.getElementById('matchList');
+            const itemsHtml = data.items.map(i => `<img src="${i.img}" class="w-8 h-8 rounded-full bg-black/50 border border-gray-800 p-1">`).join('');
+            const div = document.createElement('div');
+            div.className = "bg-[#141619] border border-gray-800 p-5 rounded-3xl flex justify-between items-center elevate relative overflow-hidden";
+            div.innerHTML = `
+                <div class="flex items-center gap-4 min-w-[150px]">
+                    <div class="relative">
+                        <img src="${userAvatars[data.creator] || ""}" class="w-12 h-12 rounded-full border-2 border-[#14f195] object-cover">
+                        <img src="https://bloxluck.com/img/${data.side === 'H' ? 'dog.png' : 'gem.png'}" class="w-6 h-6 absolute -bottom-1 -right-1 border-2 border-[#141619] rounded-full">
+                    </div>
+                    <span class="font-black text-[10px] uppercase tracking-widest">${data.creator}</span>
+                </div>
+                <div class="flex gap-2">${itemsHtml}</div>
+                <p class="neon-text font-black text-lg">$${data.value}</p>
+                <div class="flex gap-3">
+                    ${currentUser !== data.creator ? `<button onclick="openItemSelection('join', '${id}')" class="premium-btn py-3 px-8 rounded-xl font-black text-[10px] uppercase">Join</button>` : ''}
+                    <button onclick="viewMatch('${id}')" class="btn-subtle text-gray-400 py-3 px-8 rounded-xl text-[10px] font-black uppercase">View</button>
+                    ${currentUser === data.creator ? `<button onclick="cancelMatch('${id}')" class="btn-subtle text-red-500/50 hover:text-red-500 py-3 px-8 rounded-xl text-[10px] font-black uppercase">Cancel</button>` : ''}
+                </div>`;
+            list.prepend(div);
+        }
+
+        function renderHistoryHTML(h) {
+            const list = document.getElementById('historyList');
+            const div = document.createElement('div');
+            div.className = "bg-[#141619] p-4 rounded-2xl flex justify-between items-center border border-gray-800 opacity-60 hover:opacity-100 transition";
+            div.innerHTML = `
+                <div class="flex items-center gap-2 text-[9px] font-bold"><img src="${userAvatars[h.loser] || ""}" class="w-6 h-6 rounded-full grayscale">${h.loser}</div>
+                <div class="flex items-center gap-4">
+                    <img src="https://bloxluck.com/img/${h.result === 'H' ? 'dog.png' : 'gem.png'}" class="w-7 h-7">
+                    <p class="neon-text font-black text-sm">$${h.val}</p>
+                </div>
+                <div class="flex items-center gap-2 text-[9px] text-[#14f195] font-black"><img src="${userAvatars[h.winner] || ""}" class="w-6 h-6 rounded-full border border-[#14f195]">${h.winner}</div>
+            `;
+            list.appendChild(div);
+        }
+
+        // --- SYSTEM SYNC (Storage Event) ---
+        window.addEventListener('storage', (e) => {
+            activeMatches = JSON.parse(localStorage.getItem('blox_active_matches')) || {};
+            gameHistory = JSON.parse(localStorage.getItem('blox_history')) || [];
+            leaders = JSON.parse(localStorage.getItem('blox_leaders')) || {};
+            chatHistory = JSON.parse(localStorage.getItem('blox_chat')) || [];
+            
+            // Eğer bir maç başladıysa ve ben o maçın kurucusuysam animasyonu başlat
+            const startedMatch = Object.values(activeMatches).find(m => m.creator === currentUser && m.isSyncing);
+            if(startedMatch && !isActivelyPlaying) {
+                runVisualFlip(startedMatch.finalResult, startedMatch.winnerName, 0, false, () => {
+                    refreshAllUI();
+                });
+            } else {
+                refreshAllUI();
+            }
+        });
+
+        // --- ACTIONS ---
+        function viewMatch(id) {
+            const m = activeMatches[id]; if(!m) return;
+            document.getElementById('vCreatorImg').src = userAvatars[m.creator] || "";
+            document.getElementById('vCreatorSide').src = `https://bloxluck.com/img/${m.side === 'H' ? 'dog.png' : 'gem.png'}`;
+            document.getElementById('vCreatorName').innerText = m.creator;
+            document.getElementById('vCreatorVal').innerText = "$" + m.value;
+            document.getElementById('vCreatorItems').innerHTML = m.items.map(i => `
+                <div class="view-row">
+                    <div class="flex items-center gap-3"><img src="${i.img}" class="w-8 h-8"> <span class="text-[9px] font-bold">${i.name}</span></div>
+                    <span class="neon-text text-[9px] font-black">${i.val}</span>
+                </div>`).join('');
+            toggleModal('matchViewModal');
+        }
+
+        function cancelMatch(id) {
+            if(!activeMatches[id]) return;
+            myInventory.push(...activeMatches[id].items);
+            delete activeMatches[id]; saveState(); refreshAllUI();
+        }
+
+        function createMatchAuto(side) {
+            const id = "m" + Date.now();
+            const val = selectedItems.reduce((a,b)=>a+b.val, 0);
+            const items = [...selectedItems];
+            myInventory = myInventory.filter(i => !items.some(si => si.id === i.id));
+            activeMatches[id] = { creator: currentUser, side: side, value: val, items: items };
+            selectedItems = []; toggleModal('sideSelectModal'); saveState(); refreshAllUI();
+        }
+
+        function startFlip(id) {
+            const m = activeMatches[id];
+            const joinItems = [...selectedItems];
+            const res = Math.random() > 0.5 ? 'H' : 'T';
+            const win = (res === m.side) ? m.creator : currentUser;
+            const los = (res === m.side) ? currentUser : m.creator;
+            
+            // Sync Flag (Kurucuda animasyonu tetikler)
+            m.isSyncing = true;
+            m.finalResult = res;
+            m.winnerName = win;
+            saveState();
+
+            isActivelyPlaying = true;
+            runVisualFlip(res, win, 0, false, () => {
+                const totalItems = [...m.items, ...joinItems];
+                if(win === currentUser) myInventory = [...myInventory, ...totalItems];
+                else {
+                    myInventory = myInventory.filter(i => !joinItems.some(ji => ji.id === i.id));
+                    if(!allInventories[win]) allInventories[win] = [];
+                    allInventories[win].push(...totalItems);
+                }
+                leaders[win] = (leaders[win] || 0) + m.value;
+                leaders[los] = (leaders[los] || 0) - m.value;
+                gameHistory.unshift({ winner: win, loser: los, val: m.value * 2, result: res });
+                delete activeMatches[id]; isActivelyPlaying = false; saveState(); refreshAllUI();
+            });
+        }
+
+        function runVisualFlip(res, win, val, isMe, callback) {
+            const modal = document.getElementById('flipModal');
+            modal.classList.remove('hidden');
+            const status = document.getElementById('flipStatus'); status.innerText = "Flipping...";
+            status.style.color = "white";
+            const coin = document.getElementById('coin');
+            coin.style.transition = 'none'; coin.style.transform = 'rotateY(0)'; coin.offsetHeight;
+            coin.style.transition = 'transform 3s cubic-bezier(0.4, 0, 0.2, 1)';
+            coin.style.transform = `rotateY(${res === 'H' ? 1800 : 1980}deg)`;
+            setTimeout(() => {
+                status.innerText = win.toUpperCase() + " WON!";
+                status.style.color = "#14f195";
+                setTimeout(() => { modal.classList.add('hidden'); if(callback) callback(); }, 2000);
+            }, 3100);
+        }
+
+        // --- UTILS ---
+        function toggleModal(id) { document.getElementById(id).classList.toggle('hidden'); }
+        function closeModalOnOuter(e) { if(e.target.classList.contains('modal-overlay')) e.target.classList.add('hidden'); }
+        function logout() { sessionStorage.clear(); location.reload(); }
         function sendMessage() {
             const input = document.getElementById('chatInput');
             if(!input.value.trim() || !currentUser) return;
-            const chat = document.getElementById('chatArea');
-            chat.innerHTML += `<div><span class="text-[#14f195] font-black">${currentUser}:</span> <span class="text-white">${input.value}</span></div>`;
-            input.value = ""; chat.scrollTop = chat.scrollHeight;
+            chatHistory.push({ user: currentUser, text: input.value });
+            saveState(); input.value = ""; refreshAllUI();
         }
+        function updateLeaderboard() {
+            const sorted = Object.entries(leaders).sort((a,b)=>b[1]-a[1]);
+            document.getElementById('leaderRows').innerHTML = sorted.slice(0,5).map(([name, val], i) => `
+                <div class="flex justify-between items-center bg-[#0b0c0d] p-4 rounded-xl border border-gray-800">
+                    <div class="flex items-center gap-2"><img src="${userAvatars[name] || ""}" class="w-6 h-6 rounded-full"><span>${name}</span></div>
+                    <span class="neon-text font-black text-xs">$${val.toLocaleString()}</span>
+                </div>`).join('');
+        }
+        function updateInvValue() { if(currentUser) document.getElementById('invValueDisplay').innerText = myInventory.reduce((a,b)=>a+b.val,0) + " Value"; }
+        function renderChat() {
+            document.getElementById('chatArea').innerHTML = chatHistory.map(msg => `
+                <div class="bg-gray-900/30 p-2.5 rounded-lg border-l-2 border-[#14f195] flex items-center gap-2">
+                    <img src="${userAvatars[msg.user] || ""}" class="w-6 h-6 rounded-full">
+                    <div><span class="text-[#14f195] font-black mr-1">${msg.user}:</span> <span class="text-white">${msg.text}</span></div>
+                </div>`).join('');
+            const c = document.getElementById('chatArea'); c.scrollTop = c.scrollHeight;
+        }
+        function switchTab(t) {
+            document.getElementById('lobbyContainer').classList.toggle('hidden', t !== 'lobby');
+            document.getElementById('historyContainer').classList.toggle('hidden', t !== 'history');
+            document.getElementById('tab-lobby').classList.toggle('tab-active', t === 'lobby');
+            document.getElementById('tab-history').classList.toggle('tab-active', t === 'history');
+        }
+        function renderInventory() {
+            document.getElementById('invGrid').innerHTML = myInventory.map(item => `
+                <div class="item-card p-4 rounded-xl text-center elevate ${selectedItems.some(si=>si.id===item.id)?'selected':''}" onclick="toggleItemSelect('${item.id}')">
+                    <img src="${item.img}" class="w-16 h-16 mx-auto mb-2"><p class="text-[9px] font-black uppercase text-gray-400">${item.name}</p><p class="neon-text text-[10px] font-black">${item.val}</p>
+                </div>`).join('');
+        }
+        function toggleItemSelect(id) {
+            const item = myInventory.find(i=>i.id===id);
+            const idx = selectedItems.findIndex(si=>si.id===id);
+            if(idx>-1) selectedItems.splice(idx,1); else if(selectedItems.length<15) selectedItems.push(item);
+            renderInventory(); document.getElementById('totalSelectedValue').innerText = selectedItems.reduce((a,b)=>a+b.val,0) + " Value";
+        }
+        function openItemSelection(mode, mId=null) {
+            if(!currentUser) return toggleModal('loginModal');
+            currentMode = mode; currentJoinMatchId = mId; selectedItems = [];
+            document.getElementById('itemActionBtn').innerText = mode==='create'?'Continue':'Join Match';
+            renderInventory(); toggleModal('itemSelectModal');
+        }
+        function processItemAction() { if(currentMode==='create') { toggleModal('itemSelectModal'); toggleModal('sideSelectModal'); } else { startFlip(currentJoinMatchId); toggleModal('itemSelectModal'); } }
+        function checkAuth() { if(!currentUser) toggleModal('loginModal'); else openItemSelection('create'); }
+        function viewOnlyInventory() { if(!currentUser) toggleModal('loginModal'); else openItemSelection('view'); }
+        function confirmLogout() { sessionStorage.clear(); location.reload(); }
 
-        function logout() { location.reload(); }
-        function checkAuth() { if(!currentUser) toggleModal('loginModal'); }
+        window.onload = () => { initUser(); refreshAllUI(); };
     </script>
 </body>
 </html>
