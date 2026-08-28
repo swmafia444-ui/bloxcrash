@@ -1,1267 +1,1413 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AMPDuel | Coinflip</title>
-  <style>
-    /* ==========================================================================
-       1. GLOBAL RESET & BASE STYLES
-       ========================================================================== */
-    :root {
-      --bg-main: #0b0e14;
-      --bg-dark: #12141d;
-      --card-bg: #1a1d29;
-      --card-hover: #222636;
-      --accent-pink: #ff2a8d;
-      --accent-pink-hover: #e0247b;
-      --accent-blue: #3b82f6;
-      --accent-blue-hover: #2563eb;
-      --text-main: #ffffff;
-      --text-muted: #8b92a5;
-      --border-color: #262a3b;
-      --success-green: #10b981;
-      --danger-red: #ef4444;
-      --gold-yellow: #f59e0b;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
-      user-select: none;
-    }
-
-    body {
-      background-color: var(--bg-main);
-      color: var(--text-main);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      overflow-x: hidden;
-    }
-
-    /* Scrollbar Tasarımı */
-    ::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
-    }
-    ::-webkit-scrollbar-track {
-      background: var(--bg-main);
-    }
-    ::-webkit-scrollbar-thumb {
-      background: var(--border-color);
-      border-radius: 4px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: var(--accent-pink);
-    }
-
-    /* ==========================================================================
-       2. HEADER & NAVIGATION BAR
-       ========================================================================== */
-    .navbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 30px;
-      height: 70px;
-      background-color: var(--card-bg);
-      border-bottom: 1px solid var(--border-color);
-      position: sticky;
-      top: 0;
-      z-index: 90;
-    }
-
-    .nav-left {
-      display: flex;
-      align-items: center;
-      gap: 30px;
-    }
-
-    .logo-container {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 900;
-      font-size: 22px;
-      letter-spacing: 1.5px;
-      cursor: pointer;
-    }
-
-    .logo-container span.highlight {
-      color: var(--accent-pink);
-    }
-
-    .nav-tabs {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-
-    .nav-tab {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 18px;
-      color: var(--text-muted);
-      cursor: pointer;
-      font-weight: 700;
-      font-size: 14px;
-      border-radius: 8px;
-      transition: all 0.2s ease;
-      border-bottom: 3px solid transparent;
-    }
-
-    .nav-tab:hover {
-      color: var(--text-main);
-      background: rgba(255, 255, 255, 0.03);
-    }
-
-    .nav-tab.active {
-      color: var(--text-main);
-      background: rgba(255, 42, 141, 0.08);
-      border-bottom-color: var(--accent-pink);
-    }
-
-    .nav-right {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-
-    .user-wallet-pill {
-      display: flex;
-      align-items: center;
-      background: var(--bg-dark);
-      border: 1px solid var(--border-color);
-      border-radius: 20px;
-      padding: 5px 15px;
-      gap: 10px;
-      font-weight: 700;
-      font-size: 14px;
-    }
-
-    .user-avatar-btn {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      border: 2px solid var(--accent-pink);
-      cursor: pointer;
-      overflow: hidden;
-      background: var(--bg-dark);
-    }
-
-    .user-avatar-btn img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .btn-admin {
-      background: var(--accent-blue);
-      color: #fff;
-      border: none;
-      padding: 8px 18px;
-      border-radius: 8px;
-      font-weight: 700;
-      font-size: 13px;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    .btn-admin:hover {
-      background: var(--accent-blue-hover);
-    }
-
-    /* ==========================================================================
-       3. CONTROLS BAR & DROPDOWNS
-       ========================================================================== */
-    .container {
-      padding: 30px;
-      max-width: 1400px;
-      margin: 0 auto;
-      width: 100%;
-      flex: 1;
-    }
-
-    .controls-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 25px;
-      background: var(--card-bg);
-      padding: 15px 25px;
-      border-radius: 12px;
-      border: 1px solid var(--border-color);
-    }
-
-    .all-games-text {
-      font-size: 18px;
-      font-weight: 800;
-      letter-spacing: 0.5px;
-    }
-
-    .right-controls {
-      display: flex;
-      gap: 15px;
-      align-items: center;
-    }
-
-    .custom-dropdown {
-      position: relative;
-    }
-
-    .dropdown-btn {
-      background: var(--bg-dark);
-      color: #fff;
-      border: 1px solid var(--border-color);
-      padding: 10px 20px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 700;
-      font-size: 14px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      min-width: 160px;
-      justify-content: space-between;
-    }
-
-    .dropdown-btn:hover {
-      border-color: var(--accent-pink);
-    }
-
-    .dropdown-menu {
-      display: none;
-      position: absolute;
-      top: 110%;
-      left: 0;
-      width: 100%;
-      background: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      overflow: hidden;
-      z-index: 50;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-    }
-
-    .dropdown-menu.show {
-      display: block;
-    }
-
-    .dropdown-item {
-      padding: 12px 18px;
-      cursor: pointer;
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--text-muted);
-      transition: all 0.2s;
-    }
-
-    .dropdown-item:hover {
-      background: rgba(255, 42, 141, 0.1);
-      color: var(--accent-pink);
-    }
-
-    .btn-primary {
-      background: var(--accent-pink);
-      color: #fff;
-      border: none;
-      padding: 10px 22px;
-      border-radius: 8px;
-      font-weight: 700;
-      font-size: 14px;
-      cursor: pointer;
-      transition: background 0.2s, transform 0.1s;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .btn-primary:hover {
-      background: var(--accent-pink-hover);
-    }
-
-    .btn-primary:active {
-      transform: scale(0.98);
-    }
-
-    /* ==========================================================================
-       4. GAMES GRID & GAME CARDS
-       ========================================================================== */
-    .games-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 20px;
-    }
-
-    .game-card {
-      background: var(--card-bg);
-      border-radius: 12px;
-      padding: 20px;
-      border: 1px solid var(--border-color);
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      transition: border-color 0.2s, transform 0.2s;
-    }
-
-    .game-card:hover {
-      border-color: rgba(255, 42, 141, 0.4);
-      transform: translateY(-2px);
-    }
-
-    .game-card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid var(--border-color);
-      padding-bottom: 10px;
-    }
-
-    .game-id {
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--text-muted);
-    }
-
-    .game-value {
-      font-size: 16px;
-      font-weight: 800;
-      color: var(--gold-yellow);
-    }
-
-    .game-players {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 0;
-    }
-
-    .player-box {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .player-avatar {
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      border: 2px solid var(--border-color);
-      overflow: hidden;
-      background: var(--bg-dark);
-    }
-
-    .player-avatar img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .player-name {
-      font-size: 14px;
-      font-weight: 700;
-    }
-
-    .vs-badge {
-      font-size: 12px;
-      font-weight: 900;
-      color: var(--accent-pink);
-      background: rgba(255, 42, 141, 0.1);
-      padding: 4px 8px;
-      border-radius: 6px;
-    }
-
-    .game-card-footer {
-      display: flex;
-      justify-content: flex-end;
-    }
-
-    /* Empty Games Message */
-    .no-games-container {
-      grid-column: 1 / -1;
-      text-align: center;
-      padding: 60px 20px;
-      background: var(--card-bg);
-      border-radius: 12px;
-      border: 1px dashed var(--border-color);
-    }
-
-    .no-games-container h3 {
-      font-size: 20px;
-      margin-bottom: 8px;
-      color: var(--text-muted);
-    }
-
-    /* ==========================================================================
-       5. MODAL SYSTEM & OVERLAYS
-       ========================================================================== */
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.85);
-      backdrop-filter: blur(5px);
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-      opacity: 0;
-      transition: opacity 0.2s ease;
-    }
-
-    .modal-overlay.active {
-      display: flex;
-      opacity: 1;
-    }
-
-    .modal-card {
-      background: var(--card-bg);
-      border-radius: 16px;
-      padding: 30px;
-      width: 90%;
-      max-width: 650px;
-      position: relative;
-      border: 1px solid var(--border-color);
-      box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-      max-height: 90vh;
-      overflow-y: auto;
-    }
-
-    .close-btn {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      font-size: 28px;
-      cursor: pointer;
-      line-height: 1;
-      transition: color 0.2s;
-    }
-
-    .close-btn:hover {
-      color: var(--accent-pink);
-    }
-
-    /* ==========================================================================
-       6. GIVEAWAY MODAL STYLES (Fotoğraf 1)
-       ========================================================================== */
-    .giveaway-header-stats {
-      display: flex;
-      gap: 15px;
-      align-items: center;
-      margin: 20px 0;
-    }
-
-    .badge-box {
-      background: var(--bg-dark);
-      border: 1px solid var(--border-color);
-      padding: 10px 16px;
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .search-input {
-      flex: 1;
-      background: var(--bg-dark);
-      border: 1px solid var(--border-color);
-      padding: 10px 15px;
-      border-radius: 8px;
-      color: #fff;
-      font-size: 14px;
-      outline: none;
-    }
-
-    .search-input:focus {
-      border-color: var(--accent-pink);
-    }
-
-    .duration-selector {
-      display: flex;
-      background: var(--bg-dark);
-      padding: 6px;
-      border-radius: 10px;
-      gap: 6px;
-      margin-bottom: 20px;
-      border: 1px solid var(--border-color);
-    }
-
-    .time-btn {
-      flex: 1;
-      background: transparent;
-      border: none;
-      color: var(--text-muted);
-      padding: 10px 0;
-      border-radius: 6px;
-      font-weight: 700;
-      font-size: 13px;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .time-btn.active {
-      background: var(--accent-pink);
-      color: #fff;
-      box-shadow: 0 2px 10px rgba(255, 42, 141, 0.3);
-    }
-
-    .inventory-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-      max-height: 240px;
-      overflow-y: auto;
-      margin-bottom: 20px;
-      padding-right: 5px;
-    }
-
-    .inventory-item {
-      background: var(--bg-dark);
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
-      padding: 12px;
-      text-align: center;
-      cursor: pointer;
-      font-size: 12px;
-      font-weight: 700;
-      transition: all 0.2s;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .inventory-item:hover {
-      border-color: var(--accent-pink);
-      transform: translateY(-2px);
-    }
-
-    .inventory-item.selected {
-      border-color: var(--accent-pink);
-      background: rgba(255, 42, 141, 0.1);
-    }
-
-    .inventory-item-img {
-      width: 40px;
-      height: 40px;
-      object-fit: contain;
-    }
-
-    /* ==========================================================================
-       7. PROFILE MODAL STYLES (Fotoğraf 3)
-       ========================================================================== */
-    .profile-header {
-      display: flex;
-      align-items: center;
-      gap: 25px;
-      margin-top: 15px;
-      margin-bottom: 30px;
-    }
-
-    .avatar-ring {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      border: 4px solid var(--accent-pink);
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--bg-dark);
-      box-shadow: 0 0 20px rgba(255, 42, 141, 0.3);
-      flex-shrink: 0;
-    }
-
-    .avatar-ring img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .profile-info {
-      flex: 1;
-    }
-
-    .profile-info .sub-title {
-      font-size: 12px;
-      color: var(--text-muted);
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .profile-info h2 {
-      font-size: 26px;
-      margin: 4px 0;
-      font-weight: 800;
-    }
-
-    .role-text {
-      font-size: 14px;
-      color: var(--accent-pink);
-      font-weight: 700;
-      margin-bottom: 12px;
-      display: block;
-    }
-
-    .btn-tip {
-      background: var(--accent-pink);
-      color: #fff;
-      border: none;
-      padding: 8px 20px;
-      border-radius: 8px;
-      font-weight: 700;
-      font-size: 13px;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    .btn-tip:hover {
-      background: var(--accent-pink-hover);
-    }
-
-    .profile-stats-right {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .stat-pill {
-      background: var(--accent-pink);
-      color: #fff;
-      padding: 10px 22px;
-      border-radius: 25px;
-      display: flex;
-      justify-content: space-between;
-      width: 190px;
-      font-weight: 800;
-      font-size: 13px;
-      box-shadow: 0 4px 12px rgba(255, 42, 141, 0.25);
-    }
-
-    .profile-details-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 15px;
-      background: var(--bg-dark);
-      padding: 20px;
-      border-radius: 12px;
-      border: 1px solid var(--border-color);
-    }
-
-    .profile-detail-item {
-      display: flex;
-      justify-content: space-between;
-      font-size: 14px;
-      font-weight: 600;
-    }
-
-    .profile-detail-item span {
-      color: var(--text-muted);
-    }
-
-    /* ==========================================================================
-       8. COINFLIP GAME VIEW MODAL (Fotoğraf 8)
-       ========================================================================== */
-    .view-center {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      min-height: 260px;
-      gap: 20px;
-    }
-
-    .btn-join-large {
-      background: var(--accent-pink);
-      color: #fff;
-      border: none;
-      padding: 18px 70px;
-      font-size: 24px;
-      font-weight: 900;
-      border-radius: 14px;
-      cursor: pointer;
-      box-shadow: 0 6px 20px rgba(255, 42, 141, 0.4);
-      letter-spacing: 1px;
-      transition: all 0.2s;
-    }
-
-    .btn-join-large:hover {
-      background: var(--accent-pink-hover);
-      transform: translateY(-2px);
-    }
-
-    .coin-display {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
-      font-weight: 900;
-      border: 5px solid #fff;
-      box-shadow: 0 0 30px rgba(255, 255, 255, 0.25);
-      animation: coinPulse 2s infinite alternate;
-    }
-
-    .coin-display.heads {
-      background: radial-gradient(circle, #ff53a5 0%, #ff2a8d 100%);
-      color: #fff;
-    }
-
-    .coin-display.tails {
-      background: radial-gradient(circle, #60a5fa 0%, #3b82f6 100%);
-      color: #fff;
-    }
-
-    @keyframes coinPulse {
-      0% { transform: scale(1); }
-      100% { transform: scale(1.05); }
-    }
-
-    /* ==========================================================================
-       9. NOTIFICATION SYSTEM (TOAST)
-       ========================================================================== */
-    .toast-container {
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      z-index: 9999;
-    }
-
-    .toast {
-      background: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-left: 4px solid var(--accent-pink);
-      padding: 15px 20px;
-      border-radius: 8px;
-      color: #fff;
-      font-weight: 600;
-      font-size: 14px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.4);
-      animation: slideIn 0.3s ease forwards;
-    }
-
-    @keyframes slideIn {
-      from { transform: translateX(100%); opacity: 0; }
-      to { transform: translateX(0); opacity: 1; }
-    }
-  </style>
-</head>
-<body>
-
-  <!-- ==========================================================================
-       HEADER / NAVIGATION BAR
-       ========================================================================== -->
-  <header class="navbar">
-    <div class="nav-left">
-      <div class="logo-container" onclick="resetView()">
-        <span class="highlight">AMP</span>DUEL
-      </div>
-      <div class="nav-tabs">
-        <div class="nav-tab active">
-          <span>🪙</span>
-          <span>COINFLIP</span>
-        </div>
-      </div>
-    </div>
-    <div class="nav-right">
-      <button id="adminBtn" class="btn-admin" style="display: none;" onclick="openAdminPanel()">Admin Panel</button>
-      <div class="user-wallet-pill">
-        <span>🌸</span>
-        <span id="userBalanceDisplay">0</span>
-      </div>
-      <div class="user-avatar-btn" onclick="openProfile(currentUser)">
-        <img id="headerUserAvatar" src="" alt="Avatar">
-      </div>
-    </div>
-  </header>
-
-  <!-- ==========================================================================
-       MAIN CONTENT CONTAINER
-       ========================================================================== -->
-  <main class="container">
-    <div class="controls-bar">
-      <!-- DÜZELTİLDİ: ALL GAMES SAYACI (Başlangıçta doğru şekilde sayar) -->
-      <div class="all-games-text" id="allGamesCounter">All games (0)</div>
-      
-      <div class="right-controls">
-        <!-- DÜZELTİLDİ: HIGH TO LOW / LOW TO HIGH DROPDOWN -->
-        <div class="custom-dropdown">
-          <button class="dropdown-btn" onclick="toggleDropdown(event)">
-            <span id="selectedSortText">High to low</span>
-            <span>▼</span>
-          </button>
-          <div class="dropdown-menu" id="sortDropdownMenu">
-            <div class="dropdown-item" onclick="changeSort('high')">High to low</div>
-            <div class="dropdown-item" onclick="changeSort('low')">Low to high</div>
-          </div>
-        </div>
-
-        <button class="btn-primary" onclick="openGiveawayModal()">
-          <span>+</span> Create Giveaway
-        </button>
-      </div>
-    </div>
-
-    <!-- OYUN KARTLARI IZGARASI -->
-    <div class="games-grid" id="gamesGrid">
-      <!-- Dinamik Oyunlar Burada Render Edilir -->
-    </div>
-  </main>
-
-  <!-- ==========================================================================
-       MODAL 1: CREATE GIVEAWAY (Fotoğraf 1)
-       ========================================================================== -->
-  <div class="modal-overlay" id="giveawayModal">
-    <div class="modal-card">
-      <button class="close-btn" onclick="closeModal('giveawayModal')">&times;</button>
-      <h2 style="font-weight: 800; font-size: 22px;">Create Giveaway</h2>
-      
-      <div class="giveaway-header-stats">
-        <div class="badge-box">Prize value 🌸 <span id="prizeVal">0</span></div>
-        <div class="badge-box"><span id="selectedItemCount">0</span>/20 ITEMS</div>
-        <input type="text" class="search-input" id="giveawaySearchInput" placeholder="Search items..." oninput="filterGiveawayInventory()">
-      </div>
-
-      <div class="duration-selector">
-        <button class="time-btn" onclick="selectDuration(this, 1)">1 min</button>
-        <button class="time-btn active" onclick="selectDuration(this, 5)">5 min</button>
-        <button class="time-btn" onclick="selectDuration(this, 10)">10 min</button>
-        <button class="time-btn" onclick="selectDuration(this, 30)">30 min</button>
-        <button class="time-btn" onclick="selectDuration(this, 60)">60 min</button>
-      </div>
-
-      <!-- DÜZELTİLDİ: Envanterde pet yoksa alan tamamen gizlenir -->
-      <div class="inventory-grid" id="giveawayInventoryGrid"></div>
-
-      <button class="btn-primary" style="width: 100%; padding: 14px; font-size: 16px; justify-content: center;" onclick="createGiveawaySubmit()">Create Giveaway</button>
-    </div>
-  </div>
-
-  <!-- ==========================================================================
-       MODAL 2: USER PROFILE & ROBLOX AVATAR (Fotoğraf 3)
-       ========================================================================== -->
-  <div class="modal-overlay" id="profileModal">
-    <div class="modal-card">
-      <button class="close-btn" onclick="closeModal('profileModal')">&times;</button>
-      
-      <div class="profile-header">
-        <div class="avatar-ring">
-          <img id="profAvatar" src="" alt="Roblox Avatar">
-        </div>
-        <div class="profile-info">
-          <span class="sub-title">Profile of</span>
-          <h2 id="profUsername">Username</h2>
-          <span class="role-text" id="profRoleLevel">User · Level 1</span>
-          <!-- DÜZELTİLDİ: Tip Gönderme Butonu -->
-          <button class="btn-tip" onclick="sendTipToCurrentProfile()">Send tip</button>
-        </div>
-        <div class="profile-stats-right">
-          <div class="stat-pill">
-            <span>PROFIT</span>
-            <span id="profProfit">0</span>
-          </div>
-          <div class="stat-pill">
-            <span>WAGERED</span>
-            <span id="profWagered">0</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="profile-details-grid">
-        <div class="profile-detail-item"><span>Games played</span> <strong id="pGamesPlayed">0</strong></div>
-        <div class="profile-detail-item"><span>Games won</span> <strong id="pGamesWon">0</strong></div>
-        <div class="profile-detail-item"><span>Games lost</span> <strong id="pGamesLost">0</strong></div>
-        <div class="profile-detail-item"><span>Win rate</span> <strong id="pWinRate">0%</strong></div>
-        <div class="profile-detail-item"><span>Role</span> <strong id="pRole">USER</strong></div>
-        <div class="profile-detail-item"><span>Joined</span> <strong id="pJoined">2026</strong></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ==========================================================================
-       MODAL 3: COINFLIP GAME VIEW / SPECTATE (Fotoğraf 8)
-       ========================================================================== -->
-  <div class="modal-overlay" id="viewModal">
-    <div class="modal-card">
-      <button class="close-btn" onclick="closeModal('viewModal')">&times;</button>
-      <!-- DÜZELTİLDİ: Join Butonu veya Kurucunun Seçtiği Taraf -->
-      <div class="view-center" id="viewCenterContainer">
-        <!-- JS Dinamik Render Edecek -->
-      </div>
-    </div>
-  </div>
-
-  <!-- BİLDİRİM TOAST ALANI -->
-  <div class="toast-container" id="toastContainer"></div>
-
-  <!-- ==========================================================================
-       JAVASCRIPT UYGULAMA MANTIĞI & SİSTEMLER
-       ========================================================================== -->
-  <script>
-    /* ==========================================================================
-       1. GLOBAL STATE & USER DATA
-       ========================================================================== */
-    // DÜZELTİLDİ: 'emoxdrill' yetkisi ve Roblox Entegrasyonu
-    let currentUser = {
-      username: "emoxdrill",
-      robloxId: "1",
-      level: 67,
-      profit: "6.1m",
-      wagered: "11.5m",
-      balance: 15400,
-      inventory: [
-        { id: 101, name: "Fly Ride Frost Dragon", value: 1000, img: "https://via.placeholder.com/40/ff2a8d/ffffff?text=Pet" },
-        { id: 102, name: "Shadow Dragon", value: 2500, img: "https://via.placeholder.com/40/3b82f6/ffffff?text=Pet" }
-      ]
-    };
-
-    let selectedGiveawayItems = [];
-    let giveawayDuration = 5;
-    let targetProfileUser = null;
-    let activeSortOrder = 'high';
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PetDuel - Roblox Coinflip Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    // Sistemdeki Aktif Oyunlar Listesi (Başlangıçta 0 Maç)
-    let gamesList = [];
-
-    /* ==========================================================================
-       2. INITIALIZATION & ROUTING SETUP
-       ========================================================================== */
-    document.addEventListener("DOMContentLoaded", () => {
-      // DÜZELTİLDİ: URL güncellenmesi ve Başlık Kurulumu
-      if (window.location.pathname !== '/coinflip') {
-        window.history.pushState({}, '', '/coinflip');
-      }
-      document.title = "AMPDuel | Coinflip";
-
-      // DÜZELTİLDİ: Admin Panel Yetki Kontrolü
-      checkAdminPermission();
-
-      // UI Güncellemeleri
-      updateUserHeaderUI();
-      updateAllGamesCount();
-      renderGamesGrid();
-    });
-
-    function updateUserHeaderUI() {
-      document.getElementById("userBalanceDisplay").innerText = currentUser.balance.toLocaleString();
-      
-      const avatarUrl = currentUser.robloxId 
-        ? `https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${currentUser.robloxId}&size=150x150&format=Png&isCircular=true`
-        : 'https://via.placeholder.com/150';
-      
-      document.getElementById("headerUserAvatar").src = avatarUrl;
-    }
-
-    /* ==========================================================================
-       3. ADMIN PANEL SYSTEM (emoxdrill)
-       ========================================================================== */
-    function checkAdminPermission() {
-      const allowedAdmins = ["emoxdrill", "admin"];
-      const adminBtn = document.getElementById("adminBtn");
-      
-      if (allowedAdmins.includes(currentUser.username)) {
-        adminBtn.style.display = "block";
-      } else {
-        adminBtn.style.display = "none";
-      }
-    }
-
-    function openAdminPanel() {
-      showToast("Admin Paneline Yönlendiriliyorsunuz...");
-    }
-
-    /* ==========================================================================
-       4. GAMES COUNT & DROPDOWN SORT SYSTEM
-       ========================================================================== */
-    // DÜZELTİLDİ: All Games Sayacı
-    function updateAllGamesCount() {
-      const counterEl = document.getElementById("allGamesCounter");
-      if (counterEl) {
-        counterEl.innerText = `All games (${gamesList.length})`;
-      }
-    }
-
-    function toggleDropdown(e) {
-      e.stopPropagation();
-      document.getElementById("sortDropdownMenu").classList.toggle("show");
-    }
-
-    window.addEventListener('click', () => {
-      const dropdown = document.getElementById("sortDropdownMenu");
-      if (dropdown && dropdown.classList.contains("show")) {
-        dropdown.classList.remove("show");
-      }
-    });
-
-    // DÜZELTİLDİ: Sıralama Mantığı
-    function changeSort(type) {
-      activeSortOrder = type;
-      const label = document.getElementById("selectedSortText");
-      
-      if (type === 'high') {
-        label.innerText = "High to low";
-        gamesList.sort((a, b) => b.value - a.value);
-      } else {
-        label.innerText = "Low to high";
-        gamesList.sort((a, b) => a.value - b.value);
-      }
-      
-      renderGamesGrid();
-    }
-
-    /* ==========================================================================
-       5. GIVEAWAY MODAL & INVENTORY SYSTEM
-       ========================================================================== */
-    function openGiveawayModal() {
-      selectedGiveawayItems = [];
-      updateGiveawayStats();
-      renderGiveawayInventory();
-      openModal("giveawayModal");
-    }
-
-    function selectDuration(btn, mins) {
-      giveawayDuration = mins;
-      document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-    }
-
-    // DÜZELTİLDİ: Envanter Boşsa Alanı Gizleme
-    function renderGiveawayInventory() {
-      const grid = document.getElementById("giveawayInventoryGrid");
-      grid.innerHTML = "";
-
-      if (!currentUser.inventory || currentUser.inventory.length === 0) {
-        grid.style.display = "none";
-        return;
-      }
-
-      grid.style.display = "grid";
-      currentUser.inventory.forEach(item => {
-        const itemEl = document.createElement("div");
-        itemEl.className = `inventory-item ${selectedGiveawayItems.includes(item.id) ? 'selected' : ''}`;
-        itemEl.onclick = () => toggleSelectInventoryItem(item.id);
-        itemEl.innerHTML = `
-          <img src="${item.img}" class="inventory-item-img" alt="Pet">
-          <span>${item.name}</span>
-          <span style="color: var(--gold-yellow);">${item.value}</span>
-        `;
-        grid.appendChild(itemEl);
-      });
-    }
-
-    function filterGiveawayInventory() {
-      const query = document.getElementById("giveawaySearchInput").value.toLowerCase();
-      const items = document.querySelectorAll(".inventory-item");
-      items.forEach(item => {
-        const text = item.innerText.toLowerCase();
-        item.style.display = text.includes(query) ? "flex" : "none";
-      });
-    }
-
-    function toggleSelectInventoryItem(id) {
-      if (selectedGiveawayItems.includes(id)) {
-        selectedGiveawayItems = selectedGiveawayItems.filter(itemId => itemId !== id);
-      } else {
-        if (selectedGiveawayItems.length >= 20) {
-          showToast("Maksimum 20 eşya seçebilirsiniz!");
-          return;
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#0F1117',
+                        cardBg: '#181A20',
+                        panelBorder: '#23262F',
+                        pinkAccent: '#FF2A85',
+                        pinkHover: '#E02374',
+                        blueCoin: '#1E62EC',
+                        pinkCoin: '#E6007A'
+                    }
+                }
+            }
         }
-        selectedGiveawayItems.push(id);
-      }
-      updateGiveawayStats();
-      renderGiveawayInventory();
-    }
+    </script>
 
-    function updateGiveawayStats() {
-      const totalVal = selectedGiveawayItems.reduce((acc, id) => {
-        const item = currentUser.inventory.find(i => i.id === id);
-        return acc + (item ? item.value : 0);
-      }, 0);
+    <style>
+        html { scroll-behavior: smooth; }
+        body { background-color: #0B0E14; color: #E0E6ED; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #0F1117; }
+        ::-webkit-scrollbar-thumb { background: #23262F; border-radius: 4px; }
+        
+        .coin-container { perspective: 1000px; }
+        .coin { width: 110px; height: 110px; position: relative; transform-style: preserve-3d; transition: transform 3s cubic-bezier(0.15, 0.85, 0.35, 1.2); }
+        .coin .front, .coin .back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.4rem; border: 4px solid #FFF; box-shadow: 0 0 25px rgba(255, 42, 133, 0.4); }
+        .coin .front { background: #1E62EC; color: #FFF; }
+        .coin .back { background: #E6007A; color: #FFF; transform: rotateY(180deg); }
+        .flip-heads { transform: rotateY(1800deg); }
+        .flip-tails { transform: rotateY(1980deg); }
+        .pet-card-selected { border-color: #FF2A85 !important; background-color: rgba(255, 42, 133, 0.15) !important; }
+        
+        .pulse-spin { animation: spin 2s linear infinite; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
 
-      document.getElementById("prizeVal").innerText = totalVal.toLocaleString();
-      document.getElementById("selectedItemCount").innerText = selectedGiveawayItems.length;
-    }
+        /* CANLI DEPOZİTO TOAST ANİMASYONLARI */
+        @keyframes slideInUp {
+            from { transform: translateY(100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        .toast-slide-in { animation: slideInUp 0.4s ease-out forwards; }
+        .toast-fade-out { animation: fadeOut 0.5s ease-in forwards; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col relative">
 
-    function createGiveawaySubmit() {
-      if (selectedGiveawayItems.length === 0) {
-        showToast("Lütfen en az 1 pet seçin!");
-        return;
-      }
+    <!-- TOP NOTIFICATION BANNER -->
+    <div id="notificationToast" class="fixed top-4 right-4 z-50 flex items-center justify-between px-5 py-3.5 rounded-xl shadow-2xl bg-cardBg border border-panelBorder text-white transform transition-all duration-300 translate-x-full opacity-0 pointer-events-none">
+        <div class="flex items-center space-x-3 mr-4">
+            <i id="toastIcon" class="fa-solid fa-circle-info text-pinkAccent text-base"></i>
+            <span id="toastMessage" class="text-xs font-extrabold tracking-wide"></span>
+        </div>
+        <button onclick="hideNotification()" class="text-gray-400 hover:text-white text-xs"><i class="fa-solid fa-xmark"></i></button>
+    </div>
 
-      showToast("Giveaway başarıyla oluşturuldu!");
-      closeModal("giveawayModal");
-    }
+    <!-- LIVE DEPOSIT TRADES FEED (SOL ALT KÖŞE) -->
+    <div id="liveTradeContainer" class="fixed bottom-4 left-4 z-40 flex flex-col gap-2 max-w-xs w-full pointer-events-none"></div>
 
-    /* ==========================================================================
-       6. PROFILE MODAL & TIP SYSTEM
-       ========================================================================== */
-    function openProfile(user) {
-      targetProfileUser = user;
-      
-      // DÜZELTİLDİ: Roblox Headshot API Entegrasyonu
-      const avatarUrl = user.robloxId 
-        ? `https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${user.robloxId}&size=150x150&format=Png&isCircular=true`
-        : 'https://via.placeholder.com/150';
+    <!-- HEADER / NAVIGATION -->
+    <header class="w-full bg-cardBg border-b border-panelBorder px-6 py-3.5 flex items-center justify-between sticky top-0 z-40">
+        <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-pinkAccent/10 border border-pinkAccent p-1.5 flex items-center justify-center">
+                <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png" alt="Logo" class="w-full h-full object-contain">
+            </div>
+            <div>
+                <h1 class="font-extrabold text-lg tracking-wide text-white flex items-center gap-1.5">
+                    PET<span class="text-pinkAccent">DUEL</span>
+                </h1>
+            </div>
+        </div>
 
-      document.getElementById("profAvatar").src = avatarUrl;
-      document.getElementById("profUsername").innerText = user.username;
-      document.getElementById("profRoleLevel").innerText = `${user.role || 'User'} · Level ${user.level || 1}`;
-      document.getElementById("profProfit").innerText = user.profit || '0';
-      document.getElementById("profWagered").innerText = user.wagered || '0';
+        <div class="flex items-center space-x-3">
+            <button id="adminPanelBtn" onclick="openAdminModal()" class="hidden bg-purple-600 hover:bg-purple-700 text-white font-bold px-3.5 py-2 rounded-xl text-xs transition flex items-center gap-2">
+                <i class="fa-solid fa-user-shield"></i> Admin Panel
+            </button>
 
-      document.getElementById("pGamesPlayed").innerText = user.gamesPlayed || 0;
-      document.getElementById("pGamesWon").innerText = user.gamesWon || 0;
-      document.getElementById("pGamesLost").innerText = user.gamesLost || 0;
-      document.getElementById("pWinRate").innerText = user.winRate || "0%";
-      document.getElementById("pRole").innerText = (user.username === 'emoxdrill') ? 'ADMIN' : 'USER';
+            <div id="authBox">
+                <button id="loginBtn" onclick="openLoginModal()" class="bg-pinkAccent hover:bg-pinkHover text-white font-extrabold px-5 py-2.5 rounded-xl text-xs transition flex items-center space-x-2 shadow-lg shadow-pinkAccent/20">
+                    <i class="fa-brands fa-roblox text-sm"></i> <span>Login with Roblox</span>
+                </button>
 
-      openModal("profileModal");
-    }
+                <div id="userProfileBadge" class="hidden flex items-center space-x-3 relative">
+                    <button onclick="openInventoryModal()" class="bg-pinkAccent hover:bg-pinkHover text-white font-black px-6 py-2.5 rounded-xl text-xs tracking-wide transition shadow-lg shadow-pinkAccent/20">
+                        Inventory
+                    </button>
+                    
+                    <!-- USER DROPDOWN TRIGGER -->
+                    <div class="relative">
+                        <div class="flex items-center space-x-2.5 bg-darkBg border border-panelBorder px-3.5 py-1.5 rounded-full cursor-pointer hover:border-pinkAccent transition" onclick="toggleUserDropdown(event)">
+                            <img id="navRobloxAvatar" src="" class="w-8 h-8 rounded-full border border-panelBorder object-cover">
+                            <span id="navRobloxUser" class="font-black text-xs text-white"></span>
+                            <i class="fa-solid fa-chevron-down text-gray-400 text-[10px] ml-1"></i>
+                        </div>
 
-    // DÜZELTİLDİ: Tip (Pet Gönderme) Mantığı
-    function sendTipToCurrentProfile() {
-      if (!currentUser.inventory || currentUser.inventory.length === 0) {
-        showToast("Gönderilecek pet bulunamadı!");
-        return;
-      }
+                        <!-- DROPDOWN MENU -->
+                        <div id="userDropdownMenu" class="hidden absolute right-0 mt-2 w-52 bg-[#12141D] border border-panelBorder/80 rounded-2xl shadow-2xl p-2 z-50 space-y-1">
+                            <button onclick="openMyProfileModal()" class="w-full text-left px-3.5 py-2.5 rounded-xl hover:bg-pinkAccent/10 text-xs font-bold text-gray-300 hover:text-pinkAccent flex items-center gap-3 transition">
+                                <i class="fa-solid fa-user text-pinkAccent"></i> Profile
+                            </button>
+                            <button onclick="openInventoryModal()" class="w-full text-left px-3.5 py-2.5 rounded-xl hover:bg-pinkAccent/10 text-xs font-bold text-gray-300 hover:text-white flex items-center gap-3 transition">
+                                <i class="fa-solid fa-boxes-stacked text-gray-400"></i> Inventory
+                            </button>
+                            <button onclick="openTransactionsModal()" class="w-full text-left px-3.5 py-2.5 rounded-xl hover:bg-pinkAccent/10 text-xs font-bold text-gray-300 hover:text-white flex items-center gap-3 transition">
+                                <i class="fa-solid fa-receipt text-gray-400"></i> Transactions
+                            </button>
+                            <button onclick="showNotification('info', 'Giveaways coming soon!')" class="w-full text-left px-3.5 py-2.5 rounded-xl hover:bg-pinkAccent/10 text-xs font-bold text-gray-300 hover:text-white flex items-center gap-3 transition">
+                                <i class="fa-solid fa-gift text-gray-400"></i> Giveaway
+                            </button>
+                            <button onclick="showNotification('info', 'Settings menu coming soon!')" class="w-full text-left px-3.5 py-2.5 rounded-xl hover:bg-pinkAccent/10 text-xs font-bold text-gray-300 hover:text-white flex items-center gap-3 transition">
+                                <i class="fa-solid fa-gear text-gray-400"></i> Settings
+                            </button>
+                            <div class="border-t border-panelBorder/50 my-1"></div>
+                            <button onclick="logout()" class="w-full text-left px-3.5 py-2.5 rounded-xl hover:bg-red-500/10 text-xs font-bold text-pinkAccent hover:text-red-400 flex items-center gap-3 transition">
+                                <i class="fa-solid fa-right-from-bracket"></i> Logout
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
 
-      if (targetProfileUser.username === currentUser.username) {
-        showToast("Kendinize tip gönderemezsiniz!");
-        return;
-      }
+    <!-- MAIN LAYOUT -->
+    <div class="flex-1 grid grid-cols-1 lg:grid-cols-5 gap-6 p-6 w-full">
 
-      const tippedItem = currentUser.inventory.shift();
-      
-      if (!targetProfileUser.inventory) targetProfileUser.inventory = [];
-      targetProfileUser.inventory.push(tippedItem);
+        <!-- LIVE CHAT -->
+        <aside class="lg:col-span-1 bg-cardBg rounded-2xl border border-panelBorder flex flex-col h-[650px] lg:h-full shadow-xl overflow-hidden">
+            <div class="p-4 border-b border-panelBorder bg-darkBg flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <h2 class="font-bold text-xs text-white uppercase tracking-wider">Live Chat</h2>
+                </div>
+                <span class="text-[10px] bg-cardBg px-2 py-0.5 rounded text-gray-400 border border-panelBorder" id="onlineCounter">14 Online</span>
+            </div>
 
-      showToast(`${tippedItem.name} eşyası ${targetProfileUser.username} kullanıcısına aktarıldı!`);
-      closeModal("profileModal");
-    }
+            <div id="chatMessages" class="flex-1 p-3 overflow-y-auto space-y-3 text-xs"></div>
 
-    /* ==========================================================================
-       7. COINFLIP VIEW & JOIN SYSTEM
-       ========================================================================== */
-    function openViewModal(game) {
-      const container = document.getElementById("viewCenterContainer");
-      container.innerHTML = "";
+            <div class="p-3 border-t border-panelBorder bg-darkBg">
+                <form onsubmit="sendChatMessage(event)" class="flex gap-2">
+                    <input type="text" id="chatInput" placeholder="Login to chat..." disabled class="flex-1 bg-cardBg border border-panelBorder rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-pinkAccent transition-all">
+                    <button type="submit" id="chatSendBtn" disabled class="bg-pinkAccent hover:bg-pinkHover text-white font-bold px-3 py-2 rounded-lg text-xs transition"><i class="fa-solid fa-paper-plane"></i></button>
+                </form>
+            </div>
+        </aside>
 
-      // DÜZELTİLDİ: İkinci oyuncu yoksa JOIN Butonu, varsa Kurucunun Seçtiği Taraf
-      if (!game.player2) {
-        const joinBtn = document.createElement("button");
-        joinBtn.className = "btn-join-large";
-        joinBtn.innerText = "JOIN";
-        joinBtn.onclick = () => {
-          game.player2 = currentUser.username;
-          showToast("Oyuna başarıyla katıldınız!");
-          closeModal("viewModal");
-          renderGamesGrid();
+        <!-- MAIN CONTENT -->
+        <main class="lg:col-span-4 flex flex-col space-y-6">
+
+            <!-- METRICS BAR -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-cardBg p-4 rounded-xl border border-panelBorder">
+                    <span class="text-xl font-extrabold text-white block" id="allGamesCount">0</span>
+                    <span class="text-xs text-gray-400 font-semibold">All Games</span>
+                </div>
+                <div class="bg-cardBg p-4 rounded-xl border border-panelBorder">
+                    <span class="text-xl font-extrabold text-white flex items-center gap-1.5">
+                        <i class="fa-brands fa-roblox text-gray-400 text-sm"></i> <span id="totalValueCount">0</span>
+                    </span>
+                    <span class="text-xs text-gray-400 font-semibold">Total Value</span>
+                </div>
+                <div class="bg-cardBg p-4 rounded-xl border border-panelBorder">
+                    <span class="text-xl font-extrabold text-white block" id="openGamesCount">0</span>
+                    <span class="text-xs text-gray-400 font-semibold">Open Games</span>
+                </div>
+            </div>
+
+            <!-- ACTION BAR -->
+            <div class="flex items-center justify-between bg-cardBg p-4 rounded-xl border border-panelBorder">
+                <select id="sortMatchesSelect" onchange="sortMatches()" class="bg-darkBg border border-panelBorder rounded-lg px-3 py-2 text-xs text-gray-300 font-bold outline-none cursor-pointer">
+                    <option value="desc">High to low</option>
+                    <option value="asc">Low to high</option>
+                </select>
+                <button onclick="openCreateMatchModal()" class="bg-pinkAccent hover:bg-pinkHover text-white font-extrabold px-6 py-2.5 rounded-xl text-xs uppercase tracking-wider transition shadow-lg shadow-pinkAccent/20 flex items-center gap-2">
+                    <i class="fa-solid fa-plus"></i> Create
+                </button>
+            </div>
+
+            <!-- PUBLIC MATCHES FEED -->
+            <div id="matchesList" class="space-y-3"></div>
+        </main>
+    </div>
+
+    <!-- USER PROFILE STATS & TIP MODAL -->
+    <div id="userProfileModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'userProfileModal')">
+        <div class="bg-[#12141D] w-full max-w-sm rounded-2xl border border-panelBorder shadow-2xl p-6 text-center space-y-5">
+            <div class="flex justify-between items-center border-b border-panelBorder/50 pb-2">
+                <h3 class="font-extrabold text-xs text-gray-400 uppercase tracking-wider">User Profile</h3>
+                <button onclick="closeUserProfileModal()" class="text-gray-400 hover:text-white text-xs"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <div class="space-y-2">
+                <img id="profileModalAvatar" src="" class="w-20 h-20 mx-auto rounded-full border-2 border-pinkAccent object-cover bg-darkBg">
+                <h4 id="profileModalUsername" class="font-black text-lg text-white"></h4>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 bg-darkBg p-3 rounded-xl border border-panelBorder">
+                <div>
+                    <span class="text-[10px] text-gray-400 font-bold uppercase block">Total Pets</span>
+                    <span id="profileModalPetCount" class="font-extrabold text-sm text-white">0</span>
+                </div>
+                <div>
+                    <span class="text-[10px] text-gray-400 font-bold uppercase block">Total Value</span>
+                    <span id="profileModalValue" class="font-extrabold text-sm text-amber-400">0 R$</span>
+                </div>
+            </div>
+
+            <div class="space-y-2">
+                <button id="tipUserBtn" onclick="openTipInventoryModal()" class="w-full py-3 rounded-xl bg-pinkAccent hover:bg-pinkHover text-white font-extrabold text-xs uppercase tracking-wider transition shadow-lg shadow-pinkAccent/20 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-gift"></i> Tip User
+                </button>
+                <button onclick="copyProfileLink()" class="w-full py-2.5 rounded-xl bg-darkBg hover:bg-panelBorder border border-panelBorder text-gray-300 font-bold text-xs transition flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-link"></i> Copy Profile Link
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TRANSACTIONS MODAL -->
+    <div id="transactionsModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'transactionsModal')">
+        <div class="bg-cardBg w-full max-w-xl rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col max-h-[80vh]">
+            <div class="p-4 border-b border-panelBorder flex justify-between items-center bg-darkBg">
+                <h3 class="font-bold text-white text-sm flex items-center gap-2"><i class="fa-solid fa-receipt text-pinkAccent"></i> Transaction History</h3>
+                <button onclick="closeTransactionsModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div id="transactionsList" class="p-4 space-y-2.5 overflow-y-auto max-h-[60vh]"></div>
+        </div>
+    </div>
+
+    <!-- TIP ITEM SELECTOR MODAL -->
+    <div id="tipInventoryModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'tipInventoryModal')">
+        <div class="bg-cardBg w-full max-w-md rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col max-h-[80vh]">
+            <div class="p-4 border-b border-panelBorder flex justify-between items-center bg-darkBg">
+                <h3 class="font-bold text-white text-sm">Select Item(s) to Tip <span id="tipTargetUsername" class="text-pinkAccent"></span></h3>
+                <button onclick="closeTipInventoryModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="p-4 flex-1 overflow-y-auto">
+                <div id="tipInventoryList" class="grid grid-cols-2 sm:grid-cols-3 gap-3"></div>
+            </div>
+            <div class="p-4 border-t border-panelBorder bg-darkBg flex items-center justify-between">
+                <span class="text-xs text-gray-400">Selected: <strong id="tipSelectedValue" class="text-amber-400">0 R$</strong></span>
+                <button onclick="confirmSendTip()" class="bg-pinkAccent hover:bg-pinkHover text-white font-extrabold px-6 py-2 rounded-xl text-xs uppercase">SEND TIP</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CREATE MATCH MODAL -->
+    <div id="createMatchModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'createMatchModal')">
+        <div class="bg-[#12141D] w-full max-w-4xl rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col p-6 space-y-6">
+            <div class="flex justify-between items-center">
+                <h3 class="font-black text-xl text-white">Create Duel</h3>
+                <button onclick="closeCreateMatchModal()" class="text-gray-400 hover:text-white bg-cardBg px-2.5 py-1 rounded-lg border border-panelBorder text-xs"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <div class="flex flex-wrap items-center justify-between gap-4">
+                <div class="flex items-center space-x-3">
+                    <div class="bg-[#0B0D13] border border-panelBorder rounded-xl px-4 py-2 flex items-center space-x-2 text-xs font-extrabold text-white">
+                        <span>Selected value</span>
+                        <i class="fa-brands fa-roblox text-pinkAccent"></i>
+                        <span id="selectedWagerValue" class="text-pinkAccent">0</span>
+                    </div>
+                    <div class="bg-[#0B0D13] border border-panelBorder rounded-xl px-3 py-2 text-xs font-bold text-gray-400">
+                        <span id="selectedItemCount">0</span>/20 ITEMS
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-3 flex-1 justify-end">
+                    <div class="relative max-w-xs w-full">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-xs text-gray-500"></i>
+                        <input type="text" placeholder="Search items..." class="w-full bg-[#0B0D13] border border-panelBorder rounded-xl pl-8 pr-3 py-2 text-xs text-white focus:outline-none">
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-[#0B0D13] border border-panelBorder rounded-2xl p-6 min-h-[300px] flex flex-col items-center justify-center">
+                <div id="createMatchInventory" class="w-full grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-3 max-h-[280px] overflow-y-auto"></div>
+                <div id="emptyInventoryBox" class="text-center space-y-4 hidden">
+                    <p class="text-sm font-semibold text-gray-400">You do not have any available items.</p>
+                    <button onclick="openDepositModal()" class="bg-pinkAccent hover:bg-pinkHover text-white font-extrabold px-8 py-3 rounded-xl text-xs uppercase tracking-wider transition shadow-lg shadow-pinkAccent/20">
+                        + Deposit
+                    </button>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-end space-x-4 pt-2">
+                <div class="flex items-center space-x-2">
+                    <button type="button" id="matchSidePink" onclick="setMatchSide('pink')" class="w-10 h-10 rounded-full bg-pinkCoin border-2 border-white flex items-center justify-center text-white shadow-lg">
+                        <i class="fa-solid fa-paw text-sm"></i>
+                    </button>
+                    <button type="button" id="matchSideBlue" onclick="setMatchSide('blue')" class="w-10 h-10 rounded-full bg-blueCoin/30 border-2 border-panelBorder flex items-center justify-center text-gray-500">
+                        <i class="fa-solid fa-egg text-sm"></i>
+                    </button>
+                </div>
+                <button onclick="submitCreateMatch()" class="bg-pinkAccent hover:bg-pinkHover text-white font-extrabold px-12 py-3 rounded-xl text-sm transition shadow-lg">
+                    Create
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JOIN MATCH MODAL (DUEL SELECTIONS) -->
+    <div id="joinMatchModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'joinMatchModal')">
+        <div class="bg-cardBg w-full max-w-lg rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div class="p-4 border-b border-panelBorder flex justify-between items-center bg-darkBg">
+                <h3 class="font-bold text-white text-sm">Join Pet Coin Flip Duel</h3>
+                <button onclick="closeJoinMatchModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="p-6 overflow-y-auto space-y-4">
+                <div id="joinMatchInfo" class="bg-darkBg p-3 rounded-xl border border-panelBorder text-xs space-y-1"></div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-300 uppercase mb-2">Select Your Pet(s) to Match Wager</label>
+                    <div id="joinMatchInventory" class="grid grid-cols-2 gap-3 max-h-48 overflow-y-auto p-2 bg-darkBg rounded-xl border border-panelBorder"></div>
+                    <div class="flex justify-between items-center mt-2 text-xs">
+                        <span class="text-gray-400">Your Selected Total:</span>
+                        <span id="joinWagerTotal" class="font-extrabold text-amber-400 text-sm">0 R$</span>
+                    </div>
+                </div>
+            </div>
+            <div class="p-4 border-t border-panelBorder bg-darkBg">
+                <button onclick="confirmJoinMatch()" class="w-full py-3 rounded-xl bg-pinkAccent hover:bg-pinkHover text-white font-extrabold text-sm uppercase tracking-wider transition">ACCEPT DUEL & FLIP</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- DEPOSIT MODAL (GÜNCELLENMİŞ TRADE BOT LİNKLERİ) -->
+    <div id="depositModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'depositModal')">
+        <div class="bg-[#12141D] w-full max-w-md rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col p-6 space-y-5 text-center">
+            <div class="flex justify-between items-center border-b border-panelBorder/50 pb-3">
+                <h3 class="font-black text-lg text-white">Deposit Pets</h3>
+                <button onclick="closeDepositModal()" class="text-gray-400 hover:text-white bg-cardBg px-2.5 py-1 rounded-lg border border-panelBorder text-xs"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <div class="space-y-4">
+                <div class="w-12 h-12 rounded-full border-4 border-pinkAccent border-t-transparent animate-spin mx-auto"></div>
+                <h4 class="font-extrabold text-lg text-white">Join the Official Bot</h4>
+                <p class="text-xs text-gray-400 px-4 leading-relaxed">
+                    Join Adopt Me server via private link below. You will enter the deposit queue automatically upon joining.
+                </p>
+
+                <div class="bg-[#1E141A] border border-pinkAccent/30 rounded-2xl p-4 text-left space-y-2">
+                    <div class="flex items-center space-x-2 text-pinkAccent font-extrabold text-[11px] tracking-wider uppercase">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <span>ONLY TRADE WITH THIS OFFICIAL BOT</span>
+                    </div>
+                    <div class="text-white font-extrabold text-lg tracking-wide flex items-center justify-between">
+                        <span>dedokgag2</span>
+                        <span class="text-xs bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/30">ONLINE</span>
+                    </div>
+                    <p class="text-[11px] text-gray-400 leading-relaxed">
+                        Ignore every other trade request. We will never ask you to trade with another user account.
+                    </p>
+                </div>
+
+                <!-- ÇİFT BUTONLU ROBLOX YÖNLENDİRMESİ -->
+                <div class="space-y-2">
+                    <a href="roblox://navigation/game?placeId=920587237&gameInstanceId=bcf56020403ba845aa32ccbb336b8cd9" target="_blank" onclick="logDepositTransaction()" class="block w-full py-3 rounded-xl bg-pinkAccent hover:bg-pinkHover text-white font-extrabold text-xs uppercase tracking-wider transition shadow-lg shadow-pinkAccent/20 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-bolt"></i> Open Roblox App Direct
+                    </a>
+                    <a href="https://www.roblox.com/share?code=bcf56020403ba845aa32ccbb336b8cd9&type=Server" target="_blank" onclick="logDepositTransaction()" class="block w-full py-2.5 rounded-xl bg-darkBg hover:bg-panelBorder border border-panelBorder text-gray-300 font-bold text-xs transition">
+                        Open in Web Browser
+                    </a>
+                </div>
+
+                <span class="text-xs font-bold text-pinkAccent block">Reservation expires in: 02:56</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- SPECTATE MODAL -->
+    <div id="spectateModal" class="modal-backdrop fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'spectateModal')">
+        <div class="bg-[#12141D] w-full max-w-4xl rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col">
+            <div class="p-4 border-b border-panelBorder/50 flex justify-between items-center bg-[#0B0D13]">
+                <div class="w-full text-center">
+                    <h2 class="font-black text-xl text-white tracking-wider flex items-center justify-center gap-1">
+                        PET <span class="text-pinkAccent">DUEL</span>
+                    </h2>
+                </div>
+                <button onclick="closeSpectateModal()" class="text-gray-400 hover:text-white bg-cardBg px-2.5 py-1 rounded-lg border border-panelBorder text-xs"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="p-8 space-y-6">
+                <div class="flex items-center justify-around relative py-4">
+                    <div class="flex flex-col items-center space-y-2">
+                        <div class="relative">
+                            <img id="specCreatorAvatar" src="" class="w-16 h-16 rounded-full border-2 border-panelBorder object-cover">
+                            <span id="specCreatorSideBadge" class="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-blueCoin border-2 border-white flex items-center justify-center text-[10px]"></span>
+                        </div>
+                        <span id="specCreatorName" class="font-extrabold text-sm text-white"></span>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="w-24 h-24 rounded-full bg-pinkAccent p-2 shadow-2xl shadow-pinkAccent/30 flex items-center justify-center border-4 border-white pulse-spin">
+                            <div class="w-full h-full rounded-full border-2 border-dashed border-white/60 flex items-center justify-center">
+                                <i class="fa-solid fa-paw text-white text-3xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-center space-y-2">
+                        <div class="relative">
+                            <img id="specJoinerAvatar" src="" class="w-16 h-16 rounded-full border-2 border-panelBorder object-cover">
+                            <span id="specJoinerSideBadge" class="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-pinkCoin border-2 border-white flex items-center justify-center text-[10px]"></span>
+                        </div>
+                        <span id="specJoinerName" class="font-extrabold text-sm text-white"></span>
+                    </div>
+                </div>
+                <div class="grid grid-cols-3 gap-3">
+                    <div class="bg-cardBg p-2.5 rounded-lg border border-panelBorder text-center font-mono text-[10px] text-gray-400 truncate"><i class="fa-solid fa-shield-halved text-pinkAccent mr-1"></i> <span id="specHash1">46bb6dfc54ce42...</span></div>
+                    <div class="bg-cardBg p-2.5 rounded-lg border border-panelBorder text-center font-mono text-[10px] text-gray-400 truncate"><i class="fa-solid fa-key text-pinkAccent mr-1"></i> <span id="specHash2">8c2239c9dab207...</span></div>
+                    <div class="bg-cardBg p-2.5 rounded-lg border border-panelBorder text-center font-mono text-[10px] text-gray-400 truncate"><i class="fa-solid fa-circle-question text-pinkAccent mr-1"></i> <span id="specHash3">1ed3c85df666d6...</span></div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-cardBg p-3 rounded-xl border border-panelBorder flex justify-between items-center">
+                        <span class="font-extrabold text-xs text-white">50.00%</span>
+                        <span class="font-extrabold text-xs text-white flex items-center gap-1"><i class="fa-brands fa-roblox text-pinkAccent"></i> <span id="specCreatorVal">0</span></span>
+                    </div>
+                    <div class="bg-cardBg p-3 rounded-xl border border-panelBorder flex justify-between items-center">
+                        <span class="font-extrabold text-xs text-white">50.00%</span>
+                        <span class="font-extrabold text-xs text-white flex items-center gap-1"><i class="fa-brands fa-roblox text-pinkAccent"></i> <span id="specJoinerVal">0</span></span>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4 max-h-48 overflow-y-auto">
+                    <div id="specCreatorItems" class="space-y-2"></div>
+                    <div id="specJoinerItems" class="space-y-2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- INVENTORY MODAL -->
+    <div id="inventoryModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'inventoryModal')">
+        <div class="bg-cardBg w-full max-w-2xl rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col max-h-[80vh]">
+            <div class="p-4 border-b border-panelBorder flex justify-between items-center bg-darkBg">
+                <h3 class="font-bold text-white text-sm flex items-center gap-2"><i class="fa-solid fa-boxes-stacked text-pinkAccent"></i> My Pet Inventory</h3>
+                <button onclick="closeInventoryModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div id="myFullInventoryList" class="p-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 overflow-y-auto"></div>
+        </div>
+    </div>
+
+    <!-- LOGIN MODAL -->
+    <div id="loginModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'loginModal')">
+        <div class="bg-cardBg w-full max-w-md rounded-2xl border border-panelBorder shadow-2xl overflow-hidden">
+            <div class="p-4 border-b border-panelBorder flex justify-between items-center bg-darkBg">
+                <h3 class="font-bold text-white text-sm">Real Roblox Profile Verification</h3>
+                <button onclick="closeLoginModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="p-6">
+                <div id="authStep1" class="space-y-4">
+                    <input type="text" id="robloxUserSearch" placeholder="e.g. dedokxxreal" class="w-full bg-darkBg border border-panelBorder rounded-lg px-3 py-2 text-sm text-white focus:outline-none">
+                    <button onclick="fetchRobloxProfileAPI()" id="btnStep1" class="w-full py-2.5 rounded-lg bg-pinkAccent hover:bg-pinkHover text-white font-bold text-xs transition">Fetch Profile</button>
+                </div>
+
+                <div id="authStep2" class="space-y-4 hidden text-center">
+                    <img id="realRobloxAvatarPreview" src="" class="w-20 h-20 mx-auto rounded-full border-2 border-pinkAccent bg-darkBg object-cover">
+                    <span id="realRobloxUserPreview" class="font-extrabold text-white block"></span>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button onclick="resetAuthModal()" class="py-2 rounded-lg bg-darkBg border border-panelBorder text-gray-300 font-bold text-xs">Back</button>
+                        <button onclick="proceedToBioStep()" class="py-2 rounded-lg bg-pinkAccent text-white font-bold text-xs">Continue</button>
+                    </div>
+                </div>
+
+                <div id="authStep3" class="space-y-4 hidden">
+                    <div class="bg-darkBg p-3 rounded-lg border border-panelBorder flex items-center justify-between">
+                        <code id="bioVerificationCode" class="font-mono text-pinkAccent font-bold text-base">PET-89F2A</code>
+                        <button onclick="copyBioCode()" class="text-xs bg-cardBg text-white px-3 py-1 rounded border border-panelBorder">Copy</button>
+                    </div>
+                    <button onclick="verifyRobloxBioAPI()" id="btnVerifyBio" class="w-full py-3 rounded-lg bg-pinkAccent text-white font-extrabold text-xs uppercase">VERIFY BIO & LOGIN</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FLIP ANIMATION MODAL -->
+    <div id="gameFlipModal" class="fixed inset-0 bg-black/90 backdrop-blur-lg z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-cardBg w-full max-w-md rounded-2xl border border-panelBorder p-8 flex flex-col items-center justify-center text-center space-y-6">
+            <h3 class="text-xs font-extrabold text-gray-400 uppercase tracking-widest">DUEL IN PROGRESS</h3>
+            <div class="coin-container my-4">
+                <div id="modalCoin" class="coin">
+                    <div class="front"><i class="fa-solid fa-circle text-3xl"></i></div>
+                    <div class="back"><i class="fa-solid fa-circle text-3xl"></i></div>
+                </div>
+            </div>
+            <div id="modalFlipStatus" class="text-base font-extrabold text-white tracking-wide animate-pulse">FLIPPING COIN...</div>
+        </div>
+    </div>
+
+    <!-- ADMIN PANEL MODAL -->
+    <div id="adminModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'adminModal')">
+        <div class="bg-cardBg w-full max-w-xl rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div class="p-4 border-b border-panelBorder flex justify-between items-center bg-darkBg">
+                <h3 class="font-bold text-white text-sm">Admin Control Panel (dedokxxreal)</h3>
+                <button onclick="closeAdminModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="p-6 overflow-y-auto space-y-6">
+                <div class="bg-darkBg p-4 rounded-xl border border-panelBorder space-y-3">
+                    <h4 class="font-extrabold text-xs text-purple-400 uppercase">Add Pet to User Inventory</h4>
+                    <form onsubmit="adminAddPet(event)" class="space-y-3">
+                        <select id="adminTargetUser" onchange="renderAdminUserInventory()" class="w-full bg-cardBg border border-panelBorder rounded-lg px-3 py-2 text-xs font-bold text-white"></select>
+                        <div class="grid grid-cols-2 gap-3">
+                            <input type="text" id="adminPetName" placeholder="Pet Name" required class="w-full bg-cardBg border border-panelBorder rounded-lg px-3 py-2 text-xs text-white">
+                            <input type="number" id="adminPetValue" placeholder="Pet Value (R$)" min="1" required class="w-full bg-cardBg border border-panelBorder rounded-lg px-3 py-2 text-xs text-white">
+                        </div>
+                        <input type="url" id="adminPetImage" placeholder="Image URL" required class="w-full bg-cardBg border border-panelBorder rounded-lg px-3 py-2 text-xs text-white">
+                        <button type="submit" class="w-full py-2.5 rounded-lg bg-purple-600 text-white font-extrabold text-xs uppercase">GIVE PET</button>
+                    </form>
+                </div>
+                <div class="bg-darkBg p-4 rounded-xl border border-panelBorder space-y-3">
+                    <h4 class="font-extrabold text-xs text-red-400 uppercase">Delete User Pets</h4>
+                    <div id="adminUserPetList" class="grid grid-cols-2 gap-3 max-h-40 overflow-y-auto p-2 bg-cardBg rounded-lg border border-panelBorder"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        let currentUser = null;
+        let fetchedRobloxUser = null;
+        let generatedBioCode = "";
+        let selectedMatchSide = 'pink';
+        let toastTimeout = null;
+        let targetProfileUser = null;
+        let selectedTipPetIds = [];
+        let activeJoinMatchId = null;
+        let selectedJoinPetIds = [];
+
+        let inventories = JSON.parse(localStorage.getItem('petduel_inventories')) || {
+            "dedokxxreal": [
+                { id: 101, name: "Neon Unicorn", image: "https://cdn-icons-png.flaticon.com/512/616/616408.png", value: 35000 },
+                { id: 102, name: "Fly Duck", image: "https://cdn-icons-png.flaticon.com/512/616/616430.png", value: 25000 }
+            ],
+            "Builderman": [
+                { id: 201, name: "Dog", image: "https://cdn-icons-png.flaticon.com/512/616/616408.png", value: 500 }
+            ]
         };
-        container.appendChild(joinBtn);
-      } else {
-        const coin = document.createElement("div");
-        coin.className = `coin-display ${game.selectedSide}`;
-        coin.innerText = game.selectedSide.toUpperCase();
-        container.appendChild(coin);
-      }
 
-      openModal("viewModal");
-    }
+        let transactions = JSON.parse(localStorage.getItem('petduel_transactions')) || [];
+        let publicMatches = [];
+        let selectedCreatePetIds = [];
 
-    /* ==========================================================================
-       8. RENDERERS & HELPER FUNCTIONS
-       ========================================================================== */
-    function renderGamesGrid() {
-      const grid = document.getElementById("gamesGrid");
-      grid.innerHTML = "";
+        document.addEventListener('DOMContentLoaded', () => {
+            checkAuthSession();
+            initDynamicOnlineCounter();
+            loadPersistentChat();
+            fetchServerMatches();
+            initLiveTradeFeed();
 
-      if (gamesList.length === 0) {
-        grid.innerHTML = `
-          <div class="no-games-container">
-            <h3>Henüz aktif coinflip oyunu bulunmuyor</h3>
-            <p style="color: var(--text-muted); font-size: 14px;">"Create Giveaway" butonuna tıklayarak ilk oyunu başlatabilirsiniz.</p>
-          </div>
-        `;
-        return;
-      }
+            setInterval(fetchServerMatches, 1000);
+            setInterval(loadPersistentChat, 1000);
 
-      gamesList.forEach(game => {
-        const card = document.createElement("div");
-        card.className = "game-card";
-        card.innerHTML = `
-          <div class="game-card-header">
-            <span class="game-id">Game #${game.id}</span>
-            <span class="game-value">🌸 ${game.value.toLocaleString()}</span>
-          </div>
-          <div class="game-players">
-            <div class="player-box">
-              <div class="player-avatar">
-                <img src="${game.player1Avatar || 'https://via.placeholder.com/45'}" alt="P1">
-              </div>
-              <span class="player-name">${game.player1}</span>
-            </div>
-            <span class="vs-badge">VS</span>
-            <div class="player-box">
-              <span class="player-name">${game.player2 || 'Bekleniyor...'}</span>
-              <div class="player-avatar">
-                <img src="${game.player2Avatar || 'https://via.placeholder.com/45'}" alt="P2">
-              </div>
-            </div>
-          </div>
-          <div class="game-card-footer">
-            <button class="btn-primary" onclick='openViewModal(${JSON.stringify(game)})'>View</button>
-          </div>
-        `;
-        grid.appendChild(card);
-      });
+            // Close dropdown menu when clicking anywhere outside
+            document.addEventListener('click', (e) => {
+                const userProfileBadge = document.getElementById('userProfileBadge');
+                if (userProfileBadge && !userProfileBadge.contains(e.target)) {
+                    document.getElementById('userDropdownMenu').classList.add('hidden');
+                }
+            });
+        });
 
-      updateAllGamesCount();
-    }
+        function saveState() {
+            localStorage.setItem('petduel_inventories', JSON.stringify(inventories));
+            localStorage.setItem('petduel_transactions', JSON.stringify(transactions));
+            if (currentUser) localStorage.setItem('petduel_user', JSON.stringify(currentUser));
+            else localStorage.removeItem('petduel_user');
+        }
 
-    function openModal(id) {
-      const modal = document.getElementById(id);
-      if (modal) {
-        modal.classList.add("active");
-      }
-    }
+        function handleOutsideClick(event, modalId) {
+            if (event.target.id === modalId) {
+                document.getElementById(modalId).classList.add('hidden');
+            }
+        }
 
-    function closeModal(id) {
-      const modal = document.getElementById(id);
-      if (modal) {
-        modal.classList.remove("active");
-      }
-    }
+        function toggleUserDropdown(e) {
+            e.stopPropagation();
+            const dropdown = document.getElementById('userDropdownMenu');
+            dropdown.classList.toggle('hidden');
+        }
 
-    function resetView() {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+        function checkAuthSession() {
+            const savedUser = localStorage.getItem('petduel_user');
+            if (savedUser) {
+                try { currentUser = JSON.parse(savedUser); applyUserLoggedInState(); } catch (e) { localStorage.removeItem('petduel_user'); }
+            }
+        }
 
-    function showToast(msg) {
-      const container = document.getElementById("toastContainer");
-      const toast = document.createElement("div");
-      toast.className = "toast";
-      toast.innerText = msg;
-      container.appendChild(toast);
+        function applyUserLoggedInState() {
+            if (!currentUser) return;
+            document.getElementById('loginBtn').classList.add('hidden');
+            document.getElementById('userProfileBadge').classList.remove('hidden');
+            document.getElementById('userProfileBadge').classList.add('flex');
+            document.getElementById('navRobloxUser').textContent = currentUser.username;
+            document.getElementById('navRobloxAvatar').src = currentUser.avatar;
 
-      setTimeout(() => {
-        toast.remove();
-      }, 3000);
-    }
-  </script>
+            // Sadece dedokxxreal admin modalını görebilir
+            if (currentUser.username.toLowerCase() === 'dedokxxreal') {
+                document.getElementById('adminPanelBtn').classList.remove('hidden');
+            } else {
+                document.getElementById('adminPanelBtn').classList.add('hidden');
+            }
+
+            const chatInput = document.getElementById('chatInput');
+            chatInput.disabled = false;
+            chatInput.placeholder = "Say something...";
+            document.getElementById('chatSendBtn').disabled = false;
+        }
+
+        function initDynamicOnlineCounter() {
+            setInterval(() => {
+                const count = Math.floor(Math.random() * (20 - 10 + 1)) + 10;
+                document.getElementById('onlineCounter').textContent = `${count} Online`;
+            }, 5000);
+        }
+
+        // CANLI DEPOZİTO TAKAS AKIŞI (LIVE TRADE TOASTS)
+        function initLiveTradeFeed() {
+            const users = ["xX_PetMaster_Xx", "ShadowRider", "RobloxKing99", "NeonTrader", "AdoptMePro", "FrostDragonLover"];
+            const pets = ["Shadow Dragon", "Giraffe", "Bat Dragon", "Neon Crow", "Evil Unicorn", "Owl"];
+
+            setInterval(() => {
+                const randomUser = users[Math.floor(Math.random() * users.length)];
+                const randomPet = pets[Math.floor(Math.random() * pets.length)];
+                showLiveTradeToast(randomUser, randomPet);
+            }, Math.floor(Math.random() * 5000) + 7000);
+        }
+
+        function showLiveTradeToast(username, petName) {
+            const container = document.getElementById('liveTradeContainer');
+            const toast = document.createElement('div');
+            toast.className = 'bg-cardBg/95 border border-panelBorder rounded-xl p-3 shadow-2xl flex items-center space-x-3 toast-slide-in pointer-events-auto backdrop-blur-md';
+            toast.innerHTML = `
+                <div class="w-8 h-8 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-xs">
+                    <i class="fa-solid fa-arrow-down-long"></i>
+                </div>
+                <div class="flex-1 overflow-hidden">
+                    <span class="text-[11px] font-extrabold text-white block truncate">${escapeHtml(username)}</span>
+                    <span class="text-[10px] text-gray-400 block truncate">Deposited <strong class="text-pinkAccent">${escapeHtml(petName)}</strong></span>
+                </div>
+            `;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.remove('toast-slide-in');
+                toast.classList.add('toast-fade-out');
+                setTimeout(() => toast.remove(), 500);
+            }, 4000);
+        }
+
+        async function fetchServerMatches() {
+            try {
+                const res = await fetch('/api/matches');
+                publicMatches = await res.json();
+                sortMatches();
+            } catch (e) {}
+        }
+
+        function sortMatches() {
+            const sortVal = document.getElementById('sortMatchesSelect').value;
+            if (sortVal === 'desc') {
+                publicMatches.sort((a, b) => b.totalValue - a.totalValue);
+            } else {
+                publicMatches.sort((a, b) => a.totalValue - b.totalValue);
+            }
+            renderMatches();
+        }
+
+        async function loadPersistentChat() {
+            try {
+                const res = await fetch('/api/chat');
+                const messages = await res.json();
+                const chatBox = document.getElementById('chatMessages');
+                chatBox.innerHTML = '';
+                messages.forEach(m => {
+                    const msgEl = document.createElement('div');
+                    msgEl.className = 'flex items-start space-x-2 bg-darkBg p-2 rounded-lg border border-panelBorder cursor-pointer hover:border-pinkAccent transition';
+                    msgEl.onclick = () => openUserProfileModal(m.username, m.avatar);
+                    msgEl.innerHTML = `
+                        <img src="${m.avatar}" class="w-6 h-6 rounded-full border border-panelBorder mt-0.5 object-cover">
+                        <div class="flex-1 overflow-hidden">
+                            <div class="flex items-center justify-between">
+                                <span class="font-bold text-white text-[11px] truncate">${escapeHtml(m.username)}</span>
+                                <span class="text-[9px] text-gray-500">${m.time}</span>
+                            </div>
+                            <p class="text-gray-300 text-[11px] break-words mt-0.5">${escapeHtml(m.msg)}</p>
+                        </div>
+                    `;
+                    chatBox.appendChild(msgEl);
+                });
+            } catch (e) {}
+        }
+
+        async function sendChatMessage(e) {
+            e.preventDefault();
+            if (!currentUser) return;
+            const input = document.getElementById('chatInput');
+            const msg = input.value.trim();
+            if (!msg) return;
+
+            try {
+                await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: currentUser.username, avatar: currentUser.avatar, msg })
+                });
+                input.value = '';
+                loadPersistentChat();
+            } catch (e) {}
+        }
+
+        function openUserProfileModal(username, avatar) {
+            document.getElementById('userDropdownMenu').classList.add('hidden');
+            targetProfileUser = { username, avatar };
+            const userPets = inventories[username] || [];
+            const totalVal = userPets.reduce((sum, p) => sum + p.value, 0);
+
+            document.getElementById('profileModalUsername').textContent = username;
+            document.getElementById('profileModalAvatar').src = avatar;
+            document.getElementById('profileModalPetCount').textContent = userPets.length;
+            document.getElementById('profileModalValue').textContent = totalVal.toLocaleString() + ' R$';
+
+            const tipBtn = document.getElementById('tipUserBtn');
+            if (currentUser && currentUser.username.toLowerCase() === username.toLowerCase()) {
+                tipBtn.classList.add('hidden');
+            } else {
+                tipBtn.classList.remove('hidden');
+            }
+
+            document.getElementById('userProfileModal').classList.remove('hidden');
+        }
+
+        function copyProfileLink() {
+            if (!targetProfileUser) return;
+            const link = `${window.location.origin}/user/${targetProfileUser.username}`;
+            navigator.clipboard.writeText(link);
+            showNotification('success', 'Profile link copied to clipboard!');
+        }
+
+        function openMyProfileModal() {
+            if (!currentUser) return;
+            openUserProfileModal(currentUser.username, currentUser.avatar);
+        }
+
+        function closeUserProfileModal() {
+            document.getElementById('userProfileModal').classList.add('hidden');
+        }
+
+        function openTipInventoryModal() {
+            if (!currentUser) { openLoginModal(); return; }
+            if (currentUser.username.toLowerCase() === targetProfileUser.username.toLowerCase()) {
+                showNotification('error', 'You cannot tip yourself.');
+                return;
+            }
+
+            selectedTipPetIds = [];
+            closeUserProfileModal();
+
+            document.getElementById('tipTargetUsername').textContent = `@${targetProfileUser.username}`;
+            document.getElementById('tipInventoryModal').classList.remove('hidden');
+            renderTipInventory();
+            updateTipSummary();
+        }
+
+        function closeTipInventoryModal() {
+            document.getElementById('tipInventoryModal').classList.add('hidden');
+        }
+
+        function renderTipInventory() {
+            const container = document.getElementById('tipInventoryList');
+            container.innerHTML = '';
+            const myPets = inventories[currentUser.username] || [];
+
+            if (myPets.length === 0) {
+                container.innerHTML = `<div class="col-span-3 text-center text-xs text-gray-500 py-6">Your inventory is empty.</div>`;
+                return;
+            }
+
+            myPets.forEach(pet => {
+                const card = document.createElement('div');
+                const isSelected = selectedTipPetIds.includes(pet.id);
+                card.className = `bg-darkBg p-2 rounded-xl border border-panelBorder cursor-pointer transition text-center ${isSelected ? 'pet-card-selected' : ''}`;
+                card.onclick = () => {
+                    const idx = selectedTipPetIds.indexOf(pet.id);
+                    if (idx > -1) selectedTipPetIds.splice(idx, 1);
+                    else selectedTipPetIds.push(pet.id);
+                    renderTipInventory();
+                    updateTipSummary();
+                };
+                card.innerHTML = `
+                    <img src="${pet.image}" class="w-10 h-10 mx-auto object-contain mb-1">
+                    <span class="font-extrabold text-[10px] text-white block truncate">${escapeHtml(pet.name)}</span>
+                    <span class="text-[10px] text-amber-400 font-bold">${pet.value} R$</span>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function updateTipSummary() {
+            const myPets = inventories[currentUser.username] || [];
+            const selectedPets = myPets.filter(p => selectedTipPetIds.includes(p.id));
+            const totalVal = selectedPets.reduce((sum, p) => sum + p.value, 0);
+            document.getElementById('tipSelectedValue').textContent = totalVal.toLocaleString() + ' R$';
+        }
+
+        function confirmSendTip() {
+            if (selectedTipPetIds.length === 0) {
+                showNotification('error', 'Select at least one pet to tip.');
+                return;
+            }
+
+            const myPets = inventories[currentUser.username] || [];
+            const tippedPets = myPets.filter(p => selectedTipPetIds.includes(p.id));
+            const totalVal = tippedPets.reduce((sum, p) => sum + p.value, 0);
+
+            inventories[currentUser.username] = myPets.filter(p => !selectedTipPetIds.includes(p.id));
+
+            if (!inventories[targetProfileUser.username]) inventories[targetProfileUser.username] = [];
+            inventories[targetProfileUser.username].push(...tippedPets);
+
+            const timeNow = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            transactions.unshift({
+                user: currentUser.username,
+                type: 'TIP_SENT',
+                target: targetProfileUser.username,
+                value: totalVal,
+                itemCount: tippedPets.length,
+                time: timeNow
+            });
+            transactions.unshift({
+                user: targetProfileUser.username,
+                type: 'TIP_RECEIVED',
+                target: currentUser.username,
+                value: totalVal,
+                itemCount: tippedPets.length,
+                time: timeNow
+            });
+
+            saveState();
+            closeTipInventoryModal();
+            showNotification('success', `Successfully tipped ${tippedPets.length} pet(s) to ${targetProfileUser.username}!`);
+        }
+
+        function openTransactionsModal() {
+            if (!currentUser) return;
+            document.getElementById('userDropdownMenu').classList.add('hidden');
+            const container = document.getElementById('transactionsList');
+            container.innerHTML = '';
+
+            const userTxs = transactions.filter(t => t.user.toLowerCase() === currentUser.username.toLowerCase());
+
+            if (userTxs.length === 0) {
+                container.innerHTML = `<div class="text-center text-xs text-gray-500 py-8">No transaction history found.</div>`;
+            } else {
+                userTxs.forEach(tx => {
+                    const row = document.createElement('div');
+                    row.className = 'flex items-center justify-between bg-darkBg p-3 rounded-xl border border-panelBorder text-xs';
+
+                    let typeBadge = '';
+                    let details = '';
+
+                    if (tx.type === 'TIP_SENT') {
+                        typeBadge = `<span class="bg-red-500/10 text-red-400 font-extrabold px-2 py-0.5 rounded border border-red-500/20"><i class="fa-solid fa-arrow-up-right-from-square"></i> TIP SENT</span>`;
+                        details = `To <strong class="text-white">@${escapeHtml(tx.target)}</strong> (${tx.itemCount} items)`;
+                    } else if (tx.type === 'TIP_RECEIVED') {
+                        typeBadge = `<span class="bg-emerald-500/10 text-emerald-400 font-extrabold px-2 py-0.5 rounded border border-emerald-500/20"><i class="fa-solid fa-arrow-down-left-and-up-right-to-center"></i> TIP RECEIVED</span>`;
+                        details = `From <strong class="text-white">@${escapeHtml(tx.target)}</strong> (${tx.itemCount} items)`;
+                    } else if (tx.type === 'DEPOSIT') {
+                        typeBadge = `<span class="bg-blue-500/10 text-blue-400 font-extrabold px-2 py-0.5 rounded border border-blue-500/20"><i class="fa-solid fa-download"></i> DEPOSIT</span>`;
+                        details = `Bot Queue Trade`;
+                    } else if (tx.type === 'WITHDRAW') {
+                        typeBadge = `<span class="bg-purple-500/10 text-purple-400 font-extrabold px-2 py-0.5 rounded border border-purple-500/20"><i class="fa-solid fa-upload"></i> WITHDRAW</span>`;
+                        details = `Bot Withdrawal`;
+                    }
+
+                    row.innerHTML = `
+                        <div class="flex items-center space-x-3">
+                            ${typeBadge}
+                            <span class="text-gray-400">${details}</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <span class="font-extrabold text-amber-400 flex items-center gap-1"><i class="fa-brands fa-roblox text-xs"></i> ${tx.value.toLocaleString()} R$</span>
+                            <span class="text-[10px] text-gray-500">${tx.time}</span>
+                        </div>
+                    `;
+                    container.appendChild(row);
+                });
+            }
+
+            document.getElementById('transactionsModal').classList.remove('hidden');
+        }
+
+        function closeTransactionsModal() {
+            document.getElementById('transactionsModal').classList.add('hidden');
+        }
+
+        function logDepositTransaction() {
+            if (!currentUser) return;
+            const timeNow = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            transactions.unshift({
+                user: currentUser.username,
+                type: 'DEPOSIT',
+                target: 'dedokgag2 (Bot)',
+                value: 0,
+                itemCount: 1,
+                time: timeNow
+            });
+            saveState();
+        }
+
+        function renderMatches() {
+            const container = document.getElementById('matchesList');
+            document.getElementById('allGamesCount').textContent = publicMatches.length + 5;
+            document.getElementById('openGamesCount').textContent = publicMatches.length;
+
+            const totalVal = publicMatches.reduce((sum, m) => sum + m.totalValue, 0);
+            
+            // Metrik gösterimi formatlama
+            if (totalVal >= 1000000) {
+                document.getElementById('totalValueCount').textContent = (totalVal / 1000000).toFixed(1) + 'M';
+            } else if (totalVal >= 1000) {
+                document.getElementById('totalValueCount').textContent = (totalVal / 1000).toFixed(1) + 'k';
+            } else {
+                document.getElementById('totalValueCount').textContent = totalVal.toLocaleString();
+            }
+
+            container.innerHTML = '';
+            if (publicMatches.length === 0) {
+                container.innerHTML = `<div class="text-center text-gray-500 py-12 text-xs bg-cardBg rounded-xl border border-panelBorder">No active matches online. Click "Create" to post one!</div>`;
+                return;
+            }
+
+            publicMatches.forEach(match => {
+                const card = document.createElement('div');
+                card.className = 'bg-cardBg rounded-xl border border-panelBorder p-4 flex flex-col md:flex-row items-center justify-between gap-4 shadow-md';
+
+                let visiblePets = match.pets.slice(0, 4);
+                let extraCount = match.pets.length - 4;
+
+                let petsHtml = visiblePets.map(p => `
+                    <div class="relative w-10 h-10 rounded-full bg-darkBg border border-panelBorder p-1 flex items-center justify-center">
+                        <img src="${p.image}" class="w-full h-full object-contain">
+                    </div>
+                `).join('');
+
+                if (extraCount > 0) {
+                    petsHtml += `<div class="w-8 h-8 rounded-full bg-darkBg border border-panelBorder flex items-center justify-center text-[10px] font-bold text-white">+${extraCount}</div>`;
+                }
+
+                const isMyMatch = currentUser && match.creator.toLowerCase() === currentUser.username.toLowerCase();
+
+                card.innerHTML = `
+                    <div class="flex items-center space-x-3">
+                        <div class="relative cursor-pointer" onclick="openUserProfileModal('${match.creator}', '${match.creatorAvatar}')">
+                            <img src="${match.creatorAvatar}" class="w-10 h-10 rounded-full border-2 border-darkBg object-cover">
+                            <span class="absolute -top-1 -right-1 w-4 h-4 rounded-full ${match.side === 'blue' ? 'bg-blueCoin' : 'bg-pinkCoin'} border border-white flex items-center justify-center text-[8px]"></span>
+                        </div>
+                        <span class="text-xs font-bold text-gray-500">VS</span>
+                        <div class="relative">
+                            <div class="w-10 h-10 rounded-full bg-darkBg border border-panelBorder flex items-center justify-center text-gray-400 font-bold text-xs">?</div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center space-x-2 flex-1 overflow-x-auto justify-start md:justify-center">
+                        ${petsHtml}
+                    </div>
+
+                    <div class="flex items-center space-x-4">
+                        <div class="text-right">
+                            <span class="text-sm font-extrabold text-white flex items-center gap-1 justify-end">
+                                <i class="fa-brands fa-roblox text-xs text-gray-400"></i> ${match.totalValue.toLocaleString()}
+                            </span>
+                        </div>
+
+                        ${isMyMatch ? `
+                            <button onclick="cancelMatch('${match.id}')" class="bg-red-600 hover:bg-red-700 text-white font-bold px-4 py-2 rounded-xl text-xs transition">
+                                Cancel
+                            </button>
+                        ` : `
+                            <button onclick="openJoinMatchModal('${match.id}')" class="bg-pinkAccent hover:bg-pinkHover text-white font-bold px-5 py-2 rounded-xl text-xs transition shadow-lg shadow-pinkAccent/20">
+                                Join
+                            </button>
+                        `}
+
+                        <button onclick="openSpectateModal('${match.id}')" class="bg-darkBg hover:bg-panelBorder text-gray-300 px-3 py-2 rounded-xl border border-panelBorder text-xs transition" title="View Match">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function openCreateMatchModal() {
+            if (!currentUser) { openLoginModal(); return; }
+            selectedCreatePetIds = [];
+            document.getElementById('createMatchModal').classList.remove('hidden');
+            renderCreateMatchInventory();
+            updateCreateMatchSummary();
+        }
+        function closeCreateMatchModal() { document.getElementById('createMatchModal').classList.add('hidden'); }
+
+        function openDepositModal() {
+            closeCreateMatchModal();
+            document.getElementById('depositModal').classList.remove('hidden');
+        }
+        function closeDepositModal() { document.getElementById('depositModal').classList.add('hidden'); }
+
+        function renderCreateMatchInventory() {
+            const container = document.getElementById('createMatchInventory');
+            const emptyBox = document.getElementById('emptyInventoryBox');
+            container.innerHTML = '';
+            
+            const userPets = inventories[currentUser.username] || [];
+            if (userPets.length === 0) {
+                container.classList.add('hidden');
+                emptyBox.classList.remove('hidden');
+                return;
+            }
+
+            container.classList.remove('hidden');
+            emptyBox.classList.add('hidden');
+
+            userPets.forEach(pet => {
+                const card = document.createElement('div');
+                const isSelected = selectedCreatePetIds.includes(pet.id);
+                card.className = `bg-cardBg p-3 rounded-xl border border-panelBorder cursor-pointer transition text-center ${isSelected ? 'pet-card-selected' : ''}`;
+                card.onclick = () => {
+                    const idx = selectedCreatePetIds.indexOf(pet.id);
+                    if (idx > -1) selectedCreatePetIds.splice(idx, 1);
+                    else selectedCreatePetIds.push(pet.id);
+                    renderCreateMatchInventory();
+                    updateCreateMatchSummary();
+                };
+                card.innerHTML = `
+                    <img src="${pet.image}" class="w-12 h-12 mx-auto object-contain mb-2">
+                    <span class="font-extrabold text-xs text-white block truncate">${escapeHtml(pet.name)}</span>
+                    <span class="text-xs text-amber-400 font-black">${pet.value} R$</span>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function setMatchSide(side) {
+            selectedMatchSide = side;
+            document.getElementById('matchSidePink').className = side === 'pink' ? 'w-10 h-10 rounded-full bg-pinkCoin border-2 border-white flex items-center justify-center text-white shadow-lg' : 'w-10 h-10 rounded-full bg-pinkCoin/30 border-2 border-panelBorder flex items-center justify-center text-gray-500';
+            document.getElementById('matchSideBlue').className = side === 'blue' ? 'w-10 h-10 rounded-full bg-blueCoin border-2 border-white flex items-center justify-center text-white shadow-lg' : 'w-10 h-10 rounded-full bg-blueCoin/30 border-2 border-panelBorder flex items-center justify-center text-gray-500';
+        }
+
+        function updateCreateMatchSummary() {
+            const userPets = inventories[currentUser.username] || [];
+            const selectedPets = userPets.filter(p => selectedCreatePetIds.includes(p.id));
+            const totalVal = selectedPets.reduce((sum, p) => sum + p.value, 0);
+            document.getElementById('selectedWagerValue').textContent = totalVal.toLocaleString();
+            document.getElementById('selectedItemCount').textContent = selectedPets.length;
+        }
+
+        async function submitCreateMatch() {
+            if (selectedCreatePetIds.length === 0) return;
+            const userPets = inventories[currentUser.username] || [];
+            const wagerPets = userPets.filter(p => selectedCreatePetIds.includes(p.id));
+            const totalVal = wagerPets.reduce((sum, p) => sum + p.value, 0);
+
+            inventories[currentUser.username] = userPets.filter(p => !selectedCreatePetIds.includes(p.id));
+            saveState();
+
+            try {
+                await fetch('/api/matches/create', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        creator: currentUser.username,
+                        creatorAvatar: currentUser.avatar,
+                        side: selectedMatchSide,
+                        pets: wagerPets,
+                        totalValue: totalVal,
+                        minRange: Math.floor(totalVal * 0.8),
+                        maxRange: Math.ceil(totalVal * 1.2),
+                        petLimit: 50
+                    })
+                });
+                closeCreateMatchModal();
+                fetchServerMatches();
+                showNotification('success', 'Match created!');
+            } catch (e) {}
+        }
+
+        function openJoinMatchModal(matchId) {
+            if (!currentUser) { openLoginModal(); return; }
+            const match = publicMatches.find(m => m.id === matchId);
+            if (!match) return;
+
+            activeJoinMatchId = matchId;
+            selectedJoinPetIds = [];
+            document.getElementById('joinMatchInfo').innerHTML = `
+                <div class="flex justify-between font-bold">
+                    <span class="text-gray-300">Opponent: ${escapeHtml(match.creator)}</span>
+                    <span class="text-amber-400">Wager: ${match.totalValue} R$</span>
+                </div>
+            `;
+            document.getElementById('joinMatchModal').classList.remove('hidden');
+            renderJoinMatchInventory();
+            updateJoinMatchSummary();
+        }
+        function closeJoinMatchModal() { document.getElementById('joinMatchModal').classList.add('hidden'); }
+
+        function renderJoinMatchInventory() {
+            const container = document.getElementById('joinMatchInventory');
+            container.innerHTML = '';
+            const userPets = inventories[currentUser.username] || [];
+            if (userPets.length === 0) {
+                container.innerHTML = `<div class="col-span-2 text-center text-xs text-gray-500 py-4">No pets in inventory!</div>`;
+                return;
+            }
+            userPets.forEach(pet => {
+                const card = document.createElement('div');
+                const isSelected = selectedJoinPetIds.includes(pet.id);
+                card.className = `bg-cardBg p-2 rounded-lg border border-panelBorder cursor-pointer transition text-center ${isSelected ? 'pet-card-selected' : ''}`;
+                card.onclick = () => {
+                    const idx = selectedJoinPetIds.indexOf(pet.id);
+                    if (idx > -1) selectedJoinPetIds.splice(idx, 1);
+                    else selectedJoinPetIds.push(pet.id);
+                    renderJoinMatchInventory();
+                    updateJoinMatchSummary();
+                };
+                card.innerHTML = `
+                    <img src="${pet.image}" class="w-10 h-10 mx-auto object-contain mb-1">
+                    <span class="font-bold text-[10px] text-white block truncate">${escapeHtml(pet.name)}</span>
+                    <span class="text-[10px] text-amber-400 font-bold">${pet.value} R$</span>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function updateJoinMatchSummary() {
+            const userPets = inventories[currentUser.username] || [];
+            const selectedPets = userPets.filter(p => selectedJoinPetIds.includes(p.id));
+            const totalVal = selectedPets.reduce((sum, p) => sum + p.value, 0);
+            document.getElementById('joinWagerTotal').textContent = totalVal.toLocaleString() + ' R$';
+        }
+
+        async function confirmJoinMatch() {
+            const match = publicMatches.find(m => m.id === activeJoinMatchId);
+            if (!match) return;
+
+            const userPets = inventories[currentUser.username] || [];
+            const wagerPets = userPets.filter(p => selectedJoinPetIds.includes(p.id));
+            const joinValue = wagerPets.reduce((sum, p) => sum + p.value, 0);
+
+            inventories[currentUser.username] = userPets.filter(p => !selectedJoinPetIds.includes(p.id));
+            saveState();
+            closeJoinMatchModal();
+
+            const flipModal = document.getElementById('gameFlipModal');
+            const statusText = document.getElementById('modalFlipStatus');
+            const coin = document.getElementById('modalCoin');
+
+            flipModal.classList.remove('hidden');
+            statusText.textContent = "FLIPPING COIN...";
+
+            try {
+                const res = await fetch('/api/matches/resolve', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        matchId: activeJoinMatchId,
+                        joiner: currentUser.username,
+                        joinerAvatar: currentUser.avatar,
+                        joinerPets: wagerPets,
+                        joinerValue: joinValue
+                    })
+                });
+
+                const result = await res.json();
+                if (!res.ok) {
+                    showNotification('error', result.error);
+                    flipModal.classList.add('hidden');
+                    return;
+                }
+
+                coin.style.transition = 'none';
+                coin.className = 'coin';
+
+                setTimeout(() => {
+                    coin.style.transition = 'transform 3s cubic-bezier(0.15, 0.85, 0.35, 1.2)';
+                    if (result.outcome === 'heads') coin.classList.add('flip-heads');
+                    else coin.classList.add('flip-tails');
+                }, 50);
+
+                setTimeout(() => {
+                    if (!inventories[result.winner]) inventories[result.winner] = [];
+                    inventories[result.winner].push(...result.totalPets);
+                    saveState();
+
+                    statusText.innerHTML = `<span class="text-pinkAccent font-black text-lg">${result.winner.toUpperCase()} WON!</span>`;
+                    fetchServerMatches();
+
+                    setTimeout(() => { flipModal.classList.add('hidden'); }, 2500);
+                }, 3200);
+
+            } catch (e) { flipModal.classList.add('hidden'); }
+        }
+
+        function openSpectateModal(matchId) {
+            const match = publicMatches.find(m => m.id === matchId);
+            if (!match) return;
+
+            document.getElementById('specCreatorName').textContent = match.creator;
+            document.getElementById('specCreatorAvatar').src = match.creatorAvatar;
+            document.getElementById('specCreatorVal').textContent = match.totalValue.toLocaleString();
+
+            document.getElementById('specJoinerName').textContent = 'Waiting...';
+            document.getElementById('specJoinerAvatar').src = 'https://via.placeholder.com/150';
+            document.getElementById('specJoinerVal').textContent = match.totalValue.toLocaleString();
+
+            document.getElementById('specHash1').textContent = match.id + '46bb6dfc54ce42...';
+            document.getElementById('specHash2').textContent = '8c2239c9dab207fee5dc...';
+            document.getElementById('specHash3').textContent = '? 1ed3c85df666dd6d78bc...';
+
+            const creatorItemsBox = document.getElementById('specCreatorItems');
+            creatorItemsBox.innerHTML = '';
+            match.pets.forEach(p => {
+                creatorItemsBox.innerHTML += `
+                    <div class="flex items-center justify-between bg-darkBg p-2 rounded-lg border border-panelBorder text-xs">
+                        <div class="flex items-center space-x-2">
+                            <img src="${p.image}" class="w-6 h-6 object-contain">
+                            <span class="font-bold text-white">${escapeHtml(p.name)}</span>
+                        </div>
+                        <span class="font-extrabold text-pinkAccent">${p.value.toLocaleString()}</span>
+                    </div>
+                `;
+            });
+
+            document.getElementById('specJoinerItems').innerHTML = `<div class="text-center text-xs text-gray-500 py-4">Waiting for opponent...</div>`;
+            document.getElementById('spectateModal').classList.remove('hidden');
+        }
+
+        function closeSpectateModal() { document.getElementById('spectateModal').classList.add('hidden'); }
+
+        async function cancelMatch(matchId) {
+            if (!currentUser) return;
+            try {
+                const res = await fetch('/api/matches/cancel', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ matchId, username: currentUser.username })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    if (!inventories[currentUser.username]) inventories[currentUser.username] = [];
+                    inventories[currentUser.username].push(...data.returnedPets);
+                    saveState();
+                    fetchServerMatches();
+                    showNotification('success', 'Match canceled! Pets returned.');
+                }
+            } catch (e) {}
+        }
+
+        function openInventoryModal() {
+            if (!currentUser) return;
+            document.getElementById('userDropdownMenu').classList.add('hidden');
+            const container = document.getElementById('myFullInventoryList');
+            container.innerHTML = '';
+            const userPets = inventories[currentUser.username] || [];
+            if (userPets.length === 0) {
+                container.innerHTML = `<div class="col-span-4 text-center text-gray-500 py-8 text-xs">Inventory is empty.</div>`;
+            } else {
+                userPets.forEach(pet => {
+                    const card = document.createElement('div');
+                    card.className = 'bg-darkBg p-3 rounded-xl border border-panelBorder text-center shadow';
+                    card.innerHTML = `
+                        <img src="${pet.image}" class="w-12 h-12 mx-auto object-contain mb-2">
+                        <span class="font-extrabold text-xs text-white block truncate">${escapeHtml(pet.name)}</span>
+                        <span class="text-xs text-amber-400 font-black">${pet.value.toLocaleString()} R$</span>
+                    `;
+                    container.appendChild(card);
+                });
+            }
+            document.getElementById('inventoryModal').classList.remove('hidden');
+        }
+        function closeInventoryModal() { document.getElementById('inventoryModal').classList.add('hidden'); }
+
+        async function fetchRobloxProfileAPI() {
+            const username = document.getElementById('robloxUserSearch').value.trim();
+            if (username.length < 3) return;
+            const res = await fetch(`/api/roblox/user/${encodeURIComponent(username)}`);
+            const data = await res.json();
+            if (res.ok) {
+                fetchedRobloxUser = data;
+                document.getElementById('realRobloxUserPreview').textContent = data.username;
+                document.getElementById('realRobloxAvatarPreview').src = data.avatarUrl;
+                document.getElementById('authStep1').classList.add('hidden');
+                document.getElementById('authStep2').classList.remove('hidden');
+            }
+        }
+
+        function proceedToBioStep() {
+            generatedBioCode = 'PET-' + Math.random().toString(36).substring(2, 7).toUpperCase();
+            document.getElementById('bioVerificationCode').textContent = generatedBioCode;
+            document.getElementById('authStep2').classList.add('hidden');
+            document.getElementById('authStep3').classList.remove('hidden');
+        }
+
+        function copyBioCode() { navigator.clipboard.writeText(generatedBioCode); showNotification('success', 'Code copied!'); }
+
+        async function verifyRobloxBioAPI() {
+            const res = await fetch('/api/roblox/verify-bio', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ userId: fetchedRobloxUser.id, code: generatedBioCode })
+            });
+            const data = await res.json();
+            if (res.ok) {
+                currentUser = { id: fetchedRobloxUser.id, username: fetchedRobloxUser.username, avatar: fetchedRobloxUser.avatarUrl, isAdmin: fetchedRobloxUser.username.toLowerCase() === 'dedokxxreal' };
+                saveState();
+                applyUserLoggedInState();
+                closeLoginModal();
+                showNotification('success', 'Verified and logged in!');
+            }
+        }
+
+        function openLoginModal() { document.getElementById('loginModal').classList.remove('hidden'); resetAuthModal(); }
+        function closeLoginModal() { document.getElementById('loginModal').classList.add('hidden'); }
+        function resetAuthModal() {
+            document.getElementById('authStep1').classList.remove('hidden');
+            document.getElementById('authStep2').classList.add('hidden');
+            document.getElementById('authStep3').classList.add('hidden');
+        }
+
+        function logout() { currentUser = null; saveState(); window.location.reload(); }
+
+        function openAdminModal() {
+            if (!currentUser || currentUser.username.toLowerCase() !== 'dedokxxreal') return;
+            const select = document.getElementById('adminTargetUser');
+            select.innerHTML = '';
+            Object.keys(inventories).forEach(usr => {
+                const opt = document.createElement('option');
+                opt.value = usr; opt.textContent = usr;
+                select.appendChild(opt);
+            });
+            document.getElementById('adminModal').classList.remove('hidden');
+            renderAdminUserInventory();
+        }
+        function closeAdminModal() { document.getElementById('adminModal').classList.add('hidden'); }
+
+        function renderAdminUserInventory() {
+            const targetUser = document.getElementById('adminTargetUser').value;
+            const container = document.getElementById('adminUserPetList');
+            container.innerHTML = '';
+            if (!targetUser || !inventories[targetUser]) return;
+            inventories[targetUser].forEach(pet => {
+                const card = document.createElement('div');
+                card.className = 'flex items-center justify-between bg-cardBg p-2 rounded border border-panelBorder text-xs';
+                card.innerHTML = `
+                    <span class="text-white font-bold truncate">${escapeHtml(pet.name)}</span>
+                    <button onclick="adminRemovePet('${targetUser}', ${pet.id})" class="text-red-400 hover:text-red-300 text-xs px-2 py-1 bg-red-950/40 rounded border border-red-800">Delete</button>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function adminAddPet(e) {
+            e.preventDefault();
+            const targetUser = document.getElementById('adminTargetUser').value;
+            const petName = document.getElementById('adminPetName').value.trim();
+            const petImage = document.getElementById('adminPetImage').value.trim();
+            const petValue = parseInt(document.getElementById('adminPetValue').value);
+            if (!inventories[targetUser]) inventories[targetUser] = [];
+            inventories[targetUser].push({ id: Date.now(), name: petName, image: petImage, value: petValue });
+            saveState(); renderAdminUserInventory();
+            showNotification('success', 'Pet added by admin!');
+        }
+
+        function adminRemovePet(targetUser, petId) {
+            if (!inventories[targetUser]) return;
+            inventories[targetUser] = inventories[targetUser].filter(p => p.id !== petId);
+            saveState(); renderAdminUserInventory();
+            showNotification('success', 'Pet removed by admin!');
+        }
+
+        function showNotification(type, message) {
+            const toast = document.getElementById('notificationToast');
+            document.getElementById('toastMessage').textContent = message;
+            
+            if (toastTimeout) clearTimeout(toastTimeout);
+
+            toast.classList.remove('translate-x-full', 'opacity-0', 'pointer-events-none');
+            toast.classList.add('translate-x-0', 'opacity-100');
+
+            toastTimeout = setTimeout(() => { hideNotification(); }, 3000);
+        }
+
+        function hideNotification() {
+            const toast = document.getElementById('notificationToast');
+            toast.classList.add('translate-x-full', 'opacity-0', 'pointer-events-none');
+            toast.classList.remove('translate-x-0', 'opacity-100');
+        }
+
+        function escapeHtml(str) { return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+    </script>
 </body>
 </html>
