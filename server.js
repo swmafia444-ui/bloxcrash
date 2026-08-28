@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const fetch = require('node-fetch');
+const path = require('path');
 
 const app = express();
 
@@ -171,6 +172,11 @@ app.post('/api/roblox/verify-bio', async (req, res) => {
             return res.status(400).json({ error: `Verification code "${code}" not found in bio.` });
         }
     } catch (err) { res.status(500).json({ error: 'Bio verification failed.' }); }
+});
+
+// CATCH-ALL ROUTE FOR FRONTEND (SPA ROUTING FIX)
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 const PORT = process.env.PORT || 3000;
