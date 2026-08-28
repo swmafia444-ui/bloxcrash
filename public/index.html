@@ -1,1 +1,1164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PetDuel - Roblox Coinflip Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#0F1117',
+                        cardBg: '#181A20',
+                        panelBorder: '#23262F',
+                        pinkAccent: '#FF2A85',
+                        pinkHover: '#E02374',
+                        blueCoin: '#1E62EC',
+                        pinkCoin: '#E6007A'
+                    }
+                }
+            }
+        }
+    </script>
 
+    <style>
+        html { scroll-behavior: smooth; }
+        body { background-color: #0B0E14; color: #E0E6ED; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #0F1117; }
+        ::-webkit-scrollbar-thumb { background: #23262F; border-radius: 4px; }
+        
+        .coin-container { perspective: 1000px; }
+        .coin { width: 110px; height: 110px; position: relative; transform-style: preserve-3d; transition: transform 3s cubic-bezier(0.15, 0.85, 0.35, 1.2); }
+        .coin .front, .coin .back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.4rem; border: 4px solid #FFF; box-shadow: 0 0 25px rgba(255, 42, 133, 0.4); }
+        .coin .front { background: #1E62EC; color: #FFF; }
+        .coin .back { background: #E6007A; color: #FFF; transform: rotateY(180deg); }
+        .flip-heads { transform: rotateY(1800deg); }
+        .flip-tails { transform: rotateY(1980deg); }
+        .pet-card-selected { border-color: #FF2A85 !important; background-color: rgba(255, 42, 133, 0.15) !important; }
+        
+        .pulse-spin { animation: spin 2s linear infinite; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- TOP NOTIFICATION BANNER -->
+    <div id="notificationToast" class="fixed top-4 right-4 z-50 flex items-center justify-between px-5 py-3.5 rounded-xl shadow-2xl bg-cardBg border border-panelBorder text-white transform transition-all duration-300 translate-x-full opacity-0 pointer-events-none">
+        <div class="flex items-center space-x-3 mr-4">
+            <i id="toastIcon" class="fa-solid fa-circle-info text-pinkAccent text-base"></i>
+            <span id="toastMessage" class="text-xs font-extrabold tracking-wide"></span>
+        </div>
+        <button onclick="hideNotification()" class="text-gray-400 hover:text-white text-xs"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="w-full bg-cardBg border-b border-panelBorder px-6 py-3.5 flex items-center justify-between sticky top-0 z-40">
+        <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-pinkAccent/10 border border-pinkAccent p-1.5 flex items-center justify-center">
+                <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png" alt="Logo" class="w-full h-full object-contain">
+            </div>
+            <div>
+                <h1 class="font-extrabold text-lg tracking-wide text-white flex items-center gap-1.5">
+                    PET<span class="text-pinkAccent">DUEL</span>
+                </h1>
+            </div>
+        </div>
+
+        <div class="flex items-center space-x-3">
+            <button id="adminPanelBtn" onclick="openAdminModal()" class="hidden bg-purple-600 hover:bg-purple-700 text-white font-bold px-3.5 py-2 rounded-xl text-xs transition flex items-center gap-2">
+                <i class="fa-solid fa-user-shield"></i> Admin Panel
+            </button>
+
+            <div id="authBox">
+                <button id="loginBtn" onclick="openLoginModal()" class="bg-pinkAccent hover:bg-pinkHover text-white font-extrabold px-5 py-2.5 rounded-xl text-xs transition flex items-center space-x-2 shadow-lg shadow-pinkAccent/20">
+                    <i class="fa-brands fa-roblox text-sm"></i> <span>Login with Roblox</span>
+                </button>
+
+                <div id="userProfileBadge" class="hidden flex items-center space-x-3">
+                    <button onclick="openInventoryModal()" class="bg-pinkAccent hover:bg-pinkHover text-white font-black px-6 py-2.5 rounded-xl text-xs tracking-wide transition shadow-lg shadow-pinkAccent/20">
+                        Inventory
+                    </button>
+                    <div class="flex items-center space-x-2.5 bg-darkBg border border-panelBorder px-3.5 py-1.5 rounded-full cursor-pointer hover:border-gray-500 transition" onclick="logout()" title="Click to logout">
+                        <img id="navRobloxAvatar" src="" class="w-8 h-8 rounded-full border border-panelBorder object-cover">
+                        <span id="navRobloxUser" class="font-black text-xs text-white"></span>
+                        <i class="fa-solid fa-right-from-bracket text-gray-500 text-xs ml-1"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN LAYOUT -->
+    <div class="flex-1 grid grid-cols-1 lg:grid-cols-5 gap-6 p-6 w-full">
+
+        <!-- LIVE CHAT -->
+        <aside class="lg:col-span-1 bg-cardBg rounded-2xl border border-panelBorder flex flex-col h-[650px] lg:h-full shadow-xl overflow-hidden">
+            <div class="p-4 border-b border-panelBorder bg-darkBg flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <h2 class="font-bold text-xs text-white uppercase tracking-wider">Live Chat</h2>
+                </div>
+                <span class="text-[10px] bg-cardBg px-2 py-0.5 rounded text-gray-400 border border-panelBorder" id="onlineCounter">14 Online</span>
+            </div>
+
+            <div id="chatMessages" class="flex-1 p-3 overflow-y-auto space-y-3 text-xs"></div>
+
+            <div class="p-3 border-t border-panelBorder bg-darkBg">
+                <form onsubmit="sendChatMessage(event)" class="flex gap-2">
+                    <input type="text" id="chatInput" placeholder="Login to chat..." disabled class="flex-1 bg-cardBg border border-panelBorder rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-pinkAccent transition-all">
+                    <button type="submit" id="chatSendBtn" disabled class="bg-pinkAccent hover:bg-pinkHover text-white font-bold px-3 py-2 rounded-lg text-xs transition"><i class="fa-solid fa-paper-plane"></i></button>
+                </form>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="lg:col-span-4 flex flex-col space-y-6">
+
+            <!-- METRICS BAR -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-cardBg p-4 rounded-xl border border-panelBorder">
+                    <span class="text-xl font-extrabold text-white block" id="allGamesCount">0</span>
+                    <span class="text-xs text-gray-400 font-semibold">All Games</span>
+                </div>
+                <div class="bg-cardBg p-4 rounded-xl border border-panelBorder">
+                    <span class="text-xl font-extrabold text-white flex items-center gap-1.5">
+                        <i class="fa-brands fa-roblox text-gray-400 text-sm"></i> <span id="totalValueCount">0</span>
+                    </span>
+                    <span class="text-xs text-gray-400 font-semibold">Total Value</span>
+                </div>
+                <div class="bg-cardBg p-4 rounded-xl border border-panelBorder">
+                    <span class="text-xl font-extrabold text-white block" id="openGamesCount">0</span>
+                    <span class="text-xs text-gray-400 font-semibold">Open Games</span>
+                </div>
+            </div>
+
+            <!-- ACTION BAR -->
+            <div class="flex items-center justify-between bg-cardBg p-4 rounded-xl border border-panelBorder">
+                <select class="bg-darkBg border border-panelBorder rounded-lg px-3 py-2 text-xs text-gray-300 font-bold">
+                    <option>High to low</option>
+                    <option>Low to high</option>
+                </select>
+                <button onclick="openCreateMatchModal()" class="bg-pinkAccent hover:bg-pinkHover text-white font-extrabold px-6 py-2.5 rounded-xl text-xs uppercase tracking-wider transition shadow-lg shadow-pinkAccent/20 flex items-center gap-2">
+                    <i class="fa-solid fa-plus"></i> Create
+                </button>
+            </div>
+
+            <!-- PUBLIC MATCHES FEED -->
+            <div id="matchesList" class="space-y-3"></div>
+        </main>
+    </div>
+
+    <!-- USER PROFILE STATS & TIP MODAL -->
+    <div id="userProfileModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-[#12141D] w-full max-w-sm rounded-2xl border border-panelBorder shadow-2xl p-6 text-center space-y-5">
+            <div class="flex justify-between items-center border-b border-panelBorder/50 pb-2">
+                <h3 class="font-extrabold text-xs text-gray-400 uppercase tracking-wider">User Profile</h3>
+                <button onclick="closeUserProfileModal()" class="text-gray-400 hover:text-white text-xs"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <div class="space-y-2">
+                <img id="profileModalAvatar" src="" class="w-20 h-20 mx-auto rounded-full border-2 border-pinkAccent object-cover bg-darkBg">
+                <h4 id="profileModalUsername" class="font-black text-lg text-white"></h4>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 bg-darkBg p-3 rounded-xl border border-panelBorder">
+                <div>
+                    <span class="text-[10px] text-gray-400 font-bold uppercase block">Total Pets</span>
+                    <span id="profileModalPetCount" class="font-extrabold text-sm text-white">0</span>
+                </div>
+                <div>
+                    <span class="text-[10px] text-gray-400 font-bold uppercase block">Total Value</span>
+                    <span id="profileModalValue" class="font-extrabold text-sm text-amber-400">0 R$</span>
+                </div>
+            </div>
+
+            <button onclick="openTipInventoryModal()" class="w-full py-3 rounded-xl bg-pinkAccent hover:bg-pinkHover text-white font-extrabold text-xs uppercase tracking-wider transition shadow-lg shadow-pinkAccent/20 flex items-center justify-center gap-2">
+                <i class="fa-solid fa-gift"></i> Tip User
+            </button>
+        </div>
+    </div>
+
+    <!-- TIP ITEM SELECTOR MODAL -->
+    <div id="tipInventoryModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-cardBg w-full max-w-md rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col max-h-[80vh]">
+            <div class="p-4 border-b border-panelBorder flex justify-between items-center bg-darkBg">
+                <h3 class="font-bold text-white text-sm">Select Item(s) to Tip <span id="tipTargetUsername" class="text-pinkAccent"></span></h3>
+                <button onclick="closeTipInventoryModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="p-4 flex-1 overflow-y-auto">
+                <div id="tipInventoryList" class="grid grid-cols-2 sm:grid-cols-3 gap-3"></div>
+            </div>
+            <div class="p-4 border-t border-panelBorder bg-darkBg flex items-center justify-between">
+                <span class="text-xs text-gray-400">Selected: <strong id="tipSelectedValue" class="text-amber-400">0 R$</strong></span>
+                <button onclick="confirmSendTip()" class="bg-pinkAccent hover:bg-pinkHover text-white font-extrabold px-6 py-2 rounded-xl text-xs uppercase">SEND TIP</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CREATE MATCH MODAL -->
+    <div id="createMatchModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-[#12141D] w-full max-w-4xl rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col p-6 space-y-6">
+            <div class="flex justify-between items-center">
+                <h3 class="font-black text-xl text-white">Create</h3>
+                <button onclick="closeCreateMatchModal()" class="text-gray-400 hover:text-white bg-cardBg px-2.5 py-1 rounded-lg border border-panelBorder text-xs"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <div class="flex flex-wrap items-center justify-between gap-4">
+                <div class="flex items-center space-x-3">
+                    <div class="bg-[#0B0D13] border border-panelBorder rounded-xl px-4 py-2 flex items-center space-x-2 text-xs font-extrabold text-white">
+                        <span>Selected value</span>
+                        <i class="fa-brands fa-roblox text-pinkAccent"></i>
+                        <span id="selectedWagerValue" class="text-pinkAccent">0</span>
+                    </div>
+                    <div class="bg-[#0B0D13] border border-panelBorder rounded-xl px-3 py-2 text-xs font-bold text-gray-400">
+                        <span id="selectedItemCount">0</span>/20 ITEMS
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-3 flex-1 justify-end">
+                    <div class="relative max-w-xs w-full">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-xs text-gray-500"></i>
+                        <input type="text" placeholder="Search items..." class="w-full bg-[#0B0D13] border border-panelBorder rounded-xl pl-8 pr-3 py-2 text-xs text-white focus:outline-none">
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-[#0B0D13] border border-panelBorder rounded-2xl p-12 min-h-[300px] flex flex-col items-center justify-center">
+                <div id="createMatchInventory" class="w-full grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-3 max-h-[280px] overflow-y-auto"></div>
+                <div id="emptyInventoryBox" class="text-center space-y-4 hidden">
+                    <p class="text-sm font-semibold text-gray-400">You do not have any available items.</p>
+                    <button onclick="openDepositModal()" class="bg-pinkAccent hover:bg-pinkHover text-white font-extrabold px-8 py-3 rounded-xl text-xs uppercase tracking-wider transition shadow-lg shadow-pinkAccent/20">
+                        + Deposit
+                    </button>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-end space-x-4 pt-2">
+                <div class="flex items-center space-x-2">
+                    <button type="button" id="matchSidePink" onclick="setMatchSide('pink')" class="w-10 h-10 rounded-full bg-pinkCoin border-2 border-white flex items-center justify-center text-white shadow-lg">
+                        <i class="fa-solid fa-paw text-sm"></i>
+                    </button>
+                    <button type="button" id="matchSideBlue" onclick="setMatchSide('blue')" class="w-10 h-10 rounded-full bg-blueCoin/30 border-2 border-panelBorder flex items-center justify-center text-gray-500">
+                        <i class="fa-solid fa-egg text-sm"></i>
+                    </button>
+                </div>
+                <button onclick="submitCreateMatch()" class="bg-pinkAccent hover:bg-pinkHover text-white font-extrabold px-12 py-3 rounded-xl text-sm transition shadow-lg">
+                    Create
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JOIN MATCH MODAL (DUEL SELECTIONS) -->
+    <div id="joinMatchModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-cardBg w-full max-w-lg rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div class="p-4 border-b border-panelBorder flex justify-between items-center bg-darkBg">
+                <h3 class="font-bold text-white text-sm">Join Pet Coin Flip Duel</h3>
+                <button onclick="closeJoinMatchModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="p-6 overflow-y-auto space-y-4">
+                <div id="joinMatchInfo" class="bg-darkBg p-3 rounded-xl border border-panelBorder text-xs space-y-1"></div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-300 uppercase mb-2">Select Your Pet(s) to Match Wager</label>
+                    <div id="joinMatchInventory" class="grid grid-cols-2 gap-3 max-h-48 overflow-y-auto p-2 bg-darkBg rounded-xl border border-panelBorder"></div>
+                    <div class="flex justify-between items-center mt-2 text-xs">
+                        <span class="text-gray-400">Your Selected Total:</span>
+                        <span id="joinWagerTotal" class="font-extrabold text-amber-400 text-sm">0 R$</span>
+                    </div>
+                </div>
+            </div>
+            <div class="p-4 border-t border-panelBorder bg-darkBg">
+                <button onclick="confirmJoinMatch()" class="w-full py-3 rounded-xl bg-pinkAccent hover:bg-pinkHover text-white font-extrabold text-sm uppercase tracking-wider transition">ACCEPT DUEL & FLIP</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- DEPOSIT MODAL -->
+    <div id="depositModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-[#12141D] w-full max-w-md rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col p-6 space-y-6 text-center">
+            <div class="flex justify-between items-center border-b border-panelBorder/50 pb-3">
+                <h3 class="font-black text-lg text-white">Deposit</h3>
+                <button onclick="closeDepositModal()" class="text-gray-400 hover:text-white bg-cardBg px-2.5 py-1 rounded-lg border border-panelBorder text-xs"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <div class="space-y-4">
+                <div class="w-12 h-12 rounded-full border-4 border-pinkAccent border-t-transparent animate-spin mx-auto"></div>
+                <h4 class="font-extrabold text-lg text-white">Join the official bot</h4>
+                <p class="text-xs text-gray-400 px-4 leading-relaxed">
+                    Join Adopt Me and the bot's game. You will enter the deposit queue automatically.
+                </p>
+
+                <div class="bg-[#1E141A] border border-pinkAccent/30 rounded-2xl p-4 text-left space-y-2">
+                    <div class="flex items-center space-x-2 text-pinkAccent font-extrabold text-[11px] tracking-wider uppercase">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <span>ONLY TRADE WITH THIS OFFICIAL BOT</span>
+                    </div>
+                    <div class="text-white font-extrabold text-lg tracking-wide">dedokgag2</div>
+                    <p class="text-[11px] text-gray-400 leading-relaxed">
+                        Ignore every other trade request. We will never ask you to trade with another account.
+                    </p>
+                </div>
+
+                <a href="https://www.roblox.com/share?code=bcf56020403ba845aa32ccbb336b8cd9&type=Server" target="_blank" class="block w-full py-3.5 rounded-xl bg-pinkAccent hover:bg-pinkHover text-white font-extrabold text-sm transition shadow-lg shadow-pinkAccent/20">
+                    Join Private Server
+                </a>
+
+                <span class="text-xs font-bold text-pinkAccent block">Join within 2:56</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- SPECTATE MODAL -->
+    <div id="spectateModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-[#12141D] w-full max-w-4xl rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col">
+            <div class="p-4 border-b border-panelBorder/50 flex justify-between items-center bg-[#0B0D13]">
+                <div class="w-full text-center">
+                    <h2 class="font-black text-xl text-white tracking-wider flex items-center justify-center gap-1">
+                        PET <span class="text-pinkAccent">DUEL</span>
+                    </h2>
+                </div>
+                <button onclick="closeSpectateModal()" class="text-gray-400 hover:text-white bg-cardBg px-2.5 py-1 rounded-lg border border-panelBorder text-xs"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="p-8 space-y-6">
+                <div class="flex items-center justify-around relative py-4">
+                    <div class="flex flex-col items-center space-y-2">
+                        <div class="relative">
+                            <img id="specCreatorAvatar" src="" class="w-16 h-16 rounded-full border-2 border-panelBorder object-cover">
+                            <span id="specCreatorSideBadge" class="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-blueCoin border-2 border-white flex items-center justify-center text-[10px]"></span>
+                        </div>
+                        <span id="specCreatorName" class="font-extrabold text-sm text-white"></span>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="w-24 h-24 rounded-full bg-pinkAccent p-2 shadow-2xl shadow-pinkAccent/30 flex items-center justify-center border-4 border-white pulse-spin">
+                            <div class="w-full h-full rounded-full border-2 border-dashed border-white/60 flex items-center justify-center">
+                                <i class="fa-solid fa-paw text-white text-3xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-center space-y-2">
+                        <div class="relative">
+                            <img id="specJoinerAvatar" src="" class="w-16 h-16 rounded-full border-2 border-panelBorder object-cover">
+                            <span id="specJoinerSideBadge" class="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-pinkCoin border-2 border-white flex items-center justify-center text-[10px]"></span>
+                        </div>
+                        <span id="specJoinerName" class="font-extrabold text-sm text-white"></span>
+                    </div>
+                </div>
+                <div class="grid grid-cols-3 gap-3">
+                    <div class="bg-cardBg p-2.5 rounded-lg border border-panelBorder text-center font-mono text-[10px] text-gray-400 truncate"><i class="fa-solid fa-shield-halved text-pinkAccent mr-1"></i> <span id="specHash1">46bb6dfc54ce42...</span></div>
+                    <div class="bg-cardBg p-2.5 rounded-lg border border-panelBorder text-center font-mono text-[10px] text-gray-400 truncate"><i class="fa-solid fa-key text-pinkAccent mr-1"></i> <span id="specHash2">8c2239c9dab207...</span></div>
+                    <div class="bg-cardBg p-2.5 rounded-lg border border-panelBorder text-center font-mono text-[10px] text-gray-400 truncate"><i class="fa-solid fa-circle-question text-pinkAccent mr-1"></i> <span id="specHash3">1ed3c85df666d6...</span></div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-cardBg p-3 rounded-xl border border-panelBorder flex justify-between items-center">
+                        <span class="font-extrabold text-xs text-white">50.00%</span>
+                        <span class="font-extrabold text-xs text-white flex items-center gap-1"><i class="fa-brands fa-roblox text-pinkAccent"></i> <span id="specCreatorVal">0</span></span>
+                    </div>
+                    <div class="bg-cardBg p-3 rounded-xl border border-panelBorder flex justify-between items-center">
+                        <span class="font-extrabold text-xs text-white">50.00%</span>
+                        <span class="font-extrabold text-xs text-white flex items-center gap-1"><i class="fa-brands fa-roblox text-pinkAccent"></i> <span id="specJoinerVal">0</span></span>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4 max-h-48 overflow-y-auto">
+                    <div id="specCreatorItems" class="space-y-2"></div>
+                    <div id="specJoinerItems" class="space-y-2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- INVENTORY MODAL -->
+    <div id="inventoryModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-cardBg w-full max-w-2xl rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col max-h-[80vh]">
+            <div class="p-4 border-b border-panelBorder flex justify-between items-center bg-darkBg">
+                <h3 class="font-bold text-white text-sm flex items-center gap-2"><i class="fa-solid fa-boxes-stacked text-pinkAccent"></i> My Pet Inventory</h3>
+                <button onclick="closeInventoryModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div id="myFullInventoryList" class="p-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 overflow-y-auto"></div>
+        </div>
+    </div>
+
+    <!-- LOGIN MODAL -->
+    <div id="loginModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-cardBg w-full max-w-md rounded-2xl border border-panelBorder shadow-2xl overflow-hidden">
+            <div class="p-4 border-b border-panelBorder flex justify-between items-center bg-darkBg">
+                <h3 class="font-bold text-white text-sm">Real Roblox Profile Verification</h3>
+                <button onclick="closeLoginModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="p-6">
+                <div id="authStep1" class="space-y-4">
+                    <input type="text" id="robloxUserSearch" placeholder="e.g. dedokxxreal" class="w-full bg-darkBg border border-panelBorder rounded-lg px-3 py-2 text-sm text-white focus:outline-none">
+                    <button onclick="fetchRobloxProfileAPI()" id="btnStep1" class="w-full py-2.5 rounded-lg bg-pinkAccent hover:bg-pinkHover text-white font-bold text-xs transition">Fetch Profile</button>
+                </div>
+
+                <div id="authStep2" class="space-y-4 hidden text-center">
+                    <img id="realRobloxAvatarPreview" src="" class="w-20 h-20 mx-auto rounded-full border-2 border-pinkAccent bg-darkBg object-cover">
+                    <span id="realRobloxUserPreview" class="font-extrabold text-white block"></span>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button onclick="resetAuthModal()" class="py-2 rounded-lg bg-darkBg border border-panelBorder text-gray-300 font-bold text-xs">Back</button>
+                        <button onclick="proceedToBioStep()" class="py-2 rounded-lg bg-pinkAccent text-white font-bold text-xs">Continue</button>
+                    </div>
+                </div>
+
+                <div id="authStep3" class="space-y-4 hidden">
+                    <div class="bg-darkBg p-3 rounded-lg border border-panelBorder flex items-center justify-between">
+                        <code id="bioVerificationCode" class="font-mono text-pinkAccent font-bold text-base">PET-89F2A</code>
+                        <button onclick="copyBioCode()" class="text-xs bg-cardBg text-white px-3 py-1 rounded border border-panelBorder">Copy</button>
+                    </div>
+                    <button onclick="verifyRobloxBioAPI()" id="btnVerifyBio" class="w-full py-3 rounded-lg bg-pinkAccent text-white font-extrabold text-xs uppercase">VERIFY BIO & LOGIN</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FLIP ANIMATION MODAL -->
+    <div id="gameFlipModal" class="fixed inset-0 bg-black/90 backdrop-blur-lg z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-cardBg w-full max-w-md rounded-2xl border border-panelBorder p-8 flex flex-col items-center justify-center text-center space-y-6">
+            <h3 class="text-xs font-extrabold text-gray-400 uppercase tracking-widest">DUEL IN PROGRESS</h3>
+            <div class="coin-container my-4">
+                <div id="modalCoin" class="coin">
+                    <div class="front"><i class="fa-solid fa-circle text-3xl"></i></div>
+                    <div class="back"><i class="fa-solid fa-circle text-3xl"></i></div>
+                </div>
+            </div>
+            <div id="modalFlipStatus" class="text-base font-extrabold text-white tracking-wide animate-pulse">FLIPPING COIN...</div>
+        </div>
+    </div>
+
+    <!-- ADMIN PANEL MODAL -->
+    <div id="adminModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-cardBg w-full max-w-xl rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div class="p-4 border-b border-panelBorder flex justify-between items-center bg-darkBg">
+                <h3 class="font-bold text-white text-sm">Admin Control Panel (dedokxxreal)</h3>
+                <button onclick="closeAdminModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="p-6 overflow-y-auto space-y-6">
+                <div class="bg-darkBg p-4 rounded-xl border border-panelBorder space-y-3">
+                    <h4 class="font-extrabold text-xs text-purple-400 uppercase">Add Pet to User Inventory</h4>
+                    <form onsubmit="adminAddPet(event)" class="space-y-3">
+                        <select id="adminTargetUser" onchange="renderAdminUserInventory()" class="w-full bg-cardBg border border-panelBorder rounded-lg px-3 py-2 text-xs font-bold text-white"></select>
+                        <div class="grid grid-cols-2 gap-3">
+                            <input type="text" id="adminPetName" placeholder="Pet Name" required class="w-full bg-cardBg border border-panelBorder rounded-lg px-3 py-2 text-xs text-white">
+                            <input type="number" id="adminPetValue" placeholder="Pet Value (R$)" min="1" required class="w-full bg-cardBg border border-panelBorder rounded-lg px-3 py-2 text-xs text-white">
+                        </div>
+                        <input type="url" id="adminPetImage" placeholder="Image URL" required class="w-full bg-cardBg border border-panelBorder rounded-lg px-3 py-2 text-xs text-white">
+                        <button type="submit" class="w-full py-2.5 rounded-lg bg-purple-600 text-white font-extrabold text-xs uppercase">GIVE PET</button>
+                    </form>
+                </div>
+                <div class="bg-darkBg p-4 rounded-xl border border-panelBorder space-y-3">
+                    <h4 class="font-extrabold text-xs text-red-400 uppercase">Delete User Pets</h4>
+                    <div id="adminUserPetList" class="grid grid-cols-2 gap-3 max-h-40 overflow-y-auto p-2 bg-cardBg rounded-lg border border-panelBorder"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        let currentUser = null;
+        let fetchedRobloxUser = null;
+        let generatedBioCode = "";
+        let selectedMatchSide = 'pink';
+        let toastTimeout = null;
+        let targetProfileUser = null;
+        let selectedTipPetIds = [];
+        let activeJoinMatchId = null;
+        let selectedJoinPetIds = [];
+
+        let inventories = JSON.parse(localStorage.getItem('petduel_inventories')) || {
+            "dedokxxreal": [
+                { id: 101, name: "Neon Unicorn", image: "https://cdn-icons-png.flaticon.com/512/616/616408.png", value: 35000 },
+                { id: 102, name: "Fly Duck", image: "https://cdn-icons-png.flaticon.com/512/616/616430.png", value: 25000 }
+            ],
+            "Builderman": [
+                { id: 201, name: "Dog", image: "https://cdn-icons-png.flaticon.com/512/616/616408.png", value: 500 }
+            ]
+        };
+
+        let publicMatches = [];
+        let selectedCreatePetIds = [];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            checkAuthSession();
+            initDynamicOnlineCounter();
+            loadPersistentChat();
+            fetchServerMatches();
+
+            // ANLIK YENİLEME (1 SANİYE)
+            setInterval(fetchServerMatches, 1000);
+            setInterval(loadPersistentChat, 1000);
+        });
+
+        function saveState() {
+            localStorage.setItem('petduel_inventories', JSON.stringify(inventories));
+            if (currentUser) localStorage.setItem('petduel_user', JSON.stringify(currentUser));
+            else localStorage.removeItem('petduel_user');
+        }
+
+        function checkAuthSession() {
+            const savedUser = localStorage.getItem('petduel_user');
+            if (savedUser) {
+                try { currentUser = JSON.parse(savedUser); applyUserLoggedInState(); } catch (e) { localStorage.removeItem('petduel_user'); }
+            }
+        }
+
+        function applyUserLoggedInState() {
+            if (!currentUser) return;
+            document.getElementById('loginBtn').classList.add('hidden');
+            document.getElementById('userProfileBadge').classList.remove('hidden');
+            document.getElementById('userProfileBadge').classList.add('flex');
+            document.getElementById('navRobloxUser').textContent = currentUser.username;
+            document.getElementById('navRobloxAvatar').src = currentUser.avatar;
+
+            if (currentUser.username.toLowerCase() === 'dedokxxreal') {
+                document.getElementById('adminPanelBtn').classList.remove('hidden');
+            } else {
+                document.getElementById('adminPanelBtn').classList.add('hidden');
+            }
+
+            const chatInput = document.getElementById('chatInput');
+            chatInput.disabled = false;
+            chatInput.placeholder = "Say something...";
+            document.getElementById('chatSendBtn').disabled = false;
+        }
+
+        function initDynamicOnlineCounter() {
+            setInterval(() => {
+                const count = Math.floor(Math.random() * (20 - 10 + 1)) + 10;
+                document.getElementById('onlineCounter').textContent = `${count} Online`;
+            }, 5000);
+        }
+
+        async function fetchServerMatches() {
+            try {
+                const res = await fetch('/api/matches');
+                publicMatches = await res.json();
+                renderMatches();
+            } catch (e) {}
+        }
+
+        async function loadPersistentChat() {
+            try {
+                const res = await fetch('/api/chat');
+                const messages = await res.json();
+                const chatBox = document.getElementById('chatMessages');
+                chatBox.innerHTML = '';
+                messages.forEach(m => {
+                    const msgEl = document.createElement('div');
+                    msgEl.className = 'flex items-start space-x-2 bg-darkBg p-2 rounded-lg border border-panelBorder cursor-pointer hover:border-pinkAccent transition';
+                    msgEl.onclick = () => openUserProfileModal(m.username, m.avatar);
+                    msgEl.innerHTML = `
+                        <img src="${m.avatar}" class="w-6 h-6 rounded-full border border-panelBorder mt-0.5 object-cover">
+                        <div class="flex-1 overflow-hidden">
+                            <div class="flex items-center justify-between">
+                                <span class="font-bold text-white text-[11px] truncate">${escapeHtml(m.username)}</span>
+                                <span class="text-[9px] text-gray-500">${m.time}</span>
+                            </div>
+                            <p class="text-gray-300 text-[11px] break-words mt-0.5">${escapeHtml(m.msg)}</p>
+                        </div>
+                    `;
+                    chatBox.appendChild(msgEl);
+                });
+            } catch (e) {}
+        }
+
+        async function sendChatMessage(e) {
+            e.preventDefault();
+            if (!currentUser) return;
+            const input = document.getElementById('chatInput');
+            const msg = input.value.trim();
+            if (!msg) return;
+
+            try {
+                await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: currentUser.username, avatar: currentUser.avatar, msg })
+                });
+                input.value = '';
+                loadPersistentChat();
+            } catch (e) {}
+        }
+
+        function openUserProfileModal(username, avatar) {
+            targetProfileUser = { username, avatar };
+            const userPets = inventories[username] || [];
+            const totalVal = userPets.reduce((sum, p) => sum + p.value, 0);
+
+            document.getElementById('profileModalUsername').textContent = username;
+            document.getElementById('profileModalAvatar').src = avatar;
+            document.getElementById('profileModalPetCount').textContent = userPets.length;
+            document.getElementById('profileModalValue').textContent = totalVal.toLocaleString() + ' R$';
+
+            document.getElementById('userProfileModal').classList.remove('hidden');
+        }
+
+        function closeUserProfileModal() {
+            document.getElementById('userProfileModal').classList.add('hidden');
+        }
+
+        function openTipInventoryModal() {
+            if (!currentUser) { openLoginModal(); return; }
+            if (currentUser.username.toLowerCase() === targetProfileUser.username.toLowerCase()) {
+                showNotification('error', 'You cannot tip yourself.');
+                return;
+            }
+
+            selectedTipPetIds = [];
+            closeUserProfileModal();
+
+            document.getElementById('tipTargetUsername').textContent = `@${targetProfileUser.username}`;
+            document.getElementById('tipInventoryModal').classList.remove('hidden');
+            renderTipInventory();
+            updateTipSummary();
+        }
+
+        function closeTipInventoryModal() {
+            document.getElementById('tipInventoryModal').classList.add('hidden');
+        }
+
+        function renderTipInventory() {
+            const container = document.getElementById('tipInventoryList');
+            container.innerHTML = '';
+            const myPets = inventories[currentUser.username] || [];
+
+            if (myPets.length === 0) {
+                container.innerHTML = `<div class="col-span-3 text-center text-xs text-gray-500 py-6">Your inventory is empty.</div>`;
+                return;
+            }
+
+            myPets.forEach(pet => {
+                const card = document.createElement('div');
+                const isSelected = selectedTipPetIds.includes(pet.id);
+                card.className = `bg-darkBg p-2 rounded-xl border border-panelBorder cursor-pointer transition text-center ${isSelected ? 'pet-card-selected' : ''}`;
+                card.onclick = () => {
+                    const idx = selectedTipPetIds.indexOf(pet.id);
+                    if (idx > -1) selectedTipPetIds.splice(idx, 1);
+                    else selectedTipPetIds.push(pet.id);
+                    renderTipInventory();
+                    updateTipSummary();
+                };
+                card.innerHTML = `
+                    <img src="${pet.image}" class="w-10 h-10 mx-auto object-contain mb-1">
+                    <span class="font-extrabold text-[10px] text-white block truncate">${escapeHtml(pet.name)}</span>
+                    <span class="text-[10px] text-amber-400 font-bold">${pet.value} R$</span>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function updateTipSummary() {
+            const myPets = inventories[currentUser.username] || [];
+            const selectedPets = myPets.filter(p => selectedTipPetIds.includes(p.id));
+            const totalVal = selectedPets.reduce((sum, p) => sum + p.value, 0);
+            document.getElementById('tipSelectedValue').textContent = totalVal.toLocaleString() + ' R$';
+        }
+
+        function confirmSendTip() {
+            if (selectedTipPetIds.length === 0) {
+                showNotification('error', 'Select at least one pet to tip.');
+                return;
+            }
+
+            const myPets = inventories[currentUser.username] || [];
+            const tippedPets = myPets.filter(p => selectedTipPetIds.includes(p.id));
+
+            inventories[currentUser.username] = myPets.filter(p => !selectedTipPetIds.includes(p.id));
+
+            if (!inventories[targetProfileUser.username]) inventories[targetProfileUser.username] = [];
+            inventories[targetProfileUser.username].push(...tippedPets);
+
+            saveState();
+            closeTipInventoryModal();
+            showNotification('success', `Successfully tipped ${tippedPets.length} pet(s) to ${targetProfileUser.username}!`);
+        }
+
+        function renderMatches() {
+            const container = document.getElementById('matchesList');
+            document.getElementById('allGamesCount').textContent = publicMatches.length + 5;
+            document.getElementById('openGamesCount').textContent = publicMatches.length;
+
+            const totalVal = publicMatches.reduce((sum, m) => sum + m.totalValue, 0);
+            document.getElementById('totalValueCount').textContent = (totalVal / 1000).toFixed(1) + 'k';
+
+            container.innerHTML = '';
+            if (publicMatches.length === 0) {
+                container.innerHTML = `<div class="text-center text-gray-500 py-12 text-xs bg-cardBg rounded-xl border border-panelBorder">No active matches online. Click "Create" to post one!</div>`;
+                return;
+            }
+
+            publicMatches.forEach(match => {
+                const card = document.createElement('div');
+                card.className = 'bg-cardBg rounded-xl border border-panelBorder p-4 flex flex-col md:flex-row items-center justify-between gap-4 shadow-md';
+
+                let visiblePets = match.pets.slice(0, 4);
+                let extraCount = match.pets.length - 4;
+
+                let petsHtml = visiblePets.map(p => `
+                    <div class="relative w-10 h-10 rounded-full bg-darkBg border border-panelBorder p-1 flex items-center justify-center">
+                        <img src="${p.image}" class="w-full h-full object-contain">
+                    </div>
+                `).join('');
+
+                if (extraCount > 0) {
+                    petsHtml += `<div class="w-8 h-8 rounded-full bg-darkBg border border-panelBorder flex items-center justify-center text-[10px] font-bold text-white">+${extraCount}</div>`;
+                }
+
+                const isMyMatch = currentUser && match.creator.toLowerCase() === currentUser.username.toLowerCase();
+
+                card.innerHTML = `
+                    <div class="flex items-center space-x-3">
+                        <div class="relative cursor-pointer" onclick="openUserProfileModal('${match.creator}', '${match.creatorAvatar}')">
+                            <img src="${match.creatorAvatar}" class="w-10 h-10 rounded-full border-2 border-darkBg object-cover">
+                            <span class="absolute -top-1 -right-1 w-4 h-4 rounded-full ${match.side === 'blue' ? 'bg-blueCoin' : 'bg-pinkCoin'} border border-white flex items-center justify-center text-[8px]"></span>
+                        </div>
+                        <span class="text-xs font-bold text-gray-500">VS</span>
+                        <div class="relative">
+                            <div class="w-10 h-10 rounded-full bg-darkBg border border-panelBorder flex items-center justify-center text-gray-400 font-bold text-xs">?</div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center space-x-2 flex-1 overflow-x-auto justify-start md:justify-center">
+                        ${petsHtml}
+                    </div>
+
+                    <div class="flex items-center space-x-4">
+                        <div class="text-right">
+                            <span class="text-sm font-extrabold text-white flex items-center gap-1 justify-end">
+                                <i class="fa-brands fa-roblox text-xs text-gray-400"></i> ${match.totalValue.toLocaleString()}
+                            </span>
+                        </div>
+
+                        ${isMyMatch ? `
+                            <button onclick="cancelMatch('${match.id}')" class="bg-red-600 hover:bg-red-700 text-white font-bold px-4 py-2 rounded-xl text-xs transition">
+                                Cancel
+                            </button>
+                        ` : `
+                            <button onclick="openJoinMatchModal('${match.id}')" class="bg-pinkAccent hover:bg-pinkHover text-white font-bold px-5 py-2 rounded-xl text-xs transition shadow-lg shadow-pinkAccent/20">
+                                Join
+                            </button>
+                        `}
+
+                        <button onclick="openSpectateModal('${match.id}')" class="bg-darkBg hover:bg-panelBorder text-gray-300 px-3 py-2 rounded-xl border border-panelBorder text-xs transition" title="View Match">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function openCreateMatchModal() {
+            if (!currentUser) { openLoginModal(); return; }
+            selectedCreatePetIds = [];
+            document.getElementById('createMatchModal').classList.remove('hidden');
+            renderCreateMatchInventory();
+            updateCreateMatchSummary();
+        }
+        function closeCreateMatchModal() { document.getElementById('createMatchModal').classList.add('hidden'); }
+
+        function openDepositModal() {
+            closeCreateMatchModal();
+            document.getElementById('depositModal').classList.remove('hidden');
+        }
+        function closeDepositModal() { document.getElementById('depositModal').classList.add('hidden'); }
+
+        function renderCreateMatchInventory() {
+            const container = document.getElementById('createMatchInventory');
+            const emptyBox = document.getElementById('emptyInventoryBox');
+            container.innerHTML = '';
+            
+            const userPets = inventories[currentUser.username] || [];
+            if (userPets.length === 0) {
+                container.classList.add('hidden');
+                emptyBox.classList.remove('hidden');
+                return;
+            }
+
+            container.classList.remove('hidden');
+            emptyBox.classList.add('hidden');
+
+            userPets.forEach(pet => {
+                const card = document.createElement('div');
+                const isSelected = selectedCreatePetIds.includes(pet.id);
+                card.className = `bg-cardBg p-3 rounded-xl border border-panelBorder cursor-pointer transition text-center ${isSelected ? 'pet-card-selected' : ''}`;
+                card.onclick = () => {
+                    const idx = selectedCreatePetIds.indexOf(pet.id);
+                    if (idx > -1) selectedCreatePetIds.splice(idx, 1);
+                    else selectedCreatePetIds.push(pet.id);
+                    renderCreateMatchInventory();
+                    updateCreateMatchSummary();
+                };
+                card.innerHTML = `
+                    <img src="${pet.image}" class="w-12 h-12 mx-auto object-contain mb-2">
+                    <span class="font-extrabold text-xs text-white block truncate">${escapeHtml(pet.name)}</span>
+                    <span class="text-xs text-amber-400 font-black">${pet.value} R$</span>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function setMatchSide(side) {
+            selectedMatchSide = side;
+            document.getElementById('matchSidePink').className = side === 'pink' ? 'w-10 h-10 rounded-full bg-pinkCoin border-2 border-white flex items-center justify-center text-white shadow-lg' : 'w-10 h-10 rounded-full bg-pinkCoin/30 border-2 border-panelBorder flex items-center justify-center text-gray-500';
+            document.getElementById('matchSideBlue').className = side === 'blue' ? 'w-10 h-10 rounded-full bg-blueCoin border-2 border-white flex items-center justify-center text-white shadow-lg' : 'w-10 h-10 rounded-full bg-blueCoin/30 border-2 border-panelBorder flex items-center justify-center text-gray-500';
+        }
+
+        function updateCreateMatchSummary() {
+            const userPets = inventories[currentUser.username] || [];
+            const selectedPets = userPets.filter(p => selectedCreatePetIds.includes(p.id));
+            const totalVal = selectedPets.reduce((sum, p) => sum + p.value, 0);
+            document.getElementById('selectedWagerValue').textContent = totalVal.toLocaleString();
+            document.getElementById('selectedItemCount').textContent = selectedPets.length;
+        }
+
+        async function submitCreateMatch() {
+            if (selectedCreatePetIds.length === 0) return;
+            const userPets = inventories[currentUser.username] || [];
+            const wagerPets = userPets.filter(p => selectedCreatePetIds.includes(p.id));
+            const totalVal = wagerPets.reduce((sum, p) => sum + p.value, 0);
+
+            inventories[currentUser.username] = userPets.filter(p => !selectedCreatePetIds.includes(p.id));
+            saveState();
+
+            try {
+                await fetch('/api/matches/create', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        creator: currentUser.username,
+                        creatorAvatar: currentUser.avatar,
+                        side: selectedMatchSide,
+                        pets: wagerPets,
+                        totalValue: totalVal,
+                        minRange: Math.floor(totalVal * 0.8),
+                        maxRange: Math.ceil(totalVal * 1.2),
+                        petLimit: 50
+                    })
+                });
+                closeCreateMatchModal();
+                fetchServerMatches();
+                showNotification('success', 'Match created!');
+            } catch (e) {}
+        }
+
+        function openJoinMatchModal(matchId) {
+            if (!currentUser) { openLoginModal(); return; }
+            const match = publicMatches.find(m => m.id === matchId);
+            if (!match) return;
+
+            activeJoinMatchId = matchId;
+            selectedJoinPetIds = [];
+            document.getElementById('joinMatchInfo').innerHTML = `
+                <div class="flex justify-between font-bold">
+                    <span class="text-gray-300">Opponent: ${escapeHtml(match.creator)}</span>
+                    <span class="text-amber-400">Wager: ${match.totalValue} R$</span>
+                </div>
+            `;
+            document.getElementById('joinMatchModal').classList.remove('hidden');
+            renderJoinMatchInventory();
+            updateJoinMatchSummary();
+        }
+        function closeJoinMatchModal() { document.getElementById('joinMatchModal').classList.add('hidden'); }
+
+        function renderJoinMatchInventory() {
+            const container = document.getElementById('joinMatchInventory');
+            container.innerHTML = '';
+            const userPets = inventories[currentUser.username] || [];
+            if (userPets.length === 0) {
+                container.innerHTML = `<div class="col-span-2 text-center text-xs text-gray-500 py-4">No pets in inventory!</div>`;
+                return;
+            }
+            userPets.forEach(pet => {
+                const card = document.createElement('div');
+                const isSelected = selectedJoinPetIds.includes(pet.id);
+                card.className = `bg-cardBg p-2 rounded-lg border border-panelBorder cursor-pointer transition text-center ${isSelected ? 'pet-card-selected' : ''}`;
+                card.onclick = () => {
+                    const idx = selectedJoinPetIds.indexOf(pet.id);
+                    if (idx > -1) selectedJoinPetIds.splice(idx, 1);
+                    else selectedJoinPetIds.push(pet.id);
+                    renderJoinMatchInventory();
+                    updateJoinMatchSummary();
+                };
+                card.innerHTML = `
+                    <img src="${pet.image}" class="w-10 h-10 mx-auto object-contain mb-1">
+                    <span class="font-bold text-[10px] text-white block truncate">${escapeHtml(pet.name)}</span>
+                    <span class="text-[10px] text-amber-400 font-bold">${pet.value} R$</span>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function updateJoinMatchSummary() {
+            const userPets = inventories[currentUser.username] || [];
+            const selectedPets = userPets.filter(p => selectedJoinPetIds.includes(p.id));
+            const totalVal = selectedPets.reduce((sum, p) => sum + p.value, 0);
+            document.getElementById('joinWagerTotal').textContent = totalVal.toLocaleString() + ' R$';
+        }
+
+        async function confirmJoinMatch() {
+            const match = publicMatches.find(m => m.id === activeJoinMatchId);
+            if (!match) return;
+
+            const userPets = inventories[currentUser.username] || [];
+            const wagerPets = userPets.filter(p => selectedJoinPetIds.includes(p.id));
+            const joinValue = wagerPets.reduce((sum, p) => sum + p.value, 0);
+
+            inventories[currentUser.username] = userPets.filter(p => !selectedJoinPetIds.includes(p.id));
+            saveState();
+            closeJoinMatchModal();
+
+            const flipModal = document.getElementById('gameFlipModal');
+            const statusText = document.getElementById('modalFlipStatus');
+            const coin = document.getElementById('modalCoin');
+
+            flipModal.classList.remove('hidden');
+            statusText.textContent = "FLIPPING COIN...";
+
+            try {
+                const res = await fetch('/api/matches/resolve', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        matchId: activeJoinMatchId,
+                        joiner: currentUser.username,
+                        joinerAvatar: currentUser.avatar,
+                        joinerPets: wagerPets,
+                        joinerValue: joinValue
+                    })
+                });
+
+                const result = await res.json();
+                if (!res.ok) {
+                    showNotification('error', result.error);
+                    flipModal.classList.add('hidden');
+                    return;
+                }
+
+                coin.style.transition = 'none';
+                coin.className = 'coin';
+
+                setTimeout(() => {
+                    coin.style.transition = 'transform 3s cubic-bezier(0.15, 0.85, 0.35, 1.2)';
+                    if (result.outcome === 'heads') coin.classList.add('flip-heads');
+                    else coin.classList.add('flip-tails');
+                }, 50);
+
+                setTimeout(() => {
+                    if (!inventories[result.winner]) inventories[result.winner] = [];
+                    inventories[result.winner].push(...result.totalPets);
+                    saveState();
+
+                    statusText.innerHTML = `<span class="text-pinkAccent font-black text-lg">${result.winner.toUpperCase()} WON!</span>`;
+                    fetchServerMatches();
+
+                    setTimeout(() => { flipModal.classList.add('hidden'); }, 2500);
+                }, 3200);
+
+            } catch (e) { flipModal.classList.add('hidden'); }
+        }
+
+        function openSpectateModal(matchId) {
+            const match = publicMatches.find(m => m.id === matchId);
+            if (!match) return;
+
+            document.getElementById('specCreatorName').textContent = match.creator;
+            document.getElementById('specCreatorAvatar').src = match.creatorAvatar;
+            document.getElementById('specCreatorVal').textContent = match.totalValue.toLocaleString();
+
+            document.getElementById('specJoinerName').textContent = 'Waiting...';
+            document.getElementById('specJoinerAvatar').src = 'https://via.placeholder.com/150';
+            document.getElementById('specJoinerVal').textContent = match.totalValue.toLocaleString();
+
+            document.getElementById('specHash1').textContent = match.id + '46bb6dfc54ce42...';
+            document.getElementById('specHash2').textContent = '8c2239c9dab207fee5dc...';
+            document.getElementById('specHash3').textContent = '? 1ed3c85df666dd6d78bc...';
+
+            const creatorItemsBox = document.getElementById('specCreatorItems');
+            creatorItemsBox.innerHTML = '';
+            match.pets.forEach(p => {
+                creatorItemsBox.innerHTML += `
+                    <div class="flex items-center justify-between bg-darkBg p-2 rounded-lg border border-panelBorder text-xs">
+                        <div class="flex items-center space-x-2">
+                            <img src="${p.image}" class="w-6 h-6 object-contain">
+                            <span class="font-bold text-white">${escapeHtml(p.name)}</span>
+                        </div>
+                        <span class="font-extrabold text-pinkAccent">${p.value.toLocaleString()}</span>
+                    </div>
+                `;
+            });
+
+            document.getElementById('specJoinerItems').innerHTML = `<div class="text-center text-xs text-gray-500 py-4">Waiting for opponent...</div>`;
+            document.getElementById('spectateModal').classList.remove('hidden');
+        }
+
+        function closeSpectateModal() { document.getElementById('spectateModal').classList.add('hidden'); }
+
+        async function cancelMatch(matchId) {
+            if (!currentUser) return;
+            try {
+                const res = await fetch('/api/matches/cancel', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ matchId, username: currentUser.username })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    if (!inventories[currentUser.username]) inventories[currentUser.username] = [];
+                    inventories[currentUser.username].push(...data.returnedPets);
+                    saveState();
+                    fetchServerMatches();
+                    showNotification('success', 'Match canceled! Pets returned.');
+                }
+            } catch (e) {}
+        }
+
+        function openInventoryModal() {
+            if (!currentUser) return;
+            const container = document.getElementById('myFullInventoryList');
+            container.innerHTML = '';
+            const userPets = inventories[currentUser.username] || [];
+            if (userPets.length === 0) {
+                container.innerHTML = `<div class="col-span-4 text-center text-gray-500 py-8 text-xs">Inventory is empty.</div>`;
+            } else {
+                userPets.forEach(pet => {
+                    const card = document.createElement('div');
+                    card.className = 'bg-darkBg p-3 rounded-xl border border-panelBorder text-center shadow';
+                    card.innerHTML = `
+                        <img src="${pet.image}" class="w-12 h-12 mx-auto object-contain mb-2">
+                        <span class="font-extrabold text-xs text-white block truncate">${escapeHtml(pet.name)}</span>
+                        <span class="text-xs text-amber-400 font-black">${pet.value.toLocaleString()} R$</span>
+                    `;
+                    container.appendChild(card);
+                });
+            }
+            document.getElementById('inventoryModal').classList.remove('hidden');
+        }
+        function closeInventoryModal() { document.getElementById('inventoryModal').classList.add('hidden'); }
+
+        async function fetchRobloxProfileAPI() {
+            const username = document.getElementById('robloxUserSearch').value.trim();
+            if (username.length < 3) return;
+            const res = await fetch(`/api/roblox/user/${encodeURIComponent(username)}`);
+            const data = await res.json();
+            if (res.ok) {
+                fetchedRobloxUser = data;
+                document.getElementById('realRobloxUserPreview').textContent = data.username;
+                document.getElementById('realRobloxAvatarPreview').src = data.avatarUrl;
+                document.getElementById('authStep1').classList.add('hidden');
+                document.getElementById('authStep2').classList.remove('hidden');
+            }
+        }
+
+        function proceedToBioStep() {
+            generatedBioCode = 'PET-' + Math.random().toString(36).substring(2, 7).toUpperCase();
+            document.getElementById('bioVerificationCode').textContent = generatedBioCode;
+            document.getElementById('authStep2').classList.add('hidden');
+            document.getElementById('authStep3').classList.remove('hidden');
+        }
+
+        function copyBioCode() { navigator.clipboard.writeText(generatedBioCode); showNotification('success', 'Code copied!'); }
+
+        async function verifyRobloxBioAPI() {
+            const res = await fetch('/api/roblox/verify-bio', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ userId: fetchedRobloxUser.id, code: generatedBioCode })
+            });
+            const data = await res.json();
+            if (res.ok) {
+                currentUser = { id: fetchedRobloxUser.id, username: fetchedRobloxUser.username, avatar: fetchedRobloxUser.avatarUrl, isAdmin: fetchedRobloxUser.username.toLowerCase() === 'dedokxxreal' };
+                saveState();
+                applyUserLoggedInState();
+                closeLoginModal();
+                showNotification('success', 'Verified and logged in!');
+            }
+        }
+
+        function openLoginModal() { document.getElementById('loginModal').classList.remove('hidden'); resetAuthModal(); }
+        function closeLoginModal() { document.getElementById('loginModal').classList.add('hidden'); }
+        function resetAuthModal() {
+            document.getElementById('authStep1').classList.remove('hidden');
+            document.getElementById('authStep2').classList.add('hidden');
+            document.getElementById('authStep3').classList.add('hidden');
+        }
+
+        function logout() { currentUser = null; saveState(); window.location.reload(); }
+
+        function openAdminModal() {
+            if (!currentUser || currentUser.username.toLowerCase() !== 'dedokxxreal') return;
+            const select = document.getElementById('adminTargetUser');
+            select.innerHTML = '';
+            Object.keys(inventories).forEach(usr => {
+                const opt = document.createElement('option');
+                opt.value = usr; opt.textContent = usr;
+                select.appendChild(opt);
+            });
+            document.getElementById('adminModal').classList.remove('hidden');
+            renderAdminUserInventory();
+        }
+        function closeAdminModal() { document.getElementById('adminModal').classList.add('hidden'); }
+
+        function renderAdminUserInventory() {
+            const targetUser = document.getElementById('adminTargetUser').value;
+            const container = document.getElementById('adminUserPetList');
+            container.innerHTML = '';
+            if (!targetUser || !inventories[targetUser]) return;
+            inventories[targetUser].forEach(pet => {
+                const card = document.createElement('div');
+                card.className = 'flex items-center justify-between bg-cardBg p-2 rounded border border-panelBorder text-xs';
+                card.innerHTML = `
+                    <span class="text-white font-bold truncate">${escapeHtml(pet.name)}</span>
+                    <button onclick="adminRemovePet('${targetUser}', ${pet.id})" class="text-red-400 hover:text-red-300 text-xs px-2 py-1 bg-red-950/40 rounded border border-red-800">Delete</button>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function adminAddPet(e) {
+            e.preventDefault();
+            const targetUser = document.getElementById('adminTargetUser').value;
+            const petName = document.getElementById('adminPetName').value.trim();
+            const petImage = document.getElementById('adminPetImage').value.trim();
+            const petValue = parseInt(document.getElementById('adminPetValue').value);
+            if (!inventories[targetUser]) inventories[targetUser] = [];
+            inventories[targetUser].push({ id: Date.now(), name: petName, image: petImage, value: petValue });
+            saveState(); renderAdminUserInventory();
+            showNotification('success', 'Pet added by admin!');
+        }
+
+        function adminRemovePet(targetUser, petId) {
+            if (!inventories[targetUser]) return;
+            inventories[targetUser] = inventories[targetUser].filter(p => p.id !== petId);
+            saveState(); renderAdminUserInventory();
+            showNotification('success', 'Pet removed by admin!');
+        }
+
+        function showNotification(type, message) {
+            const toast = document.getElementById('notificationToast');
+            document.getElementById('toastMessage').textContent = message;
+            
+            if (toastTimeout) clearTimeout(toastTimeout);
+
+            toast.classList.remove('translate-x-full', 'opacity-0', 'pointer-events-none');
+            toast.classList.add('translate-x-0', 'opacity-100');
+
+            toastTimeout = setTimeout(() => { hideNotification(); }, 3000);
+        }
+
+        function hideNotification() {
+            const toast = document.getElementById('notificationToast');
+            toast.classList.add('translate-x-full', 'opacity-0', 'pointer-events-none');
+            toast.classList.remove('translate-x-0', 'opacity-100');
+        }
+
+        function escapeHtml(str) { return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+    </script>
+</body>
+</html>
