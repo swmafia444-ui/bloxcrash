@@ -81,14 +81,41 @@
                     <i class="fa-brands fa-roblox text-sm"></i> <span>Login with Roblox</span>
                 </button>
 
-                <div id="userProfileBadge" class="hidden flex items-center space-x-3">
+                <div id="userProfileBadge" class="hidden flex items-center space-x-3 relative">
                     <button onclick="openInventoryModal()" class="bg-pinkAccent hover:bg-pinkHover text-white font-black px-6 py-2.5 rounded-xl text-xs tracking-wide transition shadow-lg shadow-pinkAccent/20">
                         Inventory
                     </button>
-                    <div class="flex items-center space-x-2.5 bg-darkBg border border-panelBorder px-3.5 py-1.5 rounded-full cursor-pointer hover:border-gray-500 transition" onclick="logout()" title="Click to logout">
-                        <img id="navRobloxAvatar" src="" class="w-8 h-8 rounded-full border border-panelBorder object-cover">
-                        <span id="navRobloxUser" class="font-black text-xs text-white"></span>
-                        <i class="fa-solid fa-right-from-bracket text-gray-500 text-xs ml-1"></i>
+                    
+                    <!-- USER DROPDOWN TRIGGER -->
+                    <div class="relative">
+                        <div class="flex items-center space-x-2.5 bg-darkBg border border-panelBorder px-3.5 py-1.5 rounded-full cursor-pointer hover:border-pinkAccent transition" onclick="toggleUserDropdown(event)">
+                            <img id="navRobloxAvatar" src="" class="w-8 h-8 rounded-full border border-panelBorder object-cover">
+                            <span id="navRobloxUser" class="font-black text-xs text-white"></span>
+                            <i class="fa-solid fa-chevron-down text-gray-400 text-[10px] ml-1"></i>
+                        </div>
+
+                        <!-- DROPDOWN MENU -->
+                        <div id="userDropdownMenu" class="hidden absolute right-0 mt-2 w-52 bg-[#12141D] border border-panelBorder/80 rounded-2xl shadow-2xl p-2 z-50 space-y-1">
+                            <button onclick="openMyProfileModal()" class="w-full text-left px-3.5 py-2.5 rounded-xl hover:bg-pinkAccent/10 text-xs font-bold text-gray-300 hover:text-pinkAccent flex items-center gap-3 transition">
+                                <i class="fa-solid fa-user text-pinkAccent"></i> Profile
+                            </button>
+                            <button onclick="openInventoryModal()" class="w-full text-left px-3.5 py-2.5 rounded-xl hover:bg-pinkAccent/10 text-xs font-bold text-gray-300 hover:text-white flex items-center gap-3 transition">
+                                <i class="fa-solid fa-boxes-stacked text-gray-400"></i> Inventory
+                            </button>
+                            <button onclick="openTransactionsModal()" class="w-full text-left px-3.5 py-2.5 rounded-xl hover:bg-pinkAccent/10 text-xs font-bold text-gray-300 hover:text-white flex items-center gap-3 transition">
+                                <i class="fa-solid fa-receipt text-gray-400"></i> Transactions
+                            </button>
+                            <button onclick="showNotification('info', 'Giveaways coming soon!')" class="w-full text-left px-3.5 py-2.5 rounded-xl hover:bg-pinkAccent/10 text-xs font-bold text-gray-300 hover:text-white flex items-center gap-3 transition">
+                                <i class="fa-solid fa-gift text-gray-400"></i> Giveaway
+                            </button>
+                            <button onclick="showNotification('info', 'Settings menu coming soon!')" class="w-full text-left px-3.5 py-2.5 rounded-xl hover:bg-pinkAccent/10 text-xs font-bold text-gray-300 hover:text-white flex items-center gap-3 transition">
+                                <i class="fa-solid fa-gear text-gray-400"></i> Settings
+                            </button>
+                            <div class="border-t border-panelBorder/50 my-1"></div>
+                            <button onclick="logout()" class="w-full text-left px-3.5 py-2.5 rounded-xl hover:bg-red-500/10 text-xs font-bold text-pinkAccent hover:text-red-400 flex items-center gap-3 transition">
+                                <i class="fa-solid fa-right-from-bracket"></i> Logout
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -156,7 +183,7 @@
     </div>
 
     <!-- USER PROFILE STATS & TIP MODAL -->
-    <div id="userProfileModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+    <div id="userProfileModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'userProfileModal')">
         <div class="bg-[#12141D] w-full max-w-sm rounded-2xl border border-panelBorder shadow-2xl p-6 text-center space-y-5">
             <div class="flex justify-between items-center border-b border-panelBorder/50 pb-2">
                 <h3 class="font-extrabold text-xs text-gray-400 uppercase tracking-wider">User Profile</h3>
@@ -179,14 +206,25 @@
                 </div>
             </div>
 
-            <button onclick="openTipInventoryModal()" class="w-full py-3 rounded-xl bg-pinkAccent hover:bg-pinkHover text-white font-extrabold text-xs uppercase tracking-wider transition shadow-lg shadow-pinkAccent/20 flex items-center justify-center gap-2">
+            <button id="tipUserBtn" onclick="openTipInventoryModal()" class="w-full py-3 rounded-xl bg-pinkAccent hover:bg-pinkHover text-white font-extrabold text-xs uppercase tracking-wider transition shadow-lg shadow-pinkAccent/20 flex items-center justify-center gap-2">
                 <i class="fa-solid fa-gift"></i> Tip User
             </button>
         </div>
     </div>
 
+    <!-- TRANSACTIONS MODAL -->
+    <div id="transactionsModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'transactionsModal')">
+        <div class="bg-cardBg w-full max-w-xl rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col max-h-[80vh]">
+            <div class="p-4 border-b border-panelBorder flex justify-between items-center bg-darkBg">
+                <h3 class="font-bold text-white text-sm flex items-center gap-2"><i class="fa-solid fa-receipt text-pinkAccent"></i> Transaction History</h3>
+                <button onclick="closeTransactionsModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div id="transactionsList" class="p-4 space-y-2.5 overflow-y-auto max-h-[60vh]"></div>
+        </div>
+    </div>
+
     <!-- TIP ITEM SELECTOR MODAL -->
-    <div id="tipInventoryModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+    <div id="tipInventoryModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'tipInventoryModal')">
         <div class="bg-cardBg w-full max-w-md rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col max-h-[80vh]">
             <div class="p-4 border-b border-panelBorder flex justify-between items-center bg-darkBg">
                 <h3 class="font-bold text-white text-sm">Select Item(s) to Tip <span id="tipTargetUsername" class="text-pinkAccent"></span></h3>
@@ -203,7 +241,7 @@
     </div>
 
     <!-- CREATE MATCH MODAL -->
-    <div id="createMatchModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+    <div id="createMatchModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'createMatchModal')">
         <div class="bg-[#12141D] w-full max-w-4xl rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col p-6 space-y-6">
             <div class="flex justify-between items-center">
                 <h3 class="font-black text-xl text-white">Create</h3>
@@ -257,7 +295,7 @@
     </div>
 
     <!-- JOIN MATCH MODAL (DUEL SELECTIONS) -->
-    <div id="joinMatchModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+    <div id="joinMatchModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'joinMatchModal')">
         <div class="bg-cardBg w-full max-w-lg rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
             <div class="p-4 border-b border-panelBorder flex justify-between items-center bg-darkBg">
                 <h3 class="font-bold text-white text-sm">Join Pet Coin Flip Duel</h3>
@@ -281,7 +319,7 @@
     </div>
 
     <!-- DEPOSIT MODAL -->
-    <div id="depositModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+    <div id="depositModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'depositModal')">
         <div class="bg-[#12141D] w-full max-w-md rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col p-6 space-y-6 text-center">
             <div class="flex justify-between items-center border-b border-panelBorder/50 pb-3">
                 <h3 class="font-black text-lg text-white">Deposit</h3>
@@ -306,7 +344,7 @@
                     </p>
                 </div>
 
-                <a href="https://www.roblox.com/share?code=bcf56020403ba845aa32ccbb336b8cd9&type=Server" target="_blank" class="block w-full py-3.5 rounded-xl bg-pinkAccent hover:bg-pinkHover text-white font-extrabold text-sm transition shadow-lg shadow-pinkAccent/20">
+                <a href="https://www.roblox.com/share?code=bcf56020403ba845aa32ccbb336b8cd9&type=Server" target="_blank" onclick="logDepositTransaction()" class="block w-full py-3.5 rounded-xl bg-pinkAccent hover:bg-pinkHover text-white font-extrabold text-sm transition shadow-lg shadow-pinkAccent/20">
                     Join Private Server
                 </a>
 
@@ -316,7 +354,7 @@
     </div>
 
     <!-- SPECTATE MODAL -->
-    <div id="spectateModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+    <div id="spectateModal" class="modal-backdrop fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'spectateModal')">
         <div class="bg-[#12141D] w-full max-w-4xl rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col">
             <div class="p-4 border-b border-panelBorder/50 flex justify-between items-center bg-[#0B0D13]">
                 <div class="w-full text-center">
@@ -374,7 +412,7 @@
     </div>
 
     <!-- INVENTORY MODAL -->
-    <div id="inventoryModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+    <div id="inventoryModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'inventoryModal')">
         <div class="bg-cardBg w-full max-w-2xl rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col max-h-[80vh]">
             <div class="p-4 border-b border-panelBorder flex justify-between items-center bg-darkBg">
                 <h3 class="font-bold text-white text-sm flex items-center gap-2"><i class="fa-solid fa-boxes-stacked text-pinkAccent"></i> My Pet Inventory</h3>
@@ -385,7 +423,7 @@
     </div>
 
     <!-- LOGIN MODAL -->
-    <div id="loginModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+    <div id="loginModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'loginModal')">
         <div class="bg-cardBg w-full max-w-md rounded-2xl border border-panelBorder shadow-2xl overflow-hidden">
             <div class="p-4 border-b border-panelBorder flex justify-between items-center bg-darkBg">
                 <h3 class="font-bold text-white text-sm">Real Roblox Profile Verification</h3>
@@ -432,7 +470,7 @@
     </div>
 
     <!-- ADMIN PANEL MODAL -->
-    <div id="adminModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+    <div id="adminModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'adminModal')">
         <div class="bg-cardBg w-full max-w-xl rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
             <div class="p-4 border-b border-panelBorder flex justify-between items-center bg-darkBg">
                 <h3 class="font-bold text-white text-sm">Admin Control Panel (dedokxxreal)</h3>
@@ -481,6 +519,7 @@
             ]
         };
 
+        let transactions = JSON.parse(localStorage.getItem('petduel_transactions')) || [];
         let publicMatches = [];
         let selectedCreatePetIds = [];
 
@@ -490,15 +529,37 @@
             loadPersistentChat();
             fetchServerMatches();
 
-            // ANLIK YENİLEME (1 SANİYE)
             setInterval(fetchServerMatches, 1000);
             setInterval(loadPersistentChat, 1000);
+
+            // Close dropdown menu when clicking anywhere outside
+            document.addEventListener('click', (e) => {
+                const userProfileBadge = document.getElementById('userProfileBadge');
+                if (userProfileBadge && !userProfileBadge.contains(e.target)) {
+                    document.getElementById('userDropdownMenu').classList.add('hidden');
+                }
+            });
         });
 
         function saveState() {
             localStorage.setItem('petduel_inventories', JSON.stringify(inventories));
+            localStorage.setItem('petduel_transactions', JSON.stringify(transactions));
             if (currentUser) localStorage.setItem('petduel_user', JSON.stringify(currentUser));
             else localStorage.removeItem('petduel_user');
+        }
+
+        // Tıklama dışı alan kapatıcısı (Outside Click Handler)
+        function handleOutsideClick(event, modalId) {
+            if (event.target.id === modalId) {
+                document.getElementById(modalId).classList.add('hidden');
+            }
+        }
+
+        // User Dropdown toggle
+        function toggleUserDropdown(e) {
+            e.stopPropagation();
+            const dropdown = document.getElementById('userDropdownMenu');
+            dropdown.classList.toggle('hidden');
         }
 
         function checkAuthSession() {
@@ -587,6 +648,7 @@
         }
 
         function openUserProfileModal(username, avatar) {
+            document.getElementById('userDropdownMenu').classList.add('hidden');
             targetProfileUser = { username, avatar };
             const userPets = inventories[username] || [];
             const totalVal = userPets.reduce((sum, p) => sum + p.value, 0);
@@ -596,7 +658,19 @@
             document.getElementById('profileModalPetCount').textContent = userPets.length;
             document.getElementById('profileModalValue').textContent = totalVal.toLocaleString() + ' R$';
 
+            const tipBtn = document.getElementById('tipUserBtn');
+            if (currentUser && currentUser.username.toLowerCase() === username.toLowerCase()) {
+                tipBtn.classList.add('hidden');
+            } else {
+                tipBtn.classList.remove('hidden');
+            }
+
             document.getElementById('userProfileModal').classList.remove('hidden');
+        }
+
+        function openMyProfileModal() {
+            if (!currentUser) return;
+            openUserProfileModal(currentUser.username, currentUser.avatar);
         }
 
         function closeUserProfileModal() {
@@ -668,15 +742,103 @@
 
             const myPets = inventories[currentUser.username] || [];
             const tippedPets = myPets.filter(p => selectedTipPetIds.includes(p.id));
+            const totalVal = tippedPets.reduce((sum, p) => sum + p.value, 0);
 
             inventories[currentUser.username] = myPets.filter(p => !selectedTipPetIds.includes(p.id));
 
             if (!inventories[targetProfileUser.username]) inventories[targetProfileUser.username] = [];
             inventories[targetProfileUser.username].push(...tippedPets);
 
+            // Log Transactions
+            const timeNow = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            transactions.unshift({
+                user: currentUser.username,
+                type: 'TIP_SENT',
+                target: targetProfileUser.username,
+                value: totalVal,
+                itemCount: tippedPets.length,
+                time: timeNow
+            });
+            transactions.unshift({
+                user: targetProfileUser.username,
+                type: 'TIP_RECEIVED',
+                target: currentUser.username,
+                value: totalVal,
+                itemCount: tippedPets.length,
+                time: timeNow
+            });
+
             saveState();
             closeTipInventoryModal();
             showNotification('success', `Successfully tipped ${tippedPets.length} pet(s) to ${targetProfileUser.username}!`);
+        }
+
+        // Transactions Modal Functions
+        function openTransactionsModal() {
+            if (!currentUser) return;
+            document.getElementById('userDropdownMenu').classList.add('hidden');
+            const container = document.getElementById('transactionsList');
+            container.innerHTML = '';
+
+            const userTxs = transactions.filter(t => t.user.toLowerCase() === currentUser.username.toLowerCase());
+
+            if (userTxs.length === 0) {
+                container.innerHTML = `<div class="text-center text-xs text-gray-500 py-8">No transaction history found.</div>`;
+            } else {
+                userTxs.forEach(tx => {
+                    const row = document.createElement('div');
+                    row.className = 'flex items-center justify-between bg-darkBg p-3 rounded-xl border border-panelBorder text-xs';
+
+                    let typeBadge = '';
+                    let details = '';
+
+                    if (tx.type === 'TIP_SENT') {
+                        typeBadge = `<span class="bg-red-500/10 text-red-400 font-extrabold px-2 py-0.5 rounded border border-red-500/20"><i class="fa-solid fa-arrow-up-right-from-square"></i> TIP SENT</span>`;
+                        details = `To <strong class="text-white">@${escapeHtml(tx.target)}</strong> (${tx.itemCount} items)`;
+                    } else if (tx.type === 'TIP_RECEIVED') {
+                        typeBadge = `<span class="bg-emerald-500/10 text-emerald-400 font-extrabold px-2 py-0.5 rounded border border-emerald-500/20"><i class="fa-solid fa-arrow-down-left-and-up-right-to-center"></i> TIP RECEIVED</span>`;
+                        details = `From <strong class="text-white">@${escapeHtml(tx.target)}</strong> (${tx.itemCount} items)`;
+                    } else if (tx.type === 'DEPOSIT') {
+                        typeBadge = `<span class="bg-blue-500/10 text-blue-400 font-extrabold px-2 py-0.5 rounded border border-blue-500/20"><i class="fa-solid fa-download"></i> DEPOSIT</span>`;
+                        details = `Bot Queue Trade`;
+                    } else if (tx.type === 'WITHDRAW') {
+                        typeBadge = `<span class="bg-purple-500/10 text-purple-400 font-extrabold px-2 py-0.5 rounded border border-purple-500/20"><i class="fa-solid fa-upload"></i> WITHDRAW</span>`;
+                        details = `Bot Withdrawal`;
+                    }
+
+                    row.innerHTML = `
+                        <div class="flex items-center space-x-3">
+                            ${typeBadge}
+                            <span class="text-gray-400">${details}</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <span class="font-extrabold text-amber-400 flex items-center gap-1"><i class="fa-brands fa-roblox text-xs"></i> ${tx.value.toLocaleString()} R$</span>
+                            <span class="text-[10px] text-gray-500">${tx.time}</span>
+                        </div>
+                    `;
+                    container.appendChild(row);
+                });
+            }
+
+            document.getElementById('transactionsModal').classList.remove('hidden');
+        }
+
+        function closeTransactionsModal() {
+            document.getElementById('transactionsModal').classList.add('hidden');
+        }
+
+        function logDepositTransaction() {
+            if (!currentUser) return;
+            const timeNow = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            transactions.unshift({
+                user: currentUser.username,
+                type: 'DEPOSIT',
+                target: 'Bot',
+                value: 0,
+                itemCount: 1,
+                time: timeNow
+            });
+            saveState();
         }
 
         function renderMatches() {
@@ -1021,6 +1183,7 @@
 
         function openInventoryModal() {
             if (!currentUser) return;
+            document.getElementById('userDropdownMenu').classList.add('hidden');
             const container = document.getElementById('myFullInventoryList');
             container.innerHTML = '';
             const userPets = inventories[currentUser.username] || [];
