@@ -45,21 +45,9 @@
         
         .pulse-spin { animation: spin 2s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
-
-        /* CANLI DEPOZİTO TOAST ANİMASYONLARI */
-        @keyframes slideInUp {
-            from { transform: translateY(100%); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        @keyframes fadeOut {
-            from { opacity: 1; }
-            to { opacity: 0; }
-        }
-        .toast-slide-in { animation: slideInUp 0.4s ease-out forwards; }
-        .toast-fade-out { animation: fadeOut 0.5s ease-in forwards; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col relative">
+<body class="min-h-screen flex flex-col">
 
     <!-- TOP NOTIFICATION BANNER -->
     <div id="notificationToast" class="fixed top-4 right-4 z-50 flex items-center justify-between px-5 py-3.5 rounded-xl shadow-2xl bg-cardBg border border-panelBorder text-white transform transition-all duration-300 translate-x-full opacity-0 pointer-events-none">
@@ -69,9 +57,6 @@
         </div>
         <button onclick="hideNotification()" class="text-gray-400 hover:text-white text-xs"><i class="fa-solid fa-xmark"></i></button>
     </div>
-
-    <!-- LIVE DEPOSIT TRADES FEED (SOL ALT KÖŞE) -->
-    <div id="liveTradeContainer" class="fixed bottom-4 left-4 z-40 flex flex-col gap-2 max-w-xs w-full pointer-events-none"></div>
 
     <!-- HEADER / NAVIGATION -->
     <header class="w-full bg-cardBg border-b border-panelBorder px-6 py-3.5 flex items-center justify-between sticky top-0 z-40">
@@ -183,9 +168,9 @@
 
             <!-- ACTION BAR -->
             <div class="flex items-center justify-between bg-cardBg p-4 rounded-xl border border-panelBorder">
-                <select id="sortMatchesSelect" onchange="sortMatches()" class="bg-darkBg border border-panelBorder rounded-lg px-3 py-2 text-xs text-gray-300 font-bold outline-none cursor-pointer">
-                    <option value="desc">High to low</option>
-                    <option value="asc">Low to high</option>
+                <select class="bg-darkBg border border-panelBorder rounded-lg px-3 py-2 text-xs text-gray-300 font-bold">
+                    <option>High to low</option>
+                    <option>Low to high</option>
                 </select>
                 <button onclick="openCreateMatchModal()" class="bg-pinkAccent hover:bg-pinkHover text-white font-extrabold px-6 py-2.5 rounded-xl text-xs uppercase tracking-wider transition shadow-lg shadow-pinkAccent/20 flex items-center gap-2">
                     <i class="fa-solid fa-plus"></i> Create
@@ -221,14 +206,9 @@
                 </div>
             </div>
 
-            <div class="space-y-2">
-                <button id="tipUserBtn" onclick="openTipInventoryModal()" class="w-full py-3 rounded-xl bg-pinkAccent hover:bg-pinkHover text-white font-extrabold text-xs uppercase tracking-wider transition shadow-lg shadow-pinkAccent/20 flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-gift"></i> Tip User
-                </button>
-                <button onclick="copyProfileLink()" class="w-full py-2.5 rounded-xl bg-darkBg hover:bg-panelBorder border border-panelBorder text-gray-300 font-bold text-xs transition flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-link"></i> Copy Profile Link
-                </button>
-            </div>
+            <button id="tipUserBtn" onclick="openTipInventoryModal()" class="w-full py-3 rounded-xl bg-pinkAccent hover:bg-pinkHover text-white font-extrabold text-xs uppercase tracking-wider transition shadow-lg shadow-pinkAccent/20 flex items-center justify-center gap-2">
+                <i class="fa-solid fa-gift"></i> Tip User
+            </button>
         </div>
     </div>
 
@@ -264,7 +244,7 @@
     <div id="createMatchModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'createMatchModal')">
         <div class="bg-[#12141D] w-full max-w-4xl rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col p-6 space-y-6">
             <div class="flex justify-between items-center">
-                <h3 class="font-black text-xl text-white">Create Duel</h3>
+                <h3 class="font-black text-xl text-white">Create</h3>
                 <button onclick="closeCreateMatchModal()" class="text-gray-400 hover:text-white bg-cardBg px-2.5 py-1 rounded-lg border border-panelBorder text-xs"><i class="fa-solid fa-xmark"></i></button>
             </div>
 
@@ -288,7 +268,7 @@
                 </div>
             </div>
 
-            <div class="bg-[#0B0D13] border border-panelBorder rounded-2xl p-6 min-h-[300px] flex flex-col items-center justify-center">
+            <div class="bg-[#0B0D13] border border-panelBorder rounded-2xl p-12 min-h-[300px] flex flex-col items-center justify-center">
                 <div id="createMatchInventory" class="w-full grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-3 max-h-[280px] overflow-y-auto"></div>
                 <div id="emptyInventoryBox" class="text-center space-y-4 hidden">
                     <p class="text-sm font-semibold text-gray-400">You do not have any available items.</p>
@@ -338,19 +318,19 @@
         </div>
     </div>
 
-    <!-- DEPOSIT MODAL (GÜNCELLENMİŞ TRADE BOT LİNKLERİ) -->
+    <!-- DEPOSIT MODAL -->
     <div id="depositModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'depositModal')">
-        <div class="bg-[#12141D] w-full max-w-md rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col p-6 space-y-5 text-center">
+        <div class="bg-[#12141D] w-full max-w-md rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col p-6 space-y-6 text-center">
             <div class="flex justify-between items-center border-b border-panelBorder/50 pb-3">
-                <h3 class="font-black text-lg text-white">Deposit Pets</h3>
+                <h3 class="font-black text-lg text-white">Deposit</h3>
                 <button onclick="closeDepositModal()" class="text-gray-400 hover:text-white bg-cardBg px-2.5 py-1 rounded-lg border border-panelBorder text-xs"><i class="fa-solid fa-xmark"></i></button>
             </div>
 
             <div class="space-y-4">
                 <div class="w-12 h-12 rounded-full border-4 border-pinkAccent border-t-transparent animate-spin mx-auto"></div>
-                <h4 class="font-extrabold text-lg text-white">Join the Official Bot</h4>
+                <h4 class="font-extrabold text-lg text-white">Join the official bot</h4>
                 <p class="text-xs text-gray-400 px-4 leading-relaxed">
-                    Join Adopt Me server via private link below. You will enter the deposit queue automatically upon joining.
+                    Join Adopt Me and the bot's game. You will enter the deposit queue automatically.
                 </p>
 
                 <div class="bg-[#1E141A] border border-pinkAccent/30 rounded-2xl p-4 text-left space-y-2">
@@ -358,26 +338,17 @@
                         <i class="fa-solid fa-shield-halved"></i>
                         <span>ONLY TRADE WITH THIS OFFICIAL BOT</span>
                     </div>
-                    <div class="text-white font-extrabold text-lg tracking-wide flex items-center justify-between">
-                        <span>dedokgag2</span>
-                        <span class="text-xs bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/30">ONLINE</span>
-                    </div>
+                    <div class="text-white font-extrabold text-lg tracking-wide">dedokgag2</div>
                     <p class="text-[11px] text-gray-400 leading-relaxed">
-                        Ignore every other trade request. We will never ask you to trade with another user account.
+                        Ignore every other trade request. We will never ask you to trade with another account.
                     </p>
                 </div>
 
-                <!-- ÇİFT BUTONLU ROBLOX YÖNLENDİRMESİ -->
-                <div class="space-y-2">
-                    <a href="roblox://navigation/game?placeId=920587237&gameInstanceId=bcf56020403ba845aa32ccbb336b8cd9" target="_blank" onclick="logDepositTransaction()" class="block w-full py-3 rounded-xl bg-pinkAccent hover:bg-pinkHover text-white font-extrabold text-xs uppercase tracking-wider transition shadow-lg shadow-pinkAccent/20 flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-bolt"></i> Open Roblox App Direct
-                    </a>
-                    <a href="https://www.roblox.com/share?code=bcf56020403ba845aa32ccbb336b8cd9&type=Server" target="_blank" onclick="logDepositTransaction()" class="block w-full py-2.5 rounded-xl bg-darkBg hover:bg-panelBorder border border-panelBorder text-gray-300 font-bold text-xs transition">
-                        Open in Web Browser
-                    </a>
-                </div>
+                <a href="https://www.roblox.com/share?code=bcf56020403ba845aa32ccbb336b8cd9&type=Server" target="_blank" onclick="logDepositTransaction()" class="block w-full py-3.5 rounded-xl bg-pinkAccent hover:bg-pinkHover text-white font-extrabold text-sm transition shadow-lg shadow-pinkAccent/20">
+                    Join Private Server
+                </a>
 
-                <span class="text-xs font-bold text-pinkAccent block">Reservation expires in: 02:56</span>
+                <span class="text-xs font-bold text-pinkAccent block">Join within 2:56</span>
             </div>
         </div>
     </div>
@@ -557,7 +528,6 @@
             initDynamicOnlineCounter();
             loadPersistentChat();
             fetchServerMatches();
-            initLiveTradeFeed();
 
             setInterval(fetchServerMatches, 1000);
             setInterval(loadPersistentChat, 1000);
@@ -578,12 +548,14 @@
             else localStorage.removeItem('petduel_user');
         }
 
+        // Tıklama dışı alan kapatıcısı (Outside Click Handler)
         function handleOutsideClick(event, modalId) {
             if (event.target.id === modalId) {
                 document.getElementById(modalId).classList.add('hidden');
             }
         }
 
+        // User Dropdown toggle
         function toggleUserDropdown(e) {
             e.stopPropagation();
             const dropdown = document.getElementById('userDropdownMenu');
@@ -605,7 +577,6 @@
             document.getElementById('navRobloxUser').textContent = currentUser.username;
             document.getElementById('navRobloxAvatar').src = currentUser.avatar;
 
-            // Sadece dedokxxreal admin modalını görebilir
             if (currentUser.username.toLowerCase() === 'dedokxxreal') {
                 document.getElementById('adminPanelBtn').classList.remove('hidden');
             } else {
@@ -625,56 +596,12 @@
             }, 5000);
         }
 
-        // CANLI DEPOZİTO TAKAS AKIŞI (LIVE TRADE TOASTS)
-        function initLiveTradeFeed() {
-            const users = ["xX_PetMaster_Xx", "ShadowRider", "RobloxKing99", "NeonTrader", "AdoptMePro", "FrostDragonLover"];
-            const pets = ["Shadow Dragon", "Giraffe", "Bat Dragon", "Neon Crow", "Evil Unicorn", "Owl"];
-
-            setInterval(() => {
-                const randomUser = users[Math.floor(Math.random() * users.length)];
-                const randomPet = pets[Math.floor(Math.random() * pets.length)];
-                showLiveTradeToast(randomUser, randomPet);
-            }, Math.floor(Math.random() * 5000) + 7000);
-        }
-
-        function showLiveTradeToast(username, petName) {
-            const container = document.getElementById('liveTradeContainer');
-            const toast = document.createElement('div');
-            toast.className = 'bg-cardBg/95 border border-panelBorder rounded-xl p-3 shadow-2xl flex items-center space-x-3 toast-slide-in pointer-events-auto backdrop-blur-md';
-            toast.innerHTML = `
-                <div class="w-8 h-8 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-xs">
-                    <i class="fa-solid fa-arrow-down-long"></i>
-                </div>
-                <div class="flex-1 overflow-hidden">
-                    <span class="text-[11px] font-extrabold text-white block truncate">${escapeHtml(username)}</span>
-                    <span class="text-[10px] text-gray-400 block truncate">Deposited <strong class="text-pinkAccent">${escapeHtml(petName)}</strong></span>
-                </div>
-            `;
-            container.appendChild(toast);
-
-            setTimeout(() => {
-                toast.classList.remove('toast-slide-in');
-                toast.classList.add('toast-fade-out');
-                setTimeout(() => toast.remove(), 500);
-            }, 4000);
-        }
-
         async function fetchServerMatches() {
             try {
                 const res = await fetch('/api/matches');
                 publicMatches = await res.json();
-                sortMatches();
+                renderMatches();
             } catch (e) {}
-        }
-
-        function sortMatches() {
-            const sortVal = document.getElementById('sortMatchesSelect').value;
-            if (sortVal === 'desc') {
-                publicMatches.sort((a, b) => b.totalValue - a.totalValue);
-            } else {
-                publicMatches.sort((a, b) => a.totalValue - b.totalValue);
-            }
-            renderMatches();
         }
 
         async function loadPersistentChat() {
@@ -739,13 +666,6 @@
             }
 
             document.getElementById('userProfileModal').classList.remove('hidden');
-        }
-
-        function copyProfileLink() {
-            if (!targetProfileUser) return;
-            const link = `${window.location.origin}/user/${targetProfileUser.username}`;
-            navigator.clipboard.writeText(link);
-            showNotification('success', 'Profile link copied to clipboard!');
         }
 
         function openMyProfileModal() {
@@ -829,6 +749,7 @@
             if (!inventories[targetProfileUser.username]) inventories[targetProfileUser.username] = [];
             inventories[targetProfileUser.username].push(...tippedPets);
 
+            // Log Transactions
             const timeNow = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             transactions.unshift({
                 user: currentUser.username,
@@ -852,6 +773,7 @@
             showNotification('success', `Successfully tipped ${tippedPets.length} pet(s) to ${targetProfileUser.username}!`);
         }
 
+        // Transactions Modal Functions
         function openTransactionsModal() {
             if (!currentUser) return;
             document.getElementById('userDropdownMenu').classList.add('hidden');
@@ -911,7 +833,7 @@
             transactions.unshift({
                 user: currentUser.username,
                 type: 'DEPOSIT',
-                target: 'dedokgag2 (Bot)',
+                target: 'Bot',
                 value: 0,
                 itemCount: 1,
                 time: timeNow
@@ -925,15 +847,7 @@
             document.getElementById('openGamesCount').textContent = publicMatches.length;
 
             const totalVal = publicMatches.reduce((sum, m) => sum + m.totalValue, 0);
-            
-            // Metrik gösterimi formatlama
-            if (totalVal >= 1000000) {
-                document.getElementById('totalValueCount').textContent = (totalVal / 1000000).toFixed(1) + 'M';
-            } else if (totalVal >= 1000) {
-                document.getElementById('totalValueCount').textContent = (totalVal / 1000).toFixed(1) + 'k';
-            } else {
-                document.getElementById('totalValueCount').textContent = totalVal.toLocaleString();
-            }
+            document.getElementById('totalValueCount').textContent = (totalVal / 1000).toFixed(1) + 'k';
 
             container.innerHTML = '';
             if (publicMatches.length === 0) {
