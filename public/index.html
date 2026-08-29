@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PetDuel - Roblox Coinflip Platform</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AMPDUEL COINFLIP</title>
+    <script src="https://cdn.tailwindcss.com">
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -28,29 +29,170 @@
     </script>
 
     <style>
-        html { scroll-behavior: smooth; }
-        body { background-color: #0B0E14; color: #E0E6ED; font-family: 'Inter', sans-serif; overflow-x: hidden; }
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: #0F1117; }
-        ::-webkit-scrollbar-thumb { background: #23262F; border-radius: 4px; }
-        
-        .coin-container { perspective: 1000px; }
-        .coin { width: 110px; height: 110px; position: relative; transform-style: preserve-3d; transition: transform 3s cubic-bezier(0.15, 0.85, 0.35, 1.2); }
-        .coin .front, .coin .back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.4rem; border: 4px solid #FFF; box-shadow: 0 0 25px rgba(255, 42, 133, 0.4); }
-        .coin .front { background: #1E62EC; color: #FFF; }
-        .coin .back { background: #E6007A; color: #FFF; transform: rotateY(180deg); }
-        .flip-heads { transform: rotateY(1800deg); }
-        .flip-tails { transform: rotateY(1980deg); }
-        .pet-card-selected { border-color: #FF2A85 !important; background-color: rgba(255, 42, 133, 0.15) !important; }
-        
-        .pulse-spin { animation: spin 2s linear infinite; }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            background-color: #0B0E14;
+            color: #E0E6ED;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0F1117;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #23262F;
+            border-radius: 4px;
+        }
+
+        .coin-container {
+            perspective: 1000px;
+        }
+        .coin {
+            width: 110px;
+            height: 110px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 3s cubic-bezier(0.15, 0.85, 0.35, 1.2);
+        }
+        .coin .front,
+        .coin .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.4rem;
+            border: 4px solid #FFF;
+            box-shadow: 0 0 25px rgba(255, 42, 133, 0.4);
+        }
+        .coin .front {
+            background: #1E62EC;
+            color: #FFF;
+        }
+        .coin .front i {
+            font-size: 2.8rem;
+            color: #FFF;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+        .coin .back {
+            background: #E6007A;
+            color: #FFF;
+            transform: rotateY(180deg);
+        }
+        .coin .back i {
+            font-size: 2.8rem;
+            color: #FFF;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+        .flip-heads {
+            transform: rotateY(1800deg);
+        }
+        .flip-tails {
+            transform: rotateY(1980deg);
+        }
+
+        .pet-card-selected {
+            border-color: #FF2A85 !important;
+            background-color: rgba(255, 42, 133, 0.15) !important;
+        }
+        .pulse-spin {
+            animation: spin 2s linear infinite;
+        }
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Giveaway time pill */
+        .time-pill {
+            cursor: pointer;
+            transition: all 0.2s;
+            background: #0B0D13;
+            border: 1px solid #23262F;
+            color: #888;
+            font-weight: 700;
+            font-size: 0.65rem;
+            padding: 0.4rem 1rem;
+            border-radius: 9999px;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+        .time-pill:hover {
+            border-color: #FF2A85;
+            color: #FFF;
+        }
+        .time-pill.active {
+            background: #FF2A85;
+            border-color: #FF2A85;
+            color: #FFF;
+            box-shadow: 0 0 20px rgba(255, 42, 133, 0.3);
+        }
+
+        /* Profile graph */
+        .profile-graph svg {
+            width: 100%;
+            height: 60px;
+            display: block;
+        }
+
+        /* spectate join btn */
+        .spectate-join-btn {
+            transition: all 0.2s;
+        }
+        .spectate-join-btn:hover {
+            transform: scale(1.04);
+        }
+
+        /* Dropdown */
+        .sort-dropdown option {
+            background: #0B0D13;
+            color: #E0E6ED;
+        }
+
+        /* pet grid */
+        .pet-grid-item {
+            transition: all 0.15s;
+            cursor: pointer;
+        }
+        .pet-grid-item:hover {
+            border-color: #FF2A85;
+            transform: translateY(-2px);
+        }
+
+        /* header logo */
+        .logo-text {
+            font-weight: 900;
+            letter-spacing: -0.02em;
+        }
+        .logo-amp {
+            color: #FFF;
+        }
+        .logo-coinflip {
+            color: #FF2A85;
+            background: rgba(255, 42, 133, 0.12);
+            padding: 0.1rem 0.6rem 0.1rem 0.6rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            margin-left: 0.25rem;
+            border: 1px solid rgba(255, 42, 133, 0.2);
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
 
-    <!-- TOP NOTIFICATION BANNER -->
-    <div id="notificationToast" class="fixed top-4 right-4 z-50 flex items-center justify-between px-5 py-3.5 rounded-xl shadow-2xl bg-cardBg border border-panelBorder text-white transform transition-all duration-300 translate-x-full opacity-0 pointer-events-none">
+    <!-- TOP NOTIFICATION -->
+    <div id="notificationToast" class="fixed top-4 right-4 z-[60] flex items-center justify-between px-5 py-3.5 rounded-xl shadow-2xl bg-cardBg border border-panelBorder text-white transform transition-all duration-300 translate-x-full opacity-0 pointer-events-none">
         <div class="flex items-center space-x-3 mr-4">
             <i id="toastIcon" class="fa-solid fa-circle-info text-pinkAccent text-base"></i>
             <span id="toastMessage" class="text-xs font-extrabold tracking-wide"></span>
@@ -58,22 +200,23 @@
         <button onclick="hideNotification()" class="text-gray-400 hover:text-white text-xs"><i class="fa-solid fa-xmark"></i></button>
     </div>
 
-    <!-- HEADER / NAVIGATION -->
+    <!-- HEADER -->
     <header class="w-full bg-cardBg border-b border-panelBorder px-6 py-3.5 flex items-center justify-between sticky top-0 z-40">
         <div class="flex items-center space-x-3">
             <div class="w-10 h-10 rounded-xl bg-pinkAccent/10 border border-pinkAccent p-1.5 flex items-center justify-center">
-                <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png" alt="Logo" class="w-full h-full object-contain">
+                <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png" alt="Logo" class="w-full h-full object-contain" />
             </div>
             <div>
-                <h1 class="font-extrabold text-lg tracking-wide text-white flex items-center gap-1.5">
-                    PET<span class="text-pinkAccent">DUEL</span>
+                <h1 class="logo-text text-lg flex items-center gap-1">
+                    <span class="logo-amp">AMPDUEL</span>
+                    <span class="logo-coinflip text-sm font-black">COINFLIP</span>
                 </h1>
             </div>
         </div>
 
         <div class="flex items-center space-x-3">
             <button id="adminPanelBtn" onclick="openAdminModal()" class="hidden bg-purple-600 hover:bg-purple-700 text-white font-bold px-3.5 py-2 rounded-xl text-xs transition flex items-center gap-2">
-                <i class="fa-solid fa-user-shield"></i> Admin Panel
+                <i class="fa-solid fa-user-shield"></i> Admin
             </button>
 
             <div id="authBox">
@@ -85,16 +228,14 @@
                     <button onclick="openInventoryModal()" class="bg-pinkAccent hover:bg-pinkHover text-white font-black px-6 py-2.5 rounded-xl text-xs tracking-wide transition shadow-lg shadow-pinkAccent/20">
                         Inventory
                     </button>
-                    
-                    <!-- USER DROPDOWN TRIGGER -->
+
                     <div class="relative">
                         <div class="flex items-center space-x-2.5 bg-darkBg border border-panelBorder px-3.5 py-1.5 rounded-full cursor-pointer hover:border-pinkAccent transition" onclick="toggleUserDropdown(event)">
-                            <img id="navRobloxAvatar" src="" class="w-8 h-8 rounded-full border border-panelBorder object-cover">
+                            <img id="navRobloxAvatar" src="" class="w-8 h-8 rounded-full border border-panelBorder object-cover" />
                             <span id="navRobloxUser" class="font-black text-xs text-white"></span>
                             <i class="fa-solid fa-chevron-down text-gray-400 text-[10px] ml-1"></i>
                         </div>
 
-                        <!-- DROPDOWN MENU -->
                         <div id="userDropdownMenu" class="hidden absolute right-0 mt-2 w-52 bg-[#12141D] border border-panelBorder/80 rounded-2xl shadow-2xl p-2 z-50 space-y-1">
                             <button onclick="openMyProfileModal()" class="w-full text-left px-3.5 py-2.5 rounded-xl hover:bg-pinkAccent/10 text-xs font-bold text-gray-300 hover:text-pinkAccent flex items-center gap-3 transition">
                                 <i class="fa-solid fa-user text-pinkAccent"></i> Profile
@@ -105,10 +246,10 @@
                             <button onclick="openTransactionsModal()" class="w-full text-left px-3.5 py-2.5 rounded-xl hover:bg-pinkAccent/10 text-xs font-bold text-gray-300 hover:text-white flex items-center gap-3 transition">
                                 <i class="fa-solid fa-receipt text-gray-400"></i> Transactions
                             </button>
-                            <button onclick="showNotification('info', 'Giveaways coming soon!')" class="w-full text-left px-3.5 py-2.5 rounded-xl hover:bg-pinkAccent/10 text-xs font-bold text-gray-300 hover:text-white flex items-center gap-3 transition">
+                            <button onclick="openGiveawayModal()" class="w-full text-left px-3.5 py-2.5 rounded-xl hover:bg-pinkAccent/10 text-xs font-bold text-gray-300 hover:text-white flex items-center gap-3 transition">
                                 <i class="fa-solid fa-gift text-gray-400"></i> Giveaway
                             </button>
-                            <button onclick="showNotification('info', 'Settings menu coming soon!')" class="w-full text-left px-3.5 py-2.5 rounded-xl hover:bg-pinkAccent/10 text-xs font-bold text-gray-300 hover:text-white flex items-center gap-3 transition">
+                            <button onclick="showNotification('info', 'Settings coming soon!')" class="w-full text-left px-3.5 py-2.5 rounded-xl hover:bg-pinkAccent/10 text-xs font-bold text-gray-300 hover:text-white flex items-center gap-3 transition">
                                 <i class="fa-solid fa-gear text-gray-400"></i> Settings
                             </button>
                             <div class="border-t border-panelBorder/50 my-1"></div>
@@ -134,12 +275,10 @@
                 </div>
                 <span class="text-[10px] bg-cardBg px-2 py-0.5 rounded text-gray-400 border border-panelBorder" id="onlineCounter">14 Online</span>
             </div>
-
             <div id="chatMessages" class="flex-1 p-3 overflow-y-auto space-y-3 text-xs"></div>
-
             <div class="p-3 border-t border-panelBorder bg-darkBg">
                 <form onsubmit="sendChatMessage(event)" class="flex gap-2">
-                    <input type="text" id="chatInput" placeholder="Login to chat..." disabled class="flex-1 bg-cardBg border border-panelBorder rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-pinkAccent transition-all">
+                    <input type="text" id="chatInput" placeholder="Login to chat..." disabled class="flex-1 bg-cardBg border border-panelBorder rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-pinkAccent transition-all" />
                     <button type="submit" id="chatSendBtn" disabled class="bg-pinkAccent hover:bg-pinkHover text-white font-bold px-3 py-2 rounded-lg text-xs transition"><i class="fa-solid fa-paper-plane"></i></button>
                 </form>
             </div>
@@ -168,9 +307,9 @@
 
             <!-- ACTION BAR -->
             <div class="flex items-center justify-between bg-cardBg p-4 rounded-xl border border-panelBorder">
-                <select class="bg-darkBg border border-panelBorder rounded-lg px-3 py-2 text-xs text-gray-300 font-bold">
-                    <option>High to low</option>
-                    <option>Low to high</option>
+                <select id="sortDropdown" class="sort-dropdown bg-darkBg border border-panelBorder rounded-lg px-3 py-2 text-xs text-gray-300 font-bold focus:outline-none focus:border-pinkAccent transition">
+                    <option value="high">High to low</option>
+                    <option value="low">Low to high</option>
                 </select>
                 <button onclick="openCreateMatchModal()" class="bg-pinkAccent hover:bg-pinkHover text-white font-extrabold px-6 py-2.5 rounded-xl text-xs uppercase tracking-wider transition shadow-lg shadow-pinkAccent/20 flex items-center gap-2">
                     <i class="fa-solid fa-plus"></i> Create
@@ -182,48 +321,135 @@
         </main>
     </div>
 
-    <!-- USER PROFILE STATS & TIP MODAL -->
+    <!-- ========== GIVEAWAY MODAL ========== -->
+    <div id="giveawayModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'giveawayModal')">
+        <div class="bg-[#12141D] w-full max-w-4xl rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col p-6 space-y-6 max-h-[90vh]">
+            <div class="flex justify-between items-center">
+                <h3 class="font-black text-xl text-white flex items-center gap-2">
+                    <i class="fa-solid fa-gift text-pinkAccent"></i> Create Giveaway
+                </h3>
+                <button onclick="closeGiveawayModal()" class="text-gray-400 hover:text-white bg-cardBg px-2.5 py-1 rounded-lg border border-panelBorder text-xs"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <div class="flex flex-wrap items-center justify-between gap-4">
+                <div class="flex items-center space-x-3">
+                    <div class="bg-[#0B0D13] border border-panelBorder rounded-xl px-4 py-2 flex items-center space-x-2 text-xs font-extrabold text-white">
+                        <span>Prize value</span>
+                        <i class="fa-brands fa-roblox text-pinkAccent"></i>
+                        <span id="giveawaySelectedValue" class="text-pinkAccent">0</span>
+                    </div>
+                    <div class="bg-[#0B0D13] border border-panelBorder rounded-xl px-3 py-2 text-xs font-bold text-gray-400">
+                        <span id="giveawayItemCount">0</span>/20 ITEMS
+                    </div>
+                </div>
+                <div class="flex items-center space-x-2 flex-wrap gap-1">
+                    <button class="time-pill active" data-min="1" onclick="selectGiveawayTime(1,this)">1 min</button>
+                    <button class="time-pill" data-min="5" onclick="selectGiveawayTime(5,this)">5 min</button>
+                    <button class="time-pill" data-min="10" onclick="selectGiveawayTime(10,this)">10 min</button>
+                    <button class="time-pill" data-min="30" onclick="selectGiveawayTime(30,this)">30 min</button>
+                    <button class="time-pill" data-min="60" onclick="selectGiveawayTime(60,this)">60 min</button>
+                </div>
+            </div>
+
+            <div class="bg-[#0B0D13] border border-panelBorder rounded-2xl p-6 min-h-[260px] flex flex-col items-center justify-center">
+                <div id="giveawayInventory" class="w-full grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-3 max-h-[220px] overflow-y-auto"></div>
+                <div id="giveawayEmptyBox" class="text-center space-y-4 hidden">
+                    <p class="text-sm font-semibold text-gray-400">You have no pets to give away.</p>
+                    <button onclick="openDepositModal()" class="bg-pinkAccent hover:bg-pinkHover text-white font-extrabold px-8 py-3 rounded-xl text-xs uppercase tracking-wider transition shadow-lg shadow-pinkAccent/20">
+                        + Deposit
+                    </button>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-end space-x-4 pt-2">
+                <button onclick="closeGiveawayModal()" class="bg-darkBg border border-panelBorder text-gray-300 font-bold px-6 py-2.5 rounded-xl text-xs transition hover:border-pinkAccent hover:text-white">
+                    Cancel
+                </button>
+                <button onclick="submitGiveaway()" class="bg-pinkAccent hover:bg-pinkHover text-white font-extrabold px-12 py-3 rounded-xl text-sm transition shadow-lg shadow-pinkAccent/20">
+                    Create Giveaway
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== USER PROFILE MODAL (REDESIGNED) ========== -->
     <div id="userProfileModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'userProfileModal')">
-        <div class="bg-[#12141D] w-full max-w-sm rounded-2xl border border-panelBorder shadow-2xl p-6 text-center space-y-5">
-            <div class="flex justify-between items-center border-b border-panelBorder/50 pb-2">
-                <h3 class="font-extrabold text-xs text-gray-400 uppercase tracking-wider">User Profile</h3>
-                <button onclick="closeUserProfileModal()" class="text-gray-400 hover:text-white text-xs"><i class="fa-solid fa-xmark"></i></button>
+        <div class="bg-[#12141D] w-full max-w-2xl rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div class="p-4 border-b border-panelBorder/50 flex justify-between items-center bg-[#0B0D13]">
+                <h3 class="font-extrabold text-xs text-gray-400 uppercase tracking-wider flex items-center gap-2">
+                    <i class="fa-regular fa-user text-pinkAccent"></i> Profile
+                </h3>
+                <button onclick="closeUserProfileModal()" class="text-gray-400 hover:text-white bg-cardBg px-2.5 py-1 rounded-lg border border-panelBorder text-xs"><i class="fa-solid fa-xmark"></i></button>
             </div>
 
-            <div class="space-y-2">
-                <img id="profileModalAvatar" src="" class="w-20 h-20 mx-auto rounded-full border-2 border-pinkAccent object-cover bg-darkBg">
-                <h4 id="profileModalUsername" class="font-black text-lg text-white"></h4>
-            </div>
-
-            <div class="grid grid-cols-2 gap-3 bg-darkBg p-3 rounded-xl border border-panelBorder">
-                <div>
-                    <span class="text-[10px] text-gray-400 font-bold uppercase block">Total Pets</span>
-                    <span id="profileModalPetCount" class="font-extrabold text-sm text-white">0</span>
+            <div class="p-6 space-y-5 overflow-y-auto">
+                <!-- Avatar + username + level -->
+                <div class="flex items-center gap-5">
+                    <img id="profileModalAvatar" src="" class="w-20 h-20 rounded-full border-2 border-pinkAccent object-cover bg-darkBg flex-shrink-0" />
+                    <div class="flex-1">
+                        <div class="flex items-center gap-3 flex-wrap">
+                            <h4 id="profileModalUsername" class="font-black text-xl text-white"></h4>
+                            <span class="bg-pinkAccent/20 text-pinkAccent text-[10px] font-extrabold px-3 py-0.5 rounded-full border border-pinkAccent/30">Level <span id="profileModalLevel">0</span></span>
+                        </div>
+                        <p class="text-xs text-gray-400 mt-0.5" id="profileModalJoinDate">Joined: Aug 2026</p>
+                    </div>
                 </div>
-                <div>
-                    <span class="text-[10px] text-gray-400 font-bold uppercase block">Total Value</span>
-                    <span id="profileModalValue" class="font-extrabold text-sm text-amber-400">0 R$</span>
-                </div>
-            </div>
 
-            <button id="tipUserBtn" onclick="openTipInventoryModal()" class="w-full py-3 rounded-xl bg-pinkAccent hover:bg-pinkHover text-white font-extrabold text-xs uppercase tracking-wider transition shadow-lg shadow-pinkAccent/20 flex items-center justify-center gap-2">
-                <i class="fa-solid fa-gift"></i> Tip User
-            </button>
+                <!-- Stats grid -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-[#0B0D13] p-4 rounded-xl border border-panelBorder">
+                    <div class="text-center">
+                        <span class="text-[10px] text-gray-400 font-bold uppercase block">Games Played</span>
+                        <span id="profileModalGamesPlayed" class="font-extrabold text-sm text-white">0</span>
+                    </div>
+                    <div class="text-center">
+                        <span class="text-[10px] text-gray-400 font-bold uppercase block">Wins</span>
+                        <span id="profileModalWinPct" class="font-extrabold text-sm text-emerald-400">0%</span>
+                    </div>
+                    <div class="text-center">
+                        <span class="text-[10px] text-gray-400 font-bold uppercase block">Games Won</span>
+                        <span id="profileModalWon" class="font-extrabold text-sm text-emerald-400">0</span>
+                    </div>
+                    <div class="text-center">
+                        <span class="text-[10px] text-gray-400 font-bold uppercase block">Games Lost</span>
+                        <span id="profileModalLost" class="font-extrabold text-sm text-red-400">0</span>
+                    </div>
+                </div>
+
+                <!-- Graph -->
+                <div class="bg-[#0B0D13] p-3 rounded-xl border border-panelBorder">
+                    <div class="flex items-center justify-between text-[10px] text-gray-400 font-bold uppercase mb-1">
+                        <span>Performance</span>
+                        <span>Score</span>
+                    </div>
+                    <div class="profile-graph">
+                        <svg viewBox="0 0 300 60" preserveAspectRatio="none">
+                            <polyline points="0,55 25,40 50,50 75,25 100,35 125,15 150,30 175,10 200,20 225,8 250,18 275,5 300,12"
+                            fill="none" stroke="#FF2A85" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <polyline points="0,55 25,40 50,50 75,25 100,35 125,15 150,30 175,10 200,20 225,8 250,18 275,5 300,12"
+                            fill="rgba(255,42,133,0.08)" stroke="none" />
+                            <polygon points="0,55 25,40 50,50 75,25 100,35 125,15 150,30 175,10 200,20 225,8 250,18 275,5 300,12 300,60 0,60"
+                            fill="rgba(255,42,133,0.08)" />
+                            <circle cx="300" cy="12" r="3" fill="#FF2A85" />
+                        </svg>
+                    </div>
+                    <div class="flex justify-between text-[9px] text-gray-500 mt-0.5">
+                        <span>0h</span>
+                        <span>12h</span>
+                        <span>24h</span>
+                        <span>36h</span>
+                        <span>48h</span>
+                    </div>
+                </div>
+
+                <!-- Send Tip -->
+                <button id="tipUserBtn" onclick="openTipInventoryModal()" class="w-full py-3 rounded-xl bg-pinkAccent hover:bg-pinkHover text-white font-extrabold text-xs uppercase tracking-wider transition shadow-lg shadow-pinkAccent/20 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-gift"></i> Send Tip
+                </button>
+            </div>
         </div>
     </div>
 
-    <!-- TRANSACTIONS MODAL -->
-    <div id="transactionsModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'transactionsModal')">
-        <div class="bg-cardBg w-full max-w-xl rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col max-h-[80vh]">
-            <div class="p-4 border-b border-panelBorder flex justify-between items-center bg-darkBg">
-                <h3 class="font-bold text-white text-sm flex items-center gap-2"><i class="fa-solid fa-receipt text-pinkAccent"></i> Transaction History</h3>
-                <button onclick="closeTransactionsModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <div id="transactionsList" class="p-4 space-y-2.5 overflow-y-auto max-h-[60vh]"></div>
-        </div>
-    </div>
-
-    <!-- TIP ITEM SELECTOR MODAL -->
+    <!-- ========== TIP INVENTORY MODAL ========== -->
     <div id="tipInventoryModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'tipInventoryModal')">
         <div class="bg-cardBg w-full max-w-md rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col max-h-[80vh]">
             <div class="p-4 border-b border-panelBorder flex justify-between items-center bg-darkBg">
@@ -240,7 +466,18 @@
         </div>
     </div>
 
-    <!-- CREATE MATCH MODAL -->
+    <!-- ========== TRANSACTIONS MODAL ========== -->
+    <div id="transactionsModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'transactionsModal')">
+        <div class="bg-cardBg w-full max-w-xl rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col max-h-[80vh]">
+            <div class="p-4 border-b border-panelBorder flex justify-between items-center bg-darkBg">
+                <h3 class="font-bold text-white text-sm flex items-center gap-2"><i class="fa-solid fa-receipt text-pinkAccent"></i> Transaction History</h3>
+                <button onclick="closeTransactionsModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div id="transactionsList" class="p-4 space-y-2.5 overflow-y-auto max-h-[60vh]"></div>
+        </div>
+    </div>
+
+    <!-- ========== CREATE MATCH MODAL ========== -->
     <div id="createMatchModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'createMatchModal')">
         <div class="bg-[#12141D] w-full max-w-4xl rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col p-6 space-y-6">
             <div class="flex justify-between items-center">
@@ -259,16 +496,15 @@
                         <span id="selectedItemCount">0</span>/20 ITEMS
                     </div>
                 </div>
-
                 <div class="flex items-center space-x-3 flex-1 justify-end">
                     <div class="relative max-w-xs w-full">
                         <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-xs text-gray-500"></i>
-                        <input type="text" placeholder="Search items..." class="w-full bg-[#0B0D13] border border-panelBorder rounded-xl pl-8 pr-3 py-2 text-xs text-white focus:outline-none">
+                        <input type="text" placeholder="Search items..." class="w-full bg-[#0B0D13] border border-panelBorder rounded-xl pl-8 pr-3 py-2 text-xs text-white focus:outline-none" id="createMatchSearch" oninput="filterCreateMatchInventory()" />
                     </div>
                 </div>
             </div>
 
-            <div class="bg-[#0B0D13] border border-panelBorder rounded-2xl p-12 min-h-[300px] flex flex-col items-center justify-center">
+            <div class="bg-[#0B0D13] border border-panelBorder rounded-2xl p-6 min-h-[300px] flex flex-col items-center justify-center">
                 <div id="createMatchInventory" class="w-full grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-3 max-h-[280px] overflow-y-auto"></div>
                 <div id="emptyInventoryBox" class="text-center space-y-4 hidden">
                     <p class="text-sm font-semibold text-gray-400">You do not have any available items.</p>
@@ -294,7 +530,7 @@
         </div>
     </div>
 
-    <!-- JOIN MATCH MODAL (DUEL SELECTIONS) -->
+    <!-- ========== JOIN MATCH MODAL ========== -->
     <div id="joinMatchModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'joinMatchModal')">
         <div class="bg-cardBg w-full max-w-lg rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
             <div class="p-4 border-b border-panelBorder flex justify-between items-center bg-darkBg">
@@ -313,47 +549,39 @@
                 </div>
             </div>
             <div class="p-4 border-t border-panelBorder bg-darkBg">
-                <button onclick="confirmJoinMatch()" class="w-full py-3 rounded-xl bg-pinkAccent hover:bg-pinkHover text-white font-extrabold text-sm uppercase tracking-wider transition">ACCEPT DUEL & FLIP</button>
+                <button onclick="confirmJoinMatch()" class="w-full py-3 rounded-xl bg-pinkAccent hover:bg-pinkHover text-white font-extrabold text-sm uppercase tracking-wider transition">ACCEPT DUEL &amp; FLIP</button>
             </div>
         </div>
     </div>
 
-    <!-- DEPOSIT MODAL -->
+    <!-- ========== DEPOSIT MODAL ========== -->
     <div id="depositModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'depositModal')">
         <div class="bg-[#12141D] w-full max-w-md rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col p-6 space-y-6 text-center">
             <div class="flex justify-between items-center border-b border-panelBorder/50 pb-3">
                 <h3 class="font-black text-lg text-white">Deposit</h3>
                 <button onclick="closeDepositModal()" class="text-gray-400 hover:text-white bg-cardBg px-2.5 py-1 rounded-lg border border-panelBorder text-xs"><i class="fa-solid fa-xmark"></i></button>
             </div>
-
             <div class="space-y-4">
                 <div class="w-12 h-12 rounded-full border-4 border-pinkAccent border-t-transparent animate-spin mx-auto"></div>
                 <h4 class="font-extrabold text-lg text-white">Join the official bot</h4>
-                <p class="text-xs text-gray-400 px-4 leading-relaxed">
-                    Join Adopt Me and the bot's game. You will enter the deposit queue automatically.
-                </p>
-
+                <p class="text-xs text-gray-400 px-4 leading-relaxed">Join Adopt Me and the bot's game. You will enter the deposit queue automatically.</p>
                 <div class="bg-[#1E141A] border border-pinkAccent/30 rounded-2xl p-4 text-left space-y-2">
                     <div class="flex items-center space-x-2 text-pinkAccent font-extrabold text-[11px] tracking-wider uppercase">
                         <i class="fa-solid fa-shield-halved"></i>
                         <span>ONLY TRADE WITH THIS OFFICIAL BOT</span>
                     </div>
                     <div class="text-white font-extrabold text-lg tracking-wide">dedokgag2</div>
-                    <p class="text-[11px] text-gray-400 leading-relaxed">
-                        Ignore every other trade request. We will never ask you to trade with another account.
-                    </p>
+                    <p class="text-[11px] text-gray-400 leading-relaxed">Ignore every other trade request. We will never ask you to trade with another account.</p>
                 </div>
-
                 <a href="https://www.roblox.com/share?code=bcf56020403ba845aa32ccbb336b8cd9&type=Server" target="_blank" onclick="logDepositTransaction()" class="block w-full py-3.5 rounded-xl bg-pinkAccent hover:bg-pinkHover text-white font-extrabold text-sm transition shadow-lg shadow-pinkAccent/20">
                     Join Private Server
                 </a>
-
                 <span class="text-xs font-bold text-pinkAccent block">Join within 2:56</span>
             </div>
         </div>
     </div>
 
-    <!-- SPECTATE MODAL -->
+    <!-- ========== SPECTATE MODAL (with JOIN button) ========== -->
     <div id="spectateModal" class="modal-backdrop fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'spectateModal')">
         <div class="bg-[#12141D] w-full max-w-4xl rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col">
             <div class="p-4 border-b border-panelBorder/50 flex justify-between items-center bg-[#0B0D13]">
@@ -368,7 +596,7 @@
                 <div class="flex items-center justify-around relative py-4">
                     <div class="flex flex-col items-center space-y-2">
                         <div class="relative">
-                            <img id="specCreatorAvatar" src="" class="w-16 h-16 rounded-full border-2 border-panelBorder object-cover">
+                            <img id="specCreatorAvatar" src="" class="w-16 h-16 rounded-full border-2 border-panelBorder object-cover" />
                             <span id="specCreatorSideBadge" class="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-blueCoin border-2 border-white flex items-center justify-center text-[10px]"></span>
                         </div>
                         <span id="specCreatorName" class="font-extrabold text-sm text-white"></span>
@@ -379,10 +607,14 @@
                                 <i class="fa-solid fa-paw text-white text-3xl"></i>
                             </div>
                         </div>
+                        <!-- JOIN button in the middle of spectate -->
+                        <button id="spectateJoinBtn" onclick="openJoinFromSpectate()" class="spectate-join-btn mt-3 bg-pinkAccent hover:bg-pinkHover text-white font-extrabold px-6 py-2 rounded-xl text-xs uppercase tracking-wider shadow-lg shadow-pinkAccent/20 flex items-center gap-2">
+                            <i class="fa-solid fa-arrow-right-to-bracket"></i> Join
+                        </button>
                     </div>
                     <div class="flex flex-col items-center space-y-2">
                         <div class="relative">
-                            <img id="specJoinerAvatar" src="" class="w-16 h-16 rounded-full border-2 border-panelBorder object-cover">
+                            <img id="specJoinerAvatar" src="" class="w-16 h-16 rounded-full border-2 border-panelBorder object-cover" />
                             <span id="specJoinerSideBadge" class="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-pinkCoin border-2 border-white flex items-center justify-center text-[10px]"></span>
                         </div>
                         <span id="specJoinerName" class="font-extrabold text-sm text-white"></span>
@@ -411,7 +643,7 @@
         </div>
     </div>
 
-    <!-- INVENTORY MODAL -->
+    <!-- ========== INVENTORY MODAL ========== -->
     <div id="inventoryModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'inventoryModal')">
         <div class="bg-cardBg w-full max-w-2xl rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col max-h-[80vh]">
             <div class="p-4 border-b border-panelBorder flex justify-between items-center bg-darkBg">
@@ -422,7 +654,7 @@
         </div>
     </div>
 
-    <!-- LOGIN MODAL -->
+    <!-- ========== LOGIN MODAL ========== -->
     <div id="loginModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'loginModal')">
         <div class="bg-cardBg w-full max-w-md rounded-2xl border border-panelBorder shadow-2xl overflow-hidden">
             <div class="p-4 border-b border-panelBorder flex justify-between items-center bg-darkBg">
@@ -431,49 +663,47 @@
             </div>
             <div class="p-6">
                 <div id="authStep1" class="space-y-4">
-                    <input type="text" id="robloxUserSearch" placeholder="e.g. dedokxxreal" class="w-full bg-darkBg border border-panelBorder rounded-lg px-3 py-2 text-sm text-white focus:outline-none">
+                    <input type="text" id="robloxUserSearch" placeholder="e.g. dedokxxreal" class="w-full bg-darkBg border border-panelBorder rounded-lg px-3 py-2 text-sm text-white focus:outline-none" />
                     <button onclick="fetchRobloxProfileAPI()" id="btnStep1" class="w-full py-2.5 rounded-lg bg-pinkAccent hover:bg-pinkHover text-white font-bold text-xs transition">Fetch Profile</button>
                 </div>
-
                 <div id="authStep2" class="space-y-4 hidden text-center">
-                    <img id="realRobloxAvatarPreview" src="" class="w-20 h-20 mx-auto rounded-full border-2 border-pinkAccent bg-darkBg object-cover">
+                    <img id="realRobloxAvatarPreview" src="" class="w-20 h-20 mx-auto rounded-full border-2 border-pinkAccent bg-darkBg object-cover" />
                     <span id="realRobloxUserPreview" class="font-extrabold text-white block"></span>
                     <div class="grid grid-cols-2 gap-3">
                         <button onclick="resetAuthModal()" class="py-2 rounded-lg bg-darkBg border border-panelBorder text-gray-300 font-bold text-xs">Back</button>
                         <button onclick="proceedToBioStep()" class="py-2 rounded-lg bg-pinkAccent text-white font-bold text-xs">Continue</button>
                     </div>
                 </div>
-
                 <div id="authStep3" class="space-y-4 hidden">
                     <div class="bg-darkBg p-3 rounded-lg border border-panelBorder flex items-center justify-between">
                         <code id="bioVerificationCode" class="font-mono text-pinkAccent font-bold text-base">PET-89F2A</code>
                         <button onclick="copyBioCode()" class="text-xs bg-cardBg text-white px-3 py-1 rounded border border-panelBorder">Copy</button>
                     </div>
-                    <button onclick="verifyRobloxBioAPI()" id="btnVerifyBio" class="w-full py-3 rounded-lg bg-pinkAccent text-white font-extrabold text-xs uppercase">VERIFY BIO & LOGIN</button>
+                    <button onclick="verifyRobloxBioAPI()" id="btnVerifyBio" class="w-full py-3 rounded-lg bg-pinkAccent text-white font-extrabold text-xs uppercase">VERIFY BIO &amp; LOGIN</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- FLIP ANIMATION MODAL -->
+    <!-- ========== FLIP ANIMATION MODAL (pink/blue sides) ========== -->
     <div id="gameFlipModal" class="fixed inset-0 bg-black/90 backdrop-blur-lg z-50 flex items-center justify-center p-4 hidden">
         <div class="bg-cardBg w-full max-w-md rounded-2xl border border-panelBorder p-8 flex flex-col items-center justify-center text-center space-y-6">
             <h3 class="text-xs font-extrabold text-gray-400 uppercase tracking-widest">DUEL IN PROGRESS</h3>
             <div class="coin-container my-4">
                 <div id="modalCoin" class="coin">
-                    <div class="front"><i class="fa-solid fa-circle text-3xl"></i></div>
-                    <div class="back"><i class="fa-solid fa-circle text-3xl"></i></div>
+                    <div class="front"><i class="fa-regular fa-circle"></i></div>
+                    <div class="back"><i class="fa-regular fa-circle"></i></div>
                 </div>
             </div>
             <div id="modalFlipStatus" class="text-base font-extrabold text-white tracking-wide animate-pulse">FLIPPING COIN...</div>
         </div>
     </div>
 
-    <!-- ADMIN PANEL MODAL -->
+    <!-- ========== ADMIN PANEL MODAL ========== -->
     <div id="adminModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'adminModal')">
         <div class="bg-cardBg w-full max-w-xl rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
             <div class="p-4 border-b border-panelBorder flex justify-between items-center bg-darkBg">
-                <h3 class="font-bold text-white text-sm">Admin Control Panel (dedokxxreal)</h3>
+                <h3 class="font-bold text-white text-sm">Admin Control Panel</h3>
                 <button onclick="closeAdminModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <div class="p-6 overflow-y-auto space-y-6">
@@ -482,10 +712,10 @@
                     <form onsubmit="adminAddPet(event)" class="space-y-3">
                         <select id="adminTargetUser" onchange="renderAdminUserInventory()" class="w-full bg-cardBg border border-panelBorder rounded-lg px-3 py-2 text-xs font-bold text-white"></select>
                         <div class="grid grid-cols-2 gap-3">
-                            <input type="text" id="adminPetName" placeholder="Pet Name" required class="w-full bg-cardBg border border-panelBorder rounded-lg px-3 py-2 text-xs text-white">
-                            <input type="number" id="adminPetValue" placeholder="Pet Value (R$)" min="1" required class="w-full bg-cardBg border border-panelBorder rounded-lg px-3 py-2 text-xs text-white">
+                            <input type="text" id="adminPetName" placeholder="Pet Name" required class="w-full bg-cardBg border border-panelBorder rounded-lg px-3 py-2 text-xs text-white" />
+                            <input type="number" id="adminPetValue" placeholder="Pet Value (R$)" min="1" required class="w-full bg-cardBg border border-panelBorder rounded-lg px-3 py-2 text-xs text-white" />
                         </div>
-                        <input type="url" id="adminPetImage" placeholder="Image URL" required class="w-full bg-cardBg border border-panelBorder rounded-lg px-3 py-2 text-xs text-white">
+                        <input type="url" id="adminPetImage" placeholder="Image URL" required class="w-full bg-cardBg border border-panelBorder rounded-lg px-3 py-2 text-xs text-white" />
                         <button type="submit" class="w-full py-2.5 rounded-lg bg-purple-600 text-white font-extrabold text-xs uppercase">GIVE PET</button>
                     </form>
                 </div>
@@ -497,8 +727,11 @@
         </div>
     </div>
 
-    <!-- JAVASCRIPT LOGIC -->
+    <!-- ======================================================================== -->
+    <!-- JAVASCRIPT -->
+    <!-- ======================================================================== -->
     <script>
+        // ---------- GLOBALS ----------
         let currentUser = null;
         let fetchedRobloxUser = null;
         let generatedBioCode = "";
@@ -508,64 +741,117 @@
         let selectedTipPetIds = [];
         let activeJoinMatchId = null;
         let selectedJoinPetIds = [];
+        let selectedCreatePetIds = [];
+        let selectedGiveawayPetIds = [];
+        let giveawayTimeMinutes = 1;
 
+        // ---------- ADMIN LIST ----------
+        const ADMIN_USERS = ['dedokxxreal', 'emoxdrill'];
+
+        // ---------- STORAGE ----------
         let inventories = JSON.parse(localStorage.getItem('petduel_inventories')) || {
             "dedokxxreal": [
-                { id: 101, name: "Neon Unicorn", image: "https://cdn-icons-png.flaticon.com/512/616/616408.png", value: 35000 },
-                { id: 102, name: "Fly Duck", image: "https://cdn-icons-png.flaticon.com/512/616/616430.png", value: 25000 }
+                { id: 101, name: "Neon Unicorn", image: "https://cdn-icons-png.flaticon.com/512/616/616408.png",
+                    value: 35000 },
+                { id: 102, name: "Fly Duck", image: "https://cdn-icons-png.flaticon.com/512/616/616430.png",
+                    value: 25000 }
             ],
             "Builderman": [
                 { id: 201, name: "Dog", image: "https://cdn-icons-png.flaticon.com/512/616/616408.png", value: 500 }
             ]
         };
-
         let transactions = JSON.parse(localStorage.getItem('petduel_transactions')) || [];
         let publicMatches = [];
-        let selectedCreatePetIds = [];
+        // Store per-user game stats for profile
+        let userStats = JSON.parse(localStorage.getItem('petduel_userstats')) || {};
 
-        document.addEventListener('DOMContentLoaded', () => {
-            checkAuthSession();
-            initDynamicOnlineCounter();
-            loadPersistentChat();
-            fetchServerMatches();
-
-            setInterval(fetchServerMatches, 1000);
-            setInterval(loadPersistentChat, 1000);
-
-            // Close dropdown menu when clicking anywhere outside
-            document.addEventListener('click', (e) => {
-                const userProfileBadge = document.getElementById('userProfileBadge');
-                if (userProfileBadge && !userProfileBadge.contains(e.target)) {
-                    document.getElementById('userDropdownMenu').classList.add('hidden');
-                }
-            });
-        });
-
+        // ---------- HELPERS ----------
         function saveState() {
             localStorage.setItem('petduel_inventories', JSON.stringify(inventories));
             localStorage.setItem('petduel_transactions', JSON.stringify(transactions));
+            localStorage.setItem('petduel_userstats', JSON.stringify(userStats));
             if (currentUser) localStorage.setItem('petduel_user', JSON.stringify(currentUser));
             else localStorage.removeItem('petduel_user');
         }
 
-        // Tıklama dışı alan kapatıcısı (Outside Click Handler)
+        function escapeHtml(str) {
+            return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+        }
+
+        function getPetsForUser(username) {
+            return inventories[username] || [];
+        }
+
+        function getTotalValueForUser(username) {
+            return getPetsForUser(username).reduce((s, p) => s + p.value, 0);
+        }
+
+        function getUserStats(username) {
+            if (!userStats[username]) {
+                userStats[username] = {
+                    gamesPlayed: 0,
+                    wins: 0,
+                    losses: 0,
+                    joinDate: new Date().toISOString().slice(0, 7)
+                };
+                saveState();
+            }
+            return userStats[username];
+        }
+
+        function updateUserStats(username, won) {
+            const stats = getUserStats(username);
+            stats.gamesPlayed = (stats.gamesPlayed || 0) + 1;
+            if (won) stats.wins = (stats.wins || 0) + 1;
+            else stats.losses = (stats.losses || 0) + 1;
+            saveState();
+        }
+
+        function isAdminUser(username) {
+            return ADMIN_USERS.some(a => a.toLowerCase() === username.toLowerCase());
+        }
+
+        // ---------- NOTIFICATION ----------
+        function showNotification(type, message) {
+            const toast = document.getElementById('notificationToast');
+            document.getElementById('toastMessage').textContent = message;
+            if (toastTimeout) clearTimeout(toastTimeout);
+            toast.classList.remove('translate-x-full', 'opacity-0', 'pointer-events-none');
+            toast.classList.add('translate-x-0', 'opacity-100');
+            toastTimeout = setTimeout(() => { hideNotification(); }, 3000);
+        }
+
+        function hideNotification() {
+            const toast = document.getElementById('notificationToast');
+            toast.classList.add('translate-x-full', 'opacity-0', 'pointer-events-none');
+            toast.classList.remove('translate-x-0', 'opacity-100');
+        }
+
+        // ---------- OUTSIDE CLICK ----------
         function handleOutsideClick(event, modalId) {
             if (event.target.id === modalId) {
                 document.getElementById(modalId).classList.add('hidden');
             }
         }
 
-        // User Dropdown toggle
+        // ---------- DROPDOWN ----------
         function toggleUserDropdown(e) {
             e.stopPropagation();
-            const dropdown = document.getElementById('userDropdownMenu');
-            dropdown.classList.toggle('hidden');
+            document.getElementById('userDropdownMenu').classList.toggle('hidden');
         }
+        document.addEventListener('click', (e) => {
+            const badge = document.getElementById('userProfileBadge');
+            if (badge && !badge.contains(e.target)) {
+                document.getElementById('userDropdownMenu').classList.add('hidden');
+            }
+        });
 
+        // ---------- AUTH ----------
         function checkAuthSession() {
-            const savedUser = localStorage.getItem('petduel_user');
-            if (savedUser) {
-                try { currentUser = JSON.parse(savedUser); applyUserLoggedInState(); } catch (e) { localStorage.removeItem('petduel_user'); }
+            const saved = localStorage.getItem('petduel_user');
+            if (saved) {
+                try { currentUser = JSON.parse(saved);
+                    applyUserLoggedInState(); } catch (e) { localStorage.removeItem('petduel_user'); }
             }
         }
 
@@ -575,9 +861,10 @@
             document.getElementById('userProfileBadge').classList.remove('hidden');
             document.getElementById('userProfileBadge').classList.add('flex');
             document.getElementById('navRobloxUser').textContent = currentUser.username;
-            document.getElementById('navRobloxAvatar').src = currentUser.avatar;
+            document.getElementById('navRobloxAvatar').src = currentUser.avatar || 'https://via.placeholder.com/150';
 
-            if (currentUser.username.toLowerCase() === 'dedokxxreal') {
+            // Admin button
+            if (isAdminUser(currentUser.username)) {
                 document.getElementById('adminPanelBtn').classList.remove('hidden');
             } else {
                 document.getElementById('adminPanelBtn').classList.add('hidden');
@@ -589,19 +876,87 @@
             document.getElementById('chatSendBtn').disabled = false;
         }
 
+        function openLoginModal() { document.getElementById('loginModal').classList.remove('hidden');
+            resetAuthModal(); }
+
+        function closeLoginModal() { document.getElementById('loginModal').classList.add('hidden'); }
+
+        function resetAuthModal() {
+            document.getElementById('authStep1').classList.remove('hidden');
+            document.getElementById('authStep2').classList.add('hidden');
+            document.getElementById('authStep3').classList.add('hidden');
+        }
+
+        async function fetchRobloxProfileAPI() {
+            const username = document.getElementById('robloxUserSearch').value.trim();
+            if (username.length < 3) return;
+            try {
+                const res = await fetch(`/api/roblox/user/${encodeURIComponent(username)}`);
+                const data = await res.json();
+                if (res.ok) {
+                    fetchedRobloxUser = data;
+                    document.getElementById('realRobloxUserPreview').textContent = data.username;
+                    document.getElementById('realRobloxAvatarPreview').src = data.avatarUrl ||
+                        'https://via.placeholder.com/150';
+                    document.getElementById('authStep1').classList.add('hidden');
+                    document.getElementById('authStep2').classList.remove('hidden');
+                } else {
+                    showNotification('error', 'User not found');
+                }
+            } catch (e) { showNotification('error', 'API error'); }
+        }
+
+        function proceedToBioStep() {
+            generatedBioCode = 'PET-' + Math.random().toString(36).substring(2, 7).toUpperCase();
+            document.getElementById('bioVerificationCode').textContent = generatedBioCode;
+            document.getElementById('authStep2').classList.add('hidden');
+            document.getElementById('authStep3').classList.remove('hidden');
+        }
+
+        function copyBioCode() {
+            navigator.clipboard.writeText(generatedBioCode);
+            showNotification('success', 'Code copied!');
+        }
+
+        async function verifyRobloxBioAPI() {
+            try {
+                const res = await fetch('/api/roblox/verify-bio', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ userId: fetchedRobloxUser.id, code: generatedBioCode })
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    currentUser = {
+                        id: fetchedRobloxUser.id,
+                        username: fetchedRobloxUser.username,
+                        avatar: fetchedRobloxUser.avatarUrl || 'https://via.placeholder.com/150',
+                        isAdmin: isAdminUser(fetchedRobloxUser.username)
+                    };
+                    // init stats
+                    getUserStats(currentUser.username);
+                    saveState();
+                    applyUserLoggedInState();
+                    closeLoginModal();
+                    showNotification('success', 'Verified and logged in!');
+                } else {
+                    showNotification('error', data.error || 'Bio verification failed');
+                }
+            } catch (e) { showNotification('error', 'Verification error'); }
+        }
+
+        function logout() {
+            currentUser = null;
+            saveState();
+            window.location.reload();
+        }
+
+        // ---------- CHAT ----------
         function initDynamicOnlineCounter() {
             setInterval(() => {
                 const count = Math.floor(Math.random() * (20 - 10 + 1)) + 10;
                 document.getElementById('onlineCounter').textContent = `${count} Online`;
             }, 5000);
-        }
-
-        async function fetchServerMatches() {
-            try {
-                const res = await fetch('/api/matches');
-                publicMatches = await res.json();
-                renderMatches();
-            } catch (e) {}
         }
 
         async function loadPersistentChat() {
@@ -612,7 +967,8 @@
                 chatBox.innerHTML = '';
                 messages.forEach(m => {
                     const msgEl = document.createElement('div');
-                    msgEl.className = 'flex items-start space-x-2 bg-darkBg p-2 rounded-lg border border-panelBorder cursor-pointer hover:border-pinkAccent transition';
+                    msgEl.className =
+                        'flex items-start space-x-2 bg-darkBg p-2 rounded-lg border border-panelBorder cursor-pointer hover:border-pinkAccent transition';
                     msgEl.onclick = () => openUserProfileModal(m.username, m.avatar);
                     msgEl.innerHTML = `
                         <img src="${m.avatar}" class="w-6 h-6 rounded-full border border-panelBorder mt-0.5 object-cover">
@@ -635,7 +991,6 @@
             const input = document.getElementById('chatInput');
             const msg = input.value.trim();
             if (!msg) return;
-
             try {
                 await fetch('/api/chat', {
                     method: 'POST',
@@ -647,203 +1002,21 @@
             } catch (e) {}
         }
 
-        function openUserProfileModal(username, avatar) {
-            document.getElementById('userDropdownMenu').classList.add('hidden');
-            targetProfileUser = { username, avatar };
-            const userPets = inventories[username] || [];
-            const totalVal = userPets.reduce((sum, p) => sum + p.value, 0);
-
-            document.getElementById('profileModalUsername').textContent = username;
-            document.getElementById('profileModalAvatar').src = avatar;
-            document.getElementById('profileModalPetCount').textContent = userPets.length;
-            document.getElementById('profileModalValue').textContent = totalVal.toLocaleString() + ' R$';
-
-            const tipBtn = document.getElementById('tipUserBtn');
-            if (currentUser && currentUser.username.toLowerCase() === username.toLowerCase()) {
-                tipBtn.classList.add('hidden');
-            } else {
-                tipBtn.classList.remove('hidden');
-            }
-
-            document.getElementById('userProfileModal').classList.remove('hidden');
-        }
-
-        function openMyProfileModal() {
-            if (!currentUser) return;
-            openUserProfileModal(currentUser.username, currentUser.avatar);
-        }
-
-        function closeUserProfileModal() {
-            document.getElementById('userProfileModal').classList.add('hidden');
-        }
-
-        function openTipInventoryModal() {
-            if (!currentUser) { openLoginModal(); return; }
-            if (currentUser.username.toLowerCase() === targetProfileUser.username.toLowerCase()) {
-                showNotification('error', 'You cannot tip yourself.');
-                return;
-            }
-
-            selectedTipPetIds = [];
-            closeUserProfileModal();
-
-            document.getElementById('tipTargetUsername').textContent = `@${targetProfileUser.username}`;
-            document.getElementById('tipInventoryModal').classList.remove('hidden');
-            renderTipInventory();
-            updateTipSummary();
-        }
-
-        function closeTipInventoryModal() {
-            document.getElementById('tipInventoryModal').classList.add('hidden');
-        }
-
-        function renderTipInventory() {
-            const container = document.getElementById('tipInventoryList');
-            container.innerHTML = '';
-            const myPets = inventories[currentUser.username] || [];
-
-            if (myPets.length === 0) {
-                container.innerHTML = `<div class="col-span-3 text-center text-xs text-gray-500 py-6">Your inventory is empty.</div>`;
-                return;
-            }
-
-            myPets.forEach(pet => {
-                const card = document.createElement('div');
-                const isSelected = selectedTipPetIds.includes(pet.id);
-                card.className = `bg-darkBg p-2 rounded-xl border border-panelBorder cursor-pointer transition text-center ${isSelected ? 'pet-card-selected' : ''}`;
-                card.onclick = () => {
-                    const idx = selectedTipPetIds.indexOf(pet.id);
-                    if (idx > -1) selectedTipPetIds.splice(idx, 1);
-                    else selectedTipPetIds.push(pet.id);
-                    renderTipInventory();
-                    updateTipSummary();
-                };
-                card.innerHTML = `
-                    <img src="${pet.image}" class="w-10 h-10 mx-auto object-contain mb-1">
-                    <span class="font-extrabold text-[10px] text-white block truncate">${escapeHtml(pet.name)}</span>
-                    <span class="text-[10px] text-amber-400 font-bold">${pet.value} R$</span>
-                `;
-                container.appendChild(card);
-            });
-        }
-
-        function updateTipSummary() {
-            const myPets = inventories[currentUser.username] || [];
-            const selectedPets = myPets.filter(p => selectedTipPetIds.includes(p.id));
-            const totalVal = selectedPets.reduce((sum, p) => sum + p.value, 0);
-            document.getElementById('tipSelectedValue').textContent = totalVal.toLocaleString() + ' R$';
-        }
-
-        function confirmSendTip() {
-            if (selectedTipPetIds.length === 0) {
-                showNotification('error', 'Select at least one pet to tip.');
-                return;
-            }
-
-            const myPets = inventories[currentUser.username] || [];
-            const tippedPets = myPets.filter(p => selectedTipPetIds.includes(p.id));
-            const totalVal = tippedPets.reduce((sum, p) => sum + p.value, 0);
-
-            inventories[currentUser.username] = myPets.filter(p => !selectedTipPetIds.includes(p.id));
-
-            if (!inventories[targetProfileUser.username]) inventories[targetProfileUser.username] = [];
-            inventories[targetProfileUser.username].push(...tippedPets);
-
-            // Log Transactions
-            const timeNow = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            transactions.unshift({
-                user: currentUser.username,
-                type: 'TIP_SENT',
-                target: targetProfileUser.username,
-                value: totalVal,
-                itemCount: tippedPets.length,
-                time: timeNow
-            });
-            transactions.unshift({
-                user: targetProfileUser.username,
-                type: 'TIP_RECEIVED',
-                target: currentUser.username,
-                value: totalVal,
-                itemCount: tippedPets.length,
-                time: timeNow
-            });
-
-            saveState();
-            closeTipInventoryModal();
-            showNotification('success', `Successfully tipped ${tippedPets.length} pet(s) to ${targetProfileUser.username}!`);
-        }
-
-        // Transactions Modal Functions
-        function openTransactionsModal() {
-            if (!currentUser) return;
-            document.getElementById('userDropdownMenu').classList.add('hidden');
-            const container = document.getElementById('transactionsList');
-            container.innerHTML = '';
-
-            const userTxs = transactions.filter(t => t.user.toLowerCase() === currentUser.username.toLowerCase());
-
-            if (userTxs.length === 0) {
-                container.innerHTML = `<div class="text-center text-xs text-gray-500 py-8">No transaction history found.</div>`;
-            } else {
-                userTxs.forEach(tx => {
-                    const row = document.createElement('div');
-                    row.className = 'flex items-center justify-between bg-darkBg p-3 rounded-xl border border-panelBorder text-xs';
-
-                    let typeBadge = '';
-                    let details = '';
-
-                    if (tx.type === 'TIP_SENT') {
-                        typeBadge = `<span class="bg-red-500/10 text-red-400 font-extrabold px-2 py-0.5 rounded border border-red-500/20"><i class="fa-solid fa-arrow-up-right-from-square"></i> TIP SENT</span>`;
-                        details = `To <strong class="text-white">@${escapeHtml(tx.target)}</strong> (${tx.itemCount} items)`;
-                    } else if (tx.type === 'TIP_RECEIVED') {
-                        typeBadge = `<span class="bg-emerald-500/10 text-emerald-400 font-extrabold px-2 py-0.5 rounded border border-emerald-500/20"><i class="fa-solid fa-arrow-down-left-and-up-right-to-center"></i> TIP RECEIVED</span>`;
-                        details = `From <strong class="text-white">@${escapeHtml(tx.target)}</strong> (${tx.itemCount} items)`;
-                    } else if (tx.type === 'DEPOSIT') {
-                        typeBadge = `<span class="bg-blue-500/10 text-blue-400 font-extrabold px-2 py-0.5 rounded border border-blue-500/20"><i class="fa-solid fa-download"></i> DEPOSIT</span>`;
-                        details = `Bot Queue Trade`;
-                    } else if (tx.type === 'WITHDRAW') {
-                        typeBadge = `<span class="bg-purple-500/10 text-purple-400 font-extrabold px-2 py-0.5 rounded border border-purple-500/20"><i class="fa-solid fa-upload"></i> WITHDRAW</span>`;
-                        details = `Bot Withdrawal`;
-                    }
-
-                    row.innerHTML = `
-                        <div class="flex items-center space-x-3">
-                            ${typeBadge}
-                            <span class="text-gray-400">${details}</span>
-                        </div>
-                        <div class="flex items-center space-x-3">
-                            <span class="font-extrabold text-amber-400 flex items-center gap-1"><i class="fa-brands fa-roblox text-xs"></i> ${tx.value.toLocaleString()} R$</span>
-                            <span class="text-[10px] text-gray-500">${tx.time}</span>
-                        </div>
-                    `;
-                    container.appendChild(row);
-                });
-            }
-
-            document.getElementById('transactionsModal').classList.remove('hidden');
-        }
-
-        function closeTransactionsModal() {
-            document.getElementById('transactionsModal').classList.add('hidden');
-        }
-
-        function logDepositTransaction() {
-            if (!currentUser) return;
-            const timeNow = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            transactions.unshift({
-                user: currentUser.username,
-                type: 'DEPOSIT',
-                target: 'Bot',
-                value: 0,
-                itemCount: 1,
-                time: timeNow
-            });
-            saveState();
+        // ---------- MATCHES (fetch + render) ----------
+        async function fetchServerMatches() {
+            try {
+                const res = await fetch('/api/matches');
+                publicMatches = await res.json();
+                renderMatches();
+            } catch (e) { publicMatches = [];
+                renderMatches(); }
         }
 
         function renderMatches() {
             const container = document.getElementById('matchesList');
-            document.getElementById('allGamesCount').textContent = publicMatches.length + 5;
+            // All Games count — actual number of matches
+            const allGames = publicMatches.length;
+            document.getElementById('allGamesCount').textContent = allGames;
             document.getElementById('openGamesCount').textContent = publicMatches.length;
 
             const totalVal = publicMatches.reduce((sum, m) => sum + m.totalValue, 0);
@@ -851,32 +1024,36 @@
 
             container.innerHTML = '';
             if (publicMatches.length === 0) {
-                container.innerHTML = `<div class="text-center text-gray-500 py-12 text-xs bg-cardBg rounded-xl border border-panelBorder">No active matches online. Click "Create" to post one!</div>`;
+                container.innerHTML =
+                    `<div class="text-center text-gray-500 py-12 text-xs bg-cardBg rounded-xl border border-panelBorder">No active matches online. Click "Create" to post one!</div>`;
                 return;
             }
 
-            publicMatches.forEach(match => {
+            // Sort
+            const sortVal = document.getElementById('sortDropdown').value;
+            const sorted = [...publicMatches];
+            if (sortVal === 'high') sorted.sort((a, b) => b.totalValue - a.totalValue);
+            else sorted.sort((a, b) => a.totalValue - b.totalValue);
+
+            sorted.forEach(match => {
                 const card = document.createElement('div');
                 card.className = 'bg-cardBg rounded-xl border border-panelBorder p-4 flex flex-col md:flex-row items-center justify-between gap-4 shadow-md';
 
                 let visiblePets = match.pets.slice(0, 4);
                 let extraCount = match.pets.length - 4;
-
-                let petsHtml = visiblePets.map(p => `
-                    <div class="relative w-10 h-10 rounded-full bg-darkBg border border-panelBorder p-1 flex items-center justify-center">
-                        <img src="${p.image}" class="w-full h-full object-contain">
-                    </div>
-                `).join('');
-
+                let petsHtml = visiblePets.map(p =>
+                    `<div class="relative w-10 h-10 rounded-full bg-darkBg border border-panelBorder p-1 flex items-center justify-center"><img src="${p.image}" class="w-full h-full object-contain"></div>`
+                    ).join('');
                 if (extraCount > 0) {
-                    petsHtml += `<div class="w-8 h-8 rounded-full bg-darkBg border border-panelBorder flex items-center justify-center text-[10px] font-bold text-white">+${extraCount}</div>`;
+                    petsHtml +=
+                        `<div class="w-8 h-8 rounded-full bg-darkBg border border-panelBorder flex items-center justify-center text-[10px] font-bold text-white">+${extraCount}</div>`;
                 }
 
                 const isMyMatch = currentUser && match.creator.toLowerCase() === currentUser.username.toLowerCase();
 
                 card.innerHTML = `
                     <div class="flex items-center space-x-3">
-                        <div class="relative cursor-pointer" onclick="openUserProfileModal('${match.creator}', '${match.creatorAvatar}')">
+                        <div class="relative cursor-pointer" onclick="openUserProfileModal('${match.creator}','${match.creatorAvatar}')">
                             <img src="${match.creatorAvatar}" class="w-10 h-10 rounded-full border-2 border-darkBg object-cover">
                             <span class="absolute -top-1 -right-1 w-4 h-4 rounded-full ${match.side === 'blue' ? 'bg-blueCoin' : 'bg-pinkCoin'} border border-white flex items-center justify-center text-[8px]"></span>
                         </div>
@@ -885,28 +1062,18 @@
                             <div class="w-10 h-10 rounded-full bg-darkBg border border-panelBorder flex items-center justify-center text-gray-400 font-bold text-xs">?</div>
                         </div>
                     </div>
-
-                    <div class="flex items-center space-x-2 flex-1 overflow-x-auto justify-start md:justify-center">
-                        ${petsHtml}
-                    </div>
-
+                    <div class="flex items-center space-x-2 flex-1 overflow-x-auto justify-start md:justify-center">${petsHtml}</div>
                     <div class="flex items-center space-x-4">
                         <div class="text-right">
                             <span class="text-sm font-extrabold text-white flex items-center gap-1 justify-end">
                                 <i class="fa-brands fa-roblox text-xs text-gray-400"></i> ${match.totalValue.toLocaleString()}
                             </span>
                         </div>
-
                         ${isMyMatch ? `
-                            <button onclick="cancelMatch('${match.id}')" class="bg-red-600 hover:bg-red-700 text-white font-bold px-4 py-2 rounded-xl text-xs transition">
-                                Cancel
-                            </button>
+                            <button onclick="cancelMatch('${match.id}')" class="bg-red-600 hover:bg-red-700 text-white font-bold px-4 py-2 rounded-xl text-xs transition">Cancel</button>
                         ` : `
-                            <button onclick="openJoinMatchModal('${match.id}')" class="bg-pinkAccent hover:bg-pinkHover text-white font-bold px-5 py-2 rounded-xl text-xs transition shadow-lg shadow-pinkAccent/20">
-                                Join
-                            </button>
+                            <button onclick="openJoinMatchModal('${match.id}')" class="bg-pinkAccent hover:bg-pinkHover text-white font-bold px-5 py-2 rounded-xl text-xs transition shadow-lg shadow-pinkAccent/20">Join</button>
                         `}
-
                         <button onclick="openSpectateModal('${match.id}')" class="bg-darkBg hover:bg-panelBorder text-gray-300 px-3 py-2 rounded-xl border border-panelBorder text-xs transition" title="View Match">
                             <i class="fa-solid fa-eye"></i>
                         </button>
@@ -916,6 +1083,7 @@
             });
         }
 
+        // ---------- CREATE MATCH ----------
         function openCreateMatchModal() {
             if (!currentUser) { openLoginModal(); return; }
             selectedCreatePetIds = [];
@@ -923,33 +1091,26 @@
             renderCreateMatchInventory();
             updateCreateMatchSummary();
         }
-        function closeCreateMatchModal() { document.getElementById('createMatchModal').classList.add('hidden'); }
 
-        function openDepositModal() {
-            closeCreateMatchModal();
-            document.getElementById('depositModal').classList.remove('hidden');
-        }
-        function closeDepositModal() { document.getElementById('depositModal').classList.add('hidden'); }
+        function closeCreateMatchModal() { document.getElementById('createMatchModal').classList.add('hidden'); }
 
         function renderCreateMatchInventory() {
             const container = document.getElementById('createMatchInventory');
             const emptyBox = document.getElementById('emptyInventoryBox');
             container.innerHTML = '';
-            
-            const userPets = inventories[currentUser.username] || [];
+            const userPets = getPetsForUser(currentUser.username);
             if (userPets.length === 0) {
                 container.classList.add('hidden');
                 emptyBox.classList.remove('hidden');
                 return;
             }
-
             container.classList.remove('hidden');
             emptyBox.classList.add('hidden');
-
             userPets.forEach(pet => {
                 const card = document.createElement('div');
                 const isSelected = selectedCreatePetIds.includes(pet.id);
-                card.className = `bg-cardBg p-3 rounded-xl border border-panelBorder cursor-pointer transition text-center ${isSelected ? 'pet-card-selected' : ''}`;
+                card.className =
+                    `pet-grid-item bg-cardBg p-3 rounded-xl border ${isSelected ? 'pet-card-selected border-pinkAccent' : 'border-panelBorder'} transition text-center`;
                 card.onclick = () => {
                     const idx = selectedCreatePetIds.indexOf(pet.id);
                     if (idx > -1) selectedCreatePetIds.splice(idx, 1);
@@ -966,26 +1127,41 @@
             });
         }
 
-        function setMatchSide(side) {
-            selectedMatchSide = side;
-            document.getElementById('matchSidePink').className = side === 'pink' ? 'w-10 h-10 rounded-full bg-pinkCoin border-2 border-white flex items-center justify-center text-white shadow-lg' : 'w-10 h-10 rounded-full bg-pinkCoin/30 border-2 border-panelBorder flex items-center justify-center text-gray-500';
-            document.getElementById('matchSideBlue').className = side === 'blue' ? 'w-10 h-10 rounded-full bg-blueCoin border-2 border-white flex items-center justify-center text-white shadow-lg' : 'w-10 h-10 rounded-full bg-blueCoin/30 border-2 border-panelBorder flex items-center justify-center text-gray-500';
+        function filterCreateMatchInventory() {
+            const q = document.getElementById('createMatchSearch').value.toLowerCase();
+            const items = document.querySelectorAll('#createMatchInventory .pet-grid-item');
+            items.forEach(el => {
+                const name = el.querySelector('span')?.textContent?.toLowerCase() || '';
+                el.style.display = name.includes(q) ? '' : 'none';
+            });
         }
 
         function updateCreateMatchSummary() {
-            const userPets = inventories[currentUser.username] || [];
-            const selectedPets = userPets.filter(p => selectedCreatePetIds.includes(p.id));
-            const totalVal = selectedPets.reduce((sum, p) => sum + p.value, 0);
-            document.getElementById('selectedWagerValue').textContent = totalVal.toLocaleString();
-            document.getElementById('selectedItemCount').textContent = selectedPets.length;
+            const userPets = getPetsForUser(currentUser.username);
+            const selected = userPets.filter(p => selectedCreatePetIds.includes(p.id));
+            const total = selected.reduce((s, p) => s + p.value, 0);
+            document.getElementById('selectedWagerValue').textContent = total.toLocaleString();
+            document.getElementById('selectedItemCount').textContent = selected.length;
+        }
+
+        function setMatchSide(side) {
+            selectedMatchSide = side;
+            document.getElementById('matchSidePink').className = side === 'pink' ?
+                'w-10 h-10 rounded-full bg-pinkCoin border-2 border-white flex items-center justify-center text-white shadow-lg' :
+                'w-10 h-10 rounded-full bg-pinkCoin/30 border-2 border-panelBorder flex items-center justify-center text-gray-500';
+            document.getElementById('matchSideBlue').className = side === 'blue' ?
+                'w-10 h-10 rounded-full bg-blueCoin border-2 border-white flex items-center justify-center text-white shadow-lg' :
+                'w-10 h-10 rounded-full bg-blueCoin/30 border-2 border-panelBorder flex items-center justify-center text-gray-500';
         }
 
         async function submitCreateMatch() {
-            if (selectedCreatePetIds.length === 0) return;
-            const userPets = inventories[currentUser.username] || [];
+            if (selectedCreatePetIds.length === 0) {
+                showNotification('error', 'Select at least one pet.');
+                return;
+            }
+            const userPets = getPetsForUser(currentUser.username);
             const wagerPets = userPets.filter(p => selectedCreatePetIds.includes(p.id));
-            const totalVal = wagerPets.reduce((sum, p) => sum + p.value, 0);
-
+            const totalVal = wagerPets.reduce((s, p) => s + p.value, 0);
             inventories[currentUser.username] = userPets.filter(p => !selectedCreatePetIds.includes(p.id));
             saveState();
 
@@ -1010,11 +1186,30 @@
             } catch (e) {}
         }
 
+        async function cancelMatch(matchId) {
+            if (!currentUser) return;
+            try {
+                const res = await fetch('/api/matches/cancel', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ matchId, username: currentUser.username })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    if (!inventories[currentUser.username]) inventories[currentUser.username] = [];
+                    inventories[currentUser.username].push(...data.returnedPets);
+                    saveState();
+                    fetchServerMatches();
+                    showNotification('success', 'Match canceled! Pets returned.');
+                }
+            } catch (e) {}
+        }
+
+        // ---------- JOIN MATCH ----------
         function openJoinMatchModal(matchId) {
             if (!currentUser) { openLoginModal(); return; }
             const match = publicMatches.find(m => m.id === matchId);
             if (!match) return;
-
             activeJoinMatchId = matchId;
             selectedJoinPetIds = [];
             document.getElementById('joinMatchInfo').innerHTML = `
@@ -1027,20 +1222,23 @@
             renderJoinMatchInventory();
             updateJoinMatchSummary();
         }
+
         function closeJoinMatchModal() { document.getElementById('joinMatchModal').classList.add('hidden'); }
 
         function renderJoinMatchInventory() {
             const container = document.getElementById('joinMatchInventory');
             container.innerHTML = '';
-            const userPets = inventories[currentUser.username] || [];
+            const userPets = getPetsForUser(currentUser.username);
             if (userPets.length === 0) {
-                container.innerHTML = `<div class="col-span-2 text-center text-xs text-gray-500 py-4">No pets in inventory!</div>`;
+                container.innerHTML =
+                    `<div class="col-span-2 text-center text-xs text-gray-500 py-4">No pets in inventory!</div>`;
                 return;
             }
             userPets.forEach(pet => {
                 const card = document.createElement('div');
                 const isSelected = selectedJoinPetIds.includes(pet.id);
-                card.className = `bg-cardBg p-2 rounded-lg border border-panelBorder cursor-pointer transition text-center ${isSelected ? 'pet-card-selected' : ''}`;
+                card.className =
+                    `bg-cardBg p-2 rounded-lg border cursor-pointer transition text-center ${isSelected ? 'pet-card-selected border-pinkAccent' : 'border-panelBorder'}`;
                 card.onclick = () => {
                     const idx = selectedJoinPetIds.indexOf(pet.id);
                     if (idx > -1) selectedJoinPetIds.splice(idx, 1);
@@ -1058,28 +1256,38 @@
         }
 
         function updateJoinMatchSummary() {
-            const userPets = inventories[currentUser.username] || [];
-            const selectedPets = userPets.filter(p => selectedJoinPetIds.includes(p.id));
-            const totalVal = selectedPets.reduce((sum, p) => sum + p.value, 0);
-            document.getElementById('joinWagerTotal').textContent = totalVal.toLocaleString() + ' R$';
+            const userPets = getPetsForUser(currentUser.username);
+            const selected = userPets.filter(p => selectedJoinPetIds.includes(p.id));
+            const total = selected.reduce((s, p) => s + p.value, 0);
+            document.getElementById('joinWagerTotal').textContent = total.toLocaleString() + ' R$';
         }
 
         async function confirmJoinMatch() {
             const match = publicMatches.find(m => m.id === activeJoinMatchId);
             if (!match) return;
-
-            const userPets = inventories[currentUser.username] || [];
+            const userPets = getPetsForUser(currentUser.username);
             const wagerPets = userPets.filter(p => selectedJoinPetIds.includes(p.id));
-            const joinValue = wagerPets.reduce((sum, p) => sum + p.value, 0);
-
+            const joinValue = wagerPets.reduce((s, p) => s + p.value, 0);
+            if (wagerPets.length === 0) {
+                showNotification('error', 'Select at least one pet to wager.');
+                return;
+            }
+            // Check if value matches
+            if (joinValue < match.totalValue * 0.8 || joinValue > match.totalValue * 1.2) {
+                showNotification('error', `Wager must be between ${Math.floor(match.totalValue*0.8)} and ${Math.ceil(match.totalValue*1.2)} R$`);
+                return;
+            }
             inventories[currentUser.username] = userPets.filter(p => !selectedJoinPetIds.includes(p.id));
             saveState();
             closeJoinMatchModal();
 
+            // --- FLIP ANIMATION ---
             const flipModal = document.getElementById('gameFlipModal');
             const statusText = document.getElementById('modalFlipStatus');
             const coin = document.getElementById('modalCoin');
-
+            // Reset coin
+            coin.style.transition = 'none';
+            coin.className = 'coin';
             flipModal.classList.remove('hidden');
             statusText.textContent = "FLIPPING COIN...";
 
@@ -1095,17 +1303,13 @@
                         joinerValue: joinValue
                     })
                 });
-
                 const result = await res.json();
                 if (!res.ok) {
-                    showNotification('error', result.error);
+                    showNotification('error', result.error || 'Match resolve failed');
                     flipModal.classList.add('hidden');
                     return;
                 }
-
-                coin.style.transition = 'none';
-                coin.className = 'coin';
-
+                // Flip coin
                 setTimeout(() => {
                     coin.style.transition = 'transform 3s cubic-bezier(0.15, 0.85, 0.35, 1.2)';
                     if (result.outcome === 'heads') coin.classList.add('flip-heads');
@@ -1115,23 +1319,33 @@
                 setTimeout(() => {
                     if (!inventories[result.winner]) inventories[result.winner] = [];
                     inventories[result.winner].push(...result.totalPets);
+                    // Update stats
+                    const winnerName = result.winner;
+                    const loserName = result.loser;
+                    updateUserStats(winnerName, true);
+                    updateUserStats(loserName, false);
                     saveState();
 
-                    statusText.innerHTML = `<span class="text-pinkAccent font-black text-lg">${result.winner.toUpperCase()} WON!</span>`;
+                    statusText.innerHTML =
+                    `<span class="text-pinkAccent font-black text-lg">${escapeHtml(result.winner)} WON!</span>`;
                     fetchServerMatches();
-
                     setTimeout(() => { flipModal.classList.add('hidden'); }, 2500);
                 }, 3200);
 
-            } catch (e) { flipModal.classList.add('hidden'); }
+            } catch (e) { flipModal.classList.add('hidden');
+                showNotification('error', 'Match error'); }
         }
+
+        // ---------- SPECTATE (with JOIN) ----------
+        let spectateMatchId = null;
 
         function openSpectateModal(matchId) {
             const match = publicMatches.find(m => m.id === matchId);
             if (!match) return;
+            spectateMatchId = matchId;
 
             document.getElementById('specCreatorName').textContent = match.creator;
-            document.getElementById('specCreatorAvatar').src = match.creatorAvatar;
+            document.getElementById('specCreatorAvatar').src = match.creatorAvatar || 'https://via.placeholder.com/150';
             document.getElementById('specCreatorVal').textContent = match.totalValue.toLocaleString();
 
             document.getElementById('specJoinerName').textContent = 'Waiting...';
@@ -1155,40 +1369,320 @@
                     </div>
                 `;
             });
-
-            document.getElementById('specJoinerItems').innerHTML = `<div class="text-center text-xs text-gray-500 py-4">Waiting for opponent...</div>`;
+            document.getElementById('specJoinerItems').innerHTML =
+                `<div class="text-center text-xs text-gray-500 py-4">Waiting for opponent...</div>`;
             document.getElementById('spectateModal').classList.remove('hidden');
+
+            // Show/hide JOIN button based on whether user can join
+            const joinBtn = document.getElementById('spectateJoinBtn');
+            if (currentUser && match.creator.toLowerCase() !== currentUser.username.toLowerCase()) {
+                joinBtn.style.display = 'flex';
+            } else {
+                joinBtn.style.display = 'none';
+            }
         }
 
         function closeSpectateModal() { document.getElementById('spectateModal').classList.add('hidden'); }
 
-        async function cancelMatch(matchId) {
-            if (!currentUser) return;
-            try {
-                const res = await fetch('/api/matches/cancel', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ matchId, username: currentUser.username })
-                });
-                const data = await res.json();
-                if (data.success) {
-                    if (!inventories[currentUser.username]) inventories[currentUser.username] = [];
-                    inventories[currentUser.username].push(...data.returnedPets);
-                    saveState();
-                    fetchServerMatches();
-                    showNotification('success', 'Match canceled! Pets returned.');
-                }
-            } catch (e) {}
+        function openJoinFromSpectate() {
+            if (!spectateMatchId) return;
+            closeSpectateModal();
+            openJoinMatchModal(spectateMatchId);
         }
 
+        // ---------- GIVEAWAY ----------
+        function openGiveawayModal() {
+            if (!currentUser) { openLoginModal(); return; }
+            selectedGiveawayPetIds = [];
+            document.getElementById('userDropdownMenu').classList.add('hidden');
+            document.getElementById('giveawayModal').classList.remove('hidden');
+            renderGiveawayInventory();
+            updateGiveawaySummary();
+            // reset time selection
+            document.querySelectorAll('.time-pill').forEach(el => el.classList.remove('active'));
+            document.querySelector('.time-pill[data-min="1"]').classList.add('active');
+            giveawayTimeMinutes = 1;
+        }
+
+        function closeGiveawayModal() { document.getElementById('giveawayModal').classList.add('hidden'); }
+
+        function renderGiveawayInventory() {
+            const container = document.getElementById('giveawayInventory');
+            const emptyBox = document.getElementById('giveawayEmptyBox');
+            container.innerHTML = '';
+            const userPets = getPetsForUser(currentUser.username);
+            if (userPets.length === 0) {
+                container.classList.add('hidden');
+                emptyBox.classList.remove('hidden');
+                return;
+            }
+            container.classList.remove('hidden');
+            emptyBox.classList.add('hidden');
+            userPets.forEach(pet => {
+                const card = document.createElement('div');
+                const isSelected = selectedGiveawayPetIds.includes(pet.id);
+                card.className =
+                    `pet-grid-item bg-cardBg p-3 rounded-xl border ${isSelected ? 'pet-card-selected border-pinkAccent' : 'border-panelBorder'} transition text-center`;
+                card.onclick = () => {
+                    const idx = selectedGiveawayPetIds.indexOf(pet.id);
+                    if (idx > -1) selectedGiveawayPetIds.splice(idx, 1);
+                    else selectedGiveawayPetIds.push(pet.id);
+                    renderGiveawayInventory();
+                    updateGiveawaySummary();
+                };
+                card.innerHTML = `
+                    <img src="${pet.image}" class="w-12 h-12 mx-auto object-contain mb-2">
+                    <span class="font-extrabold text-xs text-white block truncate">${escapeHtml(pet.name)}</span>
+                    <span class="text-xs text-amber-400 font-black">${pet.value} R$</span>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function updateGiveawaySummary() {
+            const userPets = getPetsForUser(currentUser.username);
+            const selected = userPets.filter(p => selectedGiveawayPetIds.includes(p.id));
+            const total = selected.reduce((s, p) => s + p.value, 0);
+            document.getElementById('giveawaySelectedValue').textContent = total.toLocaleString();
+            document.getElementById('giveawayItemCount').textContent = selected.length;
+        }
+
+        function selectGiveawayTime(minutes, el) {
+            document.querySelectorAll('.time-pill').forEach(b => b.classList.remove('active'));
+            el.classList.add('active');
+            giveawayTimeMinutes = minutes;
+        }
+
+        function submitGiveaway() {
+            if (selectedGiveawayPetIds.length === 0) {
+                showNotification('error', 'Select at least one pet for the giveaway.');
+                return;
+            }
+            const userPets = getPetsForUser(currentUser.username);
+            const giveawayPets = userPets.filter(p => selectedGiveawayPetIds.includes(p.id));
+            const totalVal = giveawayPets.reduce((s, p) => s + p.value, 0);
+            // Remove from inventory
+            inventories[currentUser.username] = userPets.filter(p => !selectedGiveawayPetIds.includes(p.id));
+            saveState();
+            closeGiveawayModal();
+            showNotification('success',
+                `Giveaway created! ${giveawayPets.length} pet(s) (${totalVal.toLocaleString()} R$) will be given away in ${giveawayTimeMinutes} min.`
+                );
+            // Log transaction
+            const timeNow = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            transactions.unshift({
+                user: currentUser.username,
+                type: 'GIVEAWAY_CREATED',
+                target: 'All',
+                value: totalVal,
+                itemCount: giveawayPets.length,
+                time: timeNow
+            });
+            saveState();
+        }
+
+        // ---------- PROFILE ----------
+        function openUserProfileModal(username, avatar) {
+            document.getElementById('userDropdownMenu').classList.add('hidden');
+            targetProfileUser = { username, avatar: avatar || 'https://via.placeholder.com/150' };
+            const userPets = getPetsForUser(username);
+            const totalVal = userPets.reduce((s, p) => s + p.value, 0);
+            const stats = getUserStats(username);
+            const gamesPlayed = stats.gamesPlayed || 0;
+            const wins = stats.wins || 0;
+            const losses = stats.losses || 0;
+            const winPct = gamesPlayed > 0 ? Math.round((wins / gamesPlayed) * 100) : 0;
+            const level = Math.floor(gamesPlayed / 5) + 1;
+
+            document.getElementById('profileModalUsername').textContent = username;
+            document.getElementById('profileModalAvatar').src = avatar || 'https://via.placeholder.com/150';
+            document.getElementById('profileModalLevel').textContent = level;
+            document.getElementById('profileModalGamesPlayed').textContent = gamesPlayed;
+            document.getElementById('profileModalWinPct').textContent = winPct + '%';
+            document.getElementById('profileModalWon').textContent = wins;
+            document.getElementById('profileModalLost').textContent = losses;
+            document.getElementById('profileModalJoinDate').textContent = stats.joinDate ? 'Joined: ' + stats.joinDate :
+                'Joined: Aug 2026';
+
+            const tipBtn = document.getElementById('tipUserBtn');
+            if (currentUser && currentUser.username.toLowerCase() === username.toLowerCase()) {
+                tipBtn.classList.add('hidden');
+            } else {
+                tipBtn.classList.remove('hidden');
+            }
+
+            document.getElementById('userProfileModal').classList.remove('hidden');
+        }
+
+        function openMyProfileModal() {
+            if (!currentUser) return;
+            openUserProfileModal(currentUser.username, currentUser.avatar);
+        }
+
+        function closeUserProfileModal() { document.getElementById('userProfileModal').classList.add('hidden'); }
+
+        // ---------- TIP ----------
+        function openTipInventoryModal() {
+            if (!currentUser) { openLoginModal(); return; }
+            if (currentUser.username.toLowerCase() === targetProfileUser.username.toLowerCase()) {
+                showNotification('error', 'You cannot tip yourself.');
+                return;
+            }
+            selectedTipPetIds = [];
+            closeUserProfileModal();
+            document.getElementById('tipTargetUsername').textContent = `@${targetProfileUser.username}`;
+            document.getElementById('tipInventoryModal').classList.remove('hidden');
+            renderTipInventory();
+            updateTipSummary();
+        }
+
+        function closeTipInventoryModal() { document.getElementById('tipInventoryModal').classList.add('hidden'); }
+
+        function renderTipInventory() {
+            const container = document.getElementById('tipInventoryList');
+            container.innerHTML = '';
+            const myPets = getPetsForUser(currentUser.username);
+            if (myPets.length === 0) {
+                container.innerHTML =
+                    `<div class="col-span-3 text-center text-xs text-gray-500 py-6">Your inventory is empty.</div>`;
+                return;
+            }
+            myPets.forEach(pet => {
+                const card = document.createElement('div');
+                const isSelected = selectedTipPetIds.includes(pet.id);
+                card.className =
+                    `bg-darkBg p-2 rounded-xl border cursor-pointer transition text-center ${isSelected ? 'pet-card-selected border-pinkAccent' : 'border-panelBorder'}`;
+                card.onclick = () => {
+                    const idx = selectedTipPetIds.indexOf(pet.id);
+                    if (idx > -1) selectedTipPetIds.splice(idx, 1);
+                    else selectedTipPetIds.push(pet.id);
+                    renderTipInventory();
+                    updateTipSummary();
+                };
+                card.innerHTML = `
+                    <img src="${pet.image}" class="w-10 h-10 mx-auto object-contain mb-1">
+                    <span class="font-extrabold text-[10px] text-white block truncate">${escapeHtml(pet.name)}</span>
+                    <span class="text-[10px] text-amber-400 font-bold">${pet.value} R$</span>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function updateTipSummary() {
+            const myPets = getPetsForUser(currentUser.username);
+            const selected = myPets.filter(p => selectedTipPetIds.includes(p.id));
+            const total = selected.reduce((s, p) => s + p.value, 0);
+            document.getElementById('tipSelectedValue').textContent = total.toLocaleString() + ' R$';
+        }
+
+        function confirmSendTip() {
+            if (selectedTipPetIds.length === 0) {
+                showNotification('error', 'Select at least one pet to tip.');
+                return;
+            }
+            const myPets = getPetsForUser(currentUser.username);
+            const tippedPets = myPets.filter(p => selectedTipPetIds.includes(p.id));
+            const totalVal = tippedPets.reduce((s, p) => s + p.value, 0);
+
+            // Remove from sender
+            inventories[currentUser.username] = myPets.filter(p => !selectedTipPetIds.includes(p.id));
+            // Add to receiver
+            if (!inventories[targetProfileUser.username]) inventories[targetProfileUser.username] = [];
+            inventories[targetProfileUser.username].push(...tippedPets);
+            saveState();
+
+            const timeNow = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            transactions.unshift({
+                user: currentUser.username,
+                type: 'TIP_SENT',
+                target: targetProfileUser.username,
+                value: totalVal,
+                itemCount: tippedPets.length,
+                time: timeNow
+            });
+            transactions.unshift({
+                user: targetProfileUser.username,
+                type: 'TIP_RECEIVED',
+                target: currentUser.username,
+                value: totalVal,
+                itemCount: tippedPets.length,
+                time: timeNow
+            });
+            saveState();
+            closeTipInventoryModal();
+            showNotification('success', `Tipped ${tippedPets.length} pet(s) to ${targetProfileUser.username}!`);
+        }
+
+        // ---------- TRANSACTIONS ----------
+        function openTransactionsModal() {
+            if (!currentUser) return;
+            document.getElementById('userDropdownMenu').classList.add('hidden');
+            const container = document.getElementById('transactionsList');
+            container.innerHTML = '';
+            const userTxs = transactions.filter(t => t.user.toLowerCase() === currentUser.username.toLowerCase());
+            if (userTxs.length === 0) {
+                container.innerHTML =
+                    `<div class="text-center text-xs text-gray-500 py-8">No transaction history found.</div>`;
+            } else {
+                userTxs.forEach(tx => {
+                    const row = document.createElement('div');
+                    row.className = 'flex items-center justify-between bg-darkBg p-3 rounded-xl border border-panelBorder text-xs';
+                    let typeBadge = '',
+                        details = '';
+                    if (tx.type === 'TIP_SENT') {
+                        typeBadge =
+                            `<span class="bg-red-500/10 text-red-400 font-extrabold px-2 py-0.5 rounded border border-red-500/20"><i class="fa-solid fa-arrow-up-right-from-square"></i> TIP SENT</span>`;
+                        details = `To <strong class="text-white">@${escapeHtml(tx.target)}</strong> (${tx.itemCount} items)`;
+                    } else if (tx.type === 'TIP_RECEIVED') {
+                        typeBadge =
+                            `<span class="bg-emerald-500/10 text-emerald-400 font-extrabold px-2 py-0.5 rounded border border-emerald-500/20"><i class="fa-solid fa-arrow-down-left-and-up-right-to-center"></i> TIP RECEIVED</span>`;
+                        details = `From <strong class="text-white">@${escapeHtml(tx.target)}</strong> (${tx.itemCount} items)`;
+                    } else if (tx.type === 'DEPOSIT') {
+                        typeBadge =
+                            `<span class="bg-blue-500/10 text-blue-400 font-extrabold px-2 py-0.5 rounded border border-blue-500/20"><i class="fa-solid fa-download"></i> DEPOSIT</span>`;
+                        details = `Bot Queue Trade`;
+                    } else if (tx.type === 'GIVEAWAY_CREATED') {
+                        typeBadge =
+                            `<span class="bg-purple-500/10 text-purple-400 font-extrabold px-2 py-0.5 rounded border border-purple-500/20"><i class="fa-solid fa-gift"></i> GIVEAWAY</span>`;
+                        details = `${tx.itemCount} items (${tx.value.toLocaleString()} R$)`;
+                    } else {
+                        typeBadge =
+                            `<span class="bg-gray-500/10 text-gray-400 font-extrabold px-2 py-0.5 rounded border border-gray-500/20">${tx.type}</span>`;
+                        details = tx.target ? `@${escapeHtml(tx.target)}` : '';
+                    }
+                    row.innerHTML = `
+                        <div class="flex items-center space-x-3">${typeBadge}<span class="text-gray-400">${details}</span></div>
+                        <div class="flex items-center space-x-3">
+                            <span class="font-extrabold text-amber-400 flex items-center gap-1"><i class="fa-brands fa-roblox text-xs"></i> ${tx.value.toLocaleString()} R$</span>
+                            <span class="text-[10px] text-gray-500">${tx.time}</span>
+                        </div>
+                    `;
+                    container.appendChild(row);
+                });
+            }
+            document.getElementById('transactionsModal').classList.remove('hidden');
+        }
+
+        function closeTransactionsModal() { document.getElementById('transactionsModal').classList.add('hidden'); }
+
+        function logDepositTransaction() {
+            if (!currentUser) return;
+            const timeNow = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            transactions.unshift({ user: currentUser.username, type: 'DEPOSIT', target: 'Bot', value: 0, itemCount: 1,
+                time: timeNow });
+            saveState();
+        }
+
+        // ---------- INVENTORY ----------
         function openInventoryModal() {
             if (!currentUser) return;
             document.getElementById('userDropdownMenu').classList.add('hidden');
             const container = document.getElementById('myFullInventoryList');
             container.innerHTML = '';
-            const userPets = inventories[currentUser.username] || [];
+            const userPets = getPetsForUser(currentUser.username);
             if (userPets.length === 0) {
-                container.innerHTML = `<div class="col-span-4 text-center text-gray-500 py-8 text-xs">Inventory is empty.</div>`;
+                container.innerHTML =
+                    `<div class="col-span-4 text-center text-gray-500 py-8 text-xs">Inventory is empty.</div>`;
             } else {
                 userPets.forEach(pet => {
                     const card = document.createElement('div');
@@ -1203,69 +1697,33 @@
             }
             document.getElementById('inventoryModal').classList.remove('hidden');
         }
+
         function closeInventoryModal() { document.getElementById('inventoryModal').classList.add('hidden'); }
 
-        async function fetchRobloxProfileAPI() {
-            const username = document.getElementById('robloxUserSearch').value.trim();
-            if (username.length < 3) return;
-            const res = await fetch(`/api/roblox/user/${encodeURIComponent(username)}`);
-            const data = await res.json();
-            if (res.ok) {
-                fetchedRobloxUser = data;
-                document.getElementById('realRobloxUserPreview').textContent = data.username;
-                document.getElementById('realRobloxAvatarPreview').src = data.avatarUrl;
-                document.getElementById('authStep1').classList.add('hidden');
-                document.getElementById('authStep2').classList.remove('hidden');
-            }
+        // ---------- DEPOSIT ----------
+        function openDepositModal() {
+            closeCreateMatchModal();
+            closeGiveawayModal();
+            document.getElementById('depositModal').classList.remove('hidden');
         }
 
-        function proceedToBioStep() {
-            generatedBioCode = 'PET-' + Math.random().toString(36).substring(2, 7).toUpperCase();
-            document.getElementById('bioVerificationCode').textContent = generatedBioCode;
-            document.getElementById('authStep2').classList.add('hidden');
-            document.getElementById('authStep3').classList.remove('hidden');
-        }
+        function closeDepositModal() { document.getElementById('depositModal').classList.add('hidden'); }
 
-        function copyBioCode() { navigator.clipboard.writeText(generatedBioCode); showNotification('success', 'Code copied!'); }
-
-        async function verifyRobloxBioAPI() {
-            const res = await fetch('/api/roblox/verify-bio', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ userId: fetchedRobloxUser.id, code: generatedBioCode })
-            });
-            const data = await res.json();
-            if (res.ok) {
-                currentUser = { id: fetchedRobloxUser.id, username: fetchedRobloxUser.username, avatar: fetchedRobloxUser.avatarUrl, isAdmin: fetchedRobloxUser.username.toLowerCase() === 'dedokxxreal' };
-                saveState();
-                applyUserLoggedInState();
-                closeLoginModal();
-                showNotification('success', 'Verified and logged in!');
-            }
-        }
-
-        function openLoginModal() { document.getElementById('loginModal').classList.remove('hidden'); resetAuthModal(); }
-        function closeLoginModal() { document.getElementById('loginModal').classList.add('hidden'); }
-        function resetAuthModal() {
-            document.getElementById('authStep1').classList.remove('hidden');
-            document.getElementById('authStep2').classList.add('hidden');
-            document.getElementById('authStep3').classList.add('hidden');
-        }
-
-        function logout() { currentUser = null; saveState(); window.location.reload(); }
-
+        // ---------- ADMIN ----------
         function openAdminModal() {
-            if (!currentUser || currentUser.username.toLowerCase() !== 'dedokxxreal') return;
+            if (!currentUser || !isAdminUser(currentUser.username)) return;
             const select = document.getElementById('adminTargetUser');
             select.innerHTML = '';
             Object.keys(inventories).forEach(usr => {
                 const opt = document.createElement('option');
-                opt.value = usr; opt.textContent = usr;
+                opt.value = usr;
+                opt.textContent = usr;
                 select.appendChild(opt);
             });
             document.getElementById('adminModal').classList.remove('hidden');
             renderAdminUserInventory();
         }
+
         function closeAdminModal() { document.getElementById('adminModal').classList.add('hidden'); }
 
         function renderAdminUserInventory() {
@@ -1292,36 +1750,34 @@
             const petValue = parseInt(document.getElementById('adminPetValue').value);
             if (!inventories[targetUser]) inventories[targetUser] = [];
             inventories[targetUser].push({ id: Date.now(), name: petName, image: petImage, value: petValue });
-            saveState(); renderAdminUserInventory();
+            saveState();
+            renderAdminUserInventory();
             showNotification('success', 'Pet added by admin!');
         }
 
         function adminRemovePet(targetUser, petId) {
             if (!inventories[targetUser]) return;
             inventories[targetUser] = inventories[targetUser].filter(p => p.id !== petId);
-            saveState(); renderAdminUserInventory();
+            saveState();
+            renderAdminUserInventory();
             showNotification('success', 'Pet removed by admin!');
         }
 
-        function showNotification(type, message) {
-            const toast = document.getElementById('notificationToast');
-            document.getElementById('toastMessage').textContent = message;
-            
-            if (toastTimeout) clearTimeout(toastTimeout);
+        // ---------- SORT DROPDOWN ----------
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('sortDropdown').addEventListener('change', renderMatches);
+        });
 
-            toast.classList.remove('translate-x-full', 'opacity-0', 'pointer-events-none');
-            toast.classList.add('translate-x-0', 'opacity-100');
-
-            toastTimeout = setTimeout(() => { hideNotification(); }, 3000);
-        }
-
-        function hideNotification() {
-            const toast = document.getElementById('notificationToast');
-            toast.classList.add('translate-x-full', 'opacity-0', 'pointer-events-none');
-            toast.classList.remove('translate-x-0', 'opacity-100');
-        }
-
-        function escapeHtml(str) { return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+        // ---------- INIT ----------
+        document.addEventListener('DOMContentLoaded', () => {
+            checkAuthSession();
+            initDynamicOnlineCounter();
+            loadPersistentChat();
+            fetchServerMatches();
+            setInterval(fetchServerMatches, 2000);
+            setInterval(loadPersistentChat, 3000);
+        });
     </script>
+
 </body>
 </html>
