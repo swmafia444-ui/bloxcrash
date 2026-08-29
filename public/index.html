@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AMPDUEL COINFLIP</title>
+    <title>PET DUEL — Coinflip</title>
     <script src="https://cdn.tailwindcss.com">
     </script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
@@ -114,7 +114,6 @@
             }
         }
 
-        /* Giveaway time pill */
         .time-pill {
             cursor: pointer;
             transition: all 0.2s;
@@ -139,14 +138,12 @@
             box-shadow: 0 0 20px rgba(255, 42, 133, 0.3);
         }
 
-        /* Profile graph */
         .profile-graph svg {
             width: 100%;
             height: 60px;
             display: block;
         }
 
-        /* spectate join btn */
         .spectate-join-btn {
             transition: all 0.2s;
         }
@@ -154,13 +151,11 @@
             transform: scale(1.04);
         }
 
-        /* Dropdown */
         .sort-dropdown option {
             background: #0B0D13;
             color: #E0E6ED;
         }
 
-        /* pet grid */
         .pet-grid-item {
             transition: all 0.15s;
             cursor: pointer;
@@ -170,13 +165,15 @@
             transform: translateY(-2px);
         }
 
-        /* header logo */
         .logo-text {
             font-weight: 900;
             letter-spacing: -0.02em;
         }
-        .logo-amp {
+        .logo-pet {
             color: #FFF;
+        }
+        .logo-duel {
+            color: #FF2A85;
         }
         .logo-coinflip {
             color: #FF2A85;
@@ -186,6 +183,46 @@
             font-size: 0.8rem;
             margin-left: 0.25rem;
             border: 1px solid rgba(255, 42, 133, 0.2);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .logo-coinflip:hover {
+            background: rgba(255, 42, 133, 0.25);
+            border-color: #FF2A85;
+            box-shadow: 0 0 20px rgba(255, 42, 133, 0.15);
+        }
+
+        /* quick-select pills */
+        .quick-pill {
+            cursor: pointer;
+            transition: all 0.2s;
+            background: #0B0D13;
+            border: 1px solid #23262F;
+            color: #AAA;
+            font-weight: 700;
+            font-size: 0.7rem;
+            padding: 0.3rem 0.9rem;
+            border-radius: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+        .quick-pill:hover {
+            border-color: #FF2A85;
+            color: #FFF;
+            background: #1A1C24;
+        }
+        .quick-pill.active {
+            background: #FF2A85;
+            border-color: #FF2A85;
+            color: #FFF;
+            box-shadow: 0 0 20px rgba(255, 42, 133, 0.25);
+        }
+
+        .admin-user-pet {
+            transition: all 0.15s;
+        }
+        .admin-user-pet:hover {
+            border-color: #FF2A85;
         }
     </style>
 </head>
@@ -208,8 +245,9 @@
             </div>
             <div>
                 <h1 class="logo-text text-lg flex items-center gap-1">
-                    <span class="logo-amp">AMPDUEL</span>
-                    <span class="logo-coinflip text-sm font-black">COINFLIP</span>
+                    <span class="logo-pet">PET</span>
+                    <span class="logo-duel">DUEL</span>
+                    <span class="logo-coinflip" onclick="goToCoinflip()">COINFLIP</span>
                 </h1>
             </div>
         </div>
@@ -372,7 +410,7 @@
         </div>
     </div>
 
-    <!-- ========== USER PROFILE MODAL (REDESIGNED) ========== -->
+    <!-- ========== USER PROFILE MODAL ========== -->
     <div id="userProfileModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'userProfileModal')">
         <div class="bg-[#12141D] w-full max-w-2xl rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
             <div class="p-4 border-b border-panelBorder/50 flex justify-between items-center bg-[#0B0D13]">
@@ -383,7 +421,6 @@
             </div>
 
             <div class="p-6 space-y-5 overflow-y-auto">
-                <!-- Avatar + username + level -->
                 <div class="flex items-center gap-5">
                     <img id="profileModalAvatar" src="" class="w-20 h-20 rounded-full border-2 border-pinkAccent object-cover bg-darkBg flex-shrink-0" />
                     <div class="flex-1">
@@ -395,7 +432,6 @@
                     </div>
                 </div>
 
-                <!-- Stats grid -->
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-[#0B0D13] p-4 rounded-xl border border-panelBorder">
                     <div class="text-center">
                         <span class="text-[10px] text-gray-400 font-bold uppercase block">Games Played</span>
@@ -415,21 +451,21 @@
                     </div>
                 </div>
 
-                <!-- Graph -->
+                <!-- Dynamic Graph -->
                 <div class="bg-[#0B0D13] p-3 rounded-xl border border-panelBorder">
                     <div class="flex items-center justify-between text-[10px] text-gray-400 font-bold uppercase mb-1">
                         <span>Performance</span>
                         <span>Score</span>
                     </div>
-                    <div class="profile-graph">
-                        <svg viewBox="0 0 300 60" preserveAspectRatio="none">
-                            <polyline points="0,55 25,40 50,50 75,25 100,35 125,15 150,30 175,10 200,20 225,8 250,18 275,5 300,12"
+                    <div class="profile-graph" id="profileGraphContainer">
+                        <svg viewBox="0 0 300 60" preserveAspectRatio="none" id="profileGraphSvg">
+                            <polyline id="graphLine" points="0,55 25,40 50,50 75,25 100,35 125,15 150,30 175,10 200,20 225,8 250,18 275,5 300,12"
                             fill="none" stroke="#FF2A85" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-                            <polyline points="0,55 25,40 50,50 75,25 100,35 125,15 150,30 175,10 200,20 225,8 250,18 275,5 300,12"
-                            fill="rgba(255,42,133,0.08)" stroke="none" />
-                            <polygon points="0,55 25,40 50,50 75,25 100,35 125,15 150,30 175,10 200,20 225,8 250,18 275,5 300,12 300,60 0,60"
+                            <polyline id="graphFill" points="0,55 25,40 50,50 75,25 100,35 125,15 150,30 175,10 200,20 225,8 250,18 275,5 300,12"
+                            fill="none" stroke="none" />
+                            <polygon id="graphArea" points="0,55 25,40 50,50 75,25 100,35 125,15 150,30 175,10 200,20 225,8 250,18 275,5 300,12 300,60 0,60"
                             fill="rgba(255,42,133,0.08)" />
-                            <circle cx="300" cy="12" r="3" fill="#FF2A85" />
+                            <circle id="graphDot" cx="300" cy="12" r="3" fill="#FF2A85" />
                         </svg>
                     </div>
                     <div class="flex justify-between text-[9px] text-gray-500 mt-0.5">
@@ -441,7 +477,6 @@
                     </div>
                 </div>
 
-                <!-- Send Tip -->
                 <button id="tipUserBtn" onclick="openTipInventoryModal()" class="w-full py-3 rounded-xl bg-pinkAccent hover:bg-pinkHover text-white font-extrabold text-xs uppercase tracking-wider transition shadow-lg shadow-pinkAccent/20 flex items-center justify-center gap-2">
                     <i class="fa-solid fa-gift"></i> Send Tip
                 </button>
@@ -477,9 +512,9 @@
         </div>
     </div>
 
-    <!-- ========== CREATE MATCH MODAL ========== -->
+    <!-- ========== CREATE MATCH MODAL (with 1x 5x 10x 15x) ========== -->
     <div id="createMatchModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'createMatchModal')">
-        <div class="bg-[#12141D] w-full max-w-4xl rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col p-6 space-y-6">
+        <div class="bg-[#12141D] w-full max-w-4xl rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col p-6 space-y-6 max-h-[90vh]">
             <div class="flex justify-between items-center">
                 <h3 class="font-black text-xl text-white">Create</h3>
                 <button onclick="closeCreateMatchModal()" class="text-gray-400 hover:text-white bg-cardBg px-2.5 py-1 rounded-lg border border-panelBorder text-xs"><i class="fa-solid fa-xmark"></i></button>
@@ -496,15 +531,27 @@
                         <span id="selectedItemCount">0</span>/20 ITEMS
                     </div>
                 </div>
-                <div class="flex items-center space-x-3 flex-1 justify-end">
-                    <div class="relative max-w-xs w-full">
-                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-xs text-gray-500"></i>
-                        <input type="text" placeholder="Search items..." class="w-full bg-[#0B0D13] border border-panelBorder rounded-xl pl-8 pr-3 py-2 text-xs text-white focus:outline-none" id="createMatchSearch" oninput="filterCreateMatchInventory()" />
-                    </div>
+                <!-- 1x 5x 10x 15x pills -->
+                <div class="flex items-center space-x-1.5">
+                    <button class="quick-pill" onclick="quickSelectPets(1)">1x</button>
+                    <button class="quick-pill" onclick="quickSelectPets(5)">5x</button>
+                    <button class="quick-pill" onclick="quickSelectPets(10)">10x</button>
+                    <button class="quick-pill" onclick="quickSelectPets(15)">15x</button>
                 </div>
             </div>
 
-            <div class="bg-[#0B0D13] border border-panelBorder rounded-2xl p-6 min-h-[300px] flex flex-col items-center justify-center">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+                <div class="relative flex-1 min-w-[180px]">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-xs text-gray-500"></i>
+                    <input type="text" placeholder="Search items..." class="w-full bg-[#0B0D13] border border-panelBorder rounded-xl pl-8 pr-3 py-2 text-xs text-white focus:outline-none focus:border-pinkAccent transition" id="createMatchSearch" oninput="filterCreateMatchInventory()" />
+                </div>
+                <select id="createSortDropdown" class="sort-dropdown bg-[#0B0D13] border border-panelBorder rounded-xl px-3 py-2 text-xs text-gray-300 font-bold focus:outline-none focus:border-pinkAccent transition">
+                    <option value="high">High to low</option>
+                    <option value="low">Low to high</option>
+                </select>
+            </div>
+
+            <div class="bg-[#0B0D13] border border-panelBorder rounded-2xl p-6 min-h-[260px] flex flex-col items-center justify-center">
                 <div id="createMatchInventory" class="w-full grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-3 max-h-[280px] overflow-y-auto"></div>
                 <div id="emptyInventoryBox" class="text-center space-y-4 hidden">
                     <p class="text-sm font-semibold text-gray-400">You do not have any available items.</p>
@@ -581,7 +628,7 @@
         </div>
     </div>
 
-    <!-- ========== SPECTATE MODAL (with JOIN button) ========== -->
+    <!-- ========== SPECTATE MODAL ========== -->
     <div id="spectateModal" class="modal-backdrop fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'spectateModal')">
         <div class="bg-[#12141D] w-full max-w-4xl rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col">
             <div class="p-4 border-b border-panelBorder/50 flex justify-between items-center bg-[#0B0D13]">
@@ -607,7 +654,6 @@
                                 <i class="fa-solid fa-paw text-white text-3xl"></i>
                             </div>
                         </div>
-                        <!-- JOIN button in the middle of spectate -->
                         <button id="spectateJoinBtn" onclick="openJoinFromSpectate()" class="spectate-join-btn mt-3 bg-pinkAccent hover:bg-pinkHover text-white font-extrabold px-6 py-2 rounded-xl text-xs uppercase tracking-wider shadow-lg shadow-pinkAccent/20 flex items-center gap-2">
                             <i class="fa-solid fa-arrow-right-to-bracket"></i> Join
                         </button>
@@ -685,7 +731,7 @@
         </div>
     </div>
 
-    <!-- ========== FLIP ANIMATION MODAL (pink/blue sides) ========== -->
+    <!-- ========== FLIP ANIMATION MODAL ========== -->
     <div id="gameFlipModal" class="fixed inset-0 bg-black/90 backdrop-blur-lg z-50 flex items-center justify-center p-4 hidden">
         <div class="bg-cardBg w-full max-w-md rounded-2xl border border-panelBorder p-8 flex flex-col items-center justify-center text-center space-y-6">
             <h3 class="text-xs font-extrabold text-gray-400 uppercase tracking-widest">DUEL IN PROGRESS</h3>
@@ -762,7 +808,6 @@
         };
         let transactions = JSON.parse(localStorage.getItem('petduel_transactions')) || [];
         let publicMatches = [];
-        // Store per-user game stats for profile
         let userStats = JSON.parse(localStorage.getItem('petduel_userstats')) || {};
 
         // ---------- HELPERS ----------
@@ -792,7 +837,8 @@
                     gamesPlayed: 0,
                     wins: 0,
                     losses: 0,
-                    joinDate: new Date().toISOString().slice(0, 7)
+                    joinDate: new Date().toISOString().slice(0, 7),
+                    history: [] // array of +1 (win) or -1 (loss)
                 };
                 saveState();
             }
@@ -802,14 +848,41 @@
         function updateUserStats(username, won) {
             const stats = getUserStats(username);
             stats.gamesPlayed = (stats.gamesPlayed || 0) + 1;
-            if (won) stats.wins = (stats.wins || 0) + 1;
-            else stats.losses = (stats.losses || 0) + 1;
+            if (won) {
+                stats.wins = (stats.wins || 0) + 1;
+                stats.history.push(1);
+            } else {
+                stats.losses = (stats.losses || 0) + 1;
+                stats.history.push(-1);
+            }
+            // keep last 30 entries
+            if (stats.history.length > 30) stats.history = stats.history.slice(-30);
             saveState();
         }
 
         function isAdminUser(username) {
             return ADMIN_USERS.some(a => a.toLowerCase() === username.toLowerCase());
         }
+
+        // ---------- URL ROUTING ----------
+        function goToCoinflip() {
+            if (window.location.pathname !== '/coinflip') {
+                history.pushState({ page: 'coinflip' }, 'PET DUEL — Coinflip', '/coinflip');
+            }
+        }
+
+        // Check URL on load
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.location.pathname === '/coinflip') {
+                // already on coinflip page, nothing special needed
+            }
+            // Handle back/forward
+            window.addEventListener('popstate', function(e) {
+                if (e.state && e.state.page === 'coinflip') {
+                    // stay on coinflip
+                }
+            });
+        });
 
         // ---------- NOTIFICATION ----------
         function showNotification(type, message) {
@@ -863,7 +936,6 @@
             document.getElementById('navRobloxUser').textContent = currentUser.username;
             document.getElementById('navRobloxAvatar').src = currentUser.avatar || 'https://via.placeholder.com/150';
 
-            // Admin button
             if (isAdminUser(currentUser.username)) {
                 document.getElementById('adminPanelBtn').classList.remove('hidden');
             } else {
@@ -933,7 +1005,6 @@
                         avatar: fetchedRobloxUser.avatarUrl || 'https://via.placeholder.com/150',
                         isAdmin: isAdminUser(fetchedRobloxUser.username)
                     };
-                    // init stats
                     getUserStats(currentUser.username);
                     saveState();
                     applyUserLoggedInState();
@@ -1002,7 +1073,7 @@
             } catch (e) {}
         }
 
-        // ---------- MATCHES (fetch + render) ----------
+        // ---------- MATCHES ----------
         async function fetchServerMatches() {
             try {
                 const res = await fetch('/api/matches');
@@ -1014,7 +1085,6 @@
 
         function renderMatches() {
             const container = document.getElementById('matchesList');
-            // All Games count — actual number of matches
             const allGames = publicMatches.length;
             document.getElementById('allGamesCount').textContent = allGames;
             document.getElementById('openGamesCount').textContent = publicMatches.length;
@@ -1029,7 +1099,6 @@
                 return;
             }
 
-            // Sort
             const sortVal = document.getElementById('sortDropdown').value;
             const sorted = [...publicMatches];
             if (sortVal === 'high') sorted.sort((a, b) => b.totalValue - a.totalValue);
@@ -1090,6 +1159,8 @@
             document.getElementById('createMatchModal').classList.remove('hidden');
             renderCreateMatchInventory();
             updateCreateMatchSummary();
+            document.getElementById('createSortDropdown').value = 'high';
+            document.getElementById('createMatchSearch').value = '';
         }
 
         function closeCreateMatchModal() { document.getElementById('createMatchModal').classList.add('hidden'); }
@@ -1106,15 +1177,24 @@
             }
             container.classList.remove('hidden');
             emptyBox.classList.add('hidden');
-            userPets.forEach(pet => {
+
+            // sort
+            const sortVal = document.getElementById('createSortDropdown').value;
+            const sorted = [...userPets];
+            if (sortVal === 'high') sorted.sort((a, b) => b.value - a.value);
+            else sorted.sort((a, b) => a.value - b.value);
+
+            sorted.forEach(pet => {
                 const card = document.createElement('div');
                 const isSelected = selectedCreatePetIds.includes(pet.id);
                 card.className =
                     `pet-grid-item bg-cardBg p-3 rounded-xl border ${isSelected ? 'pet-card-selected border-pinkAccent' : 'border-panelBorder'} transition text-center`;
+                card.dataset.name = pet.name.toLowerCase();
                 card.onclick = () => {
                     const idx = selectedCreatePetIds.indexOf(pet.id);
                     if (idx > -1) selectedCreatePetIds.splice(idx, 1);
-                    else selectedCreatePetIds.push(pet.id);
+                    else if (selectedCreatePetIds.length < 20) selectedCreatePetIds.push(pet.id);
+                    else showNotification('error', 'Max 20 items per match.');
                     renderCreateMatchInventory();
                     updateCreateMatchSummary();
                 };
@@ -1131,10 +1211,87 @@
             const q = document.getElementById('createMatchSearch').value.toLowerCase();
             const items = document.querySelectorAll('#createMatchInventory .pet-grid-item');
             items.forEach(el => {
-                const name = el.querySelector('span')?.textContent?.toLowerCase() || '';
+                const name = el.dataset.name || '';
                 el.style.display = name.includes(q) ? '' : 'none';
             });
         }
+
+        // quick select
+        function quickSelectPets(count) {
+            const container = document.getElementById('createMatchInventory');
+            const items = container.querySelectorAll('.pet-grid-item');
+            // select first 'count' visible items
+            const visible = [];
+            items.forEach(el => {
+                if (el.style.display !== 'none') visible.push(el);
+            });
+            // deselect all
+            selectedCreatePetIds = [];
+            for (let i = 0; i < Math.min(count, visible.length); i++) {
+                const petId = parseInt(visible[i].dataset.petId) || 0;
+                if (petId) selectedCreatePetIds.push(petId);
+            }
+            // re-render
+            renderCreateMatchInventory();
+            updateCreateMatchSummary();
+            // highlight pills
+            document.querySelectorAll('.quick-pill').forEach(p => p.classList.remove('active'));
+            const pillMap = { 1: 0, 5: 1, 10: 2, 15: 3 };
+            const idx = pillMap[count];
+            if (idx !== undefined) {
+                document.querySelectorAll('.quick-pill')[idx]?.classList.add('active');
+            }
+        }
+
+        // store pet ids on cards for quick select
+        function renderCreateMatchInventory() {
+            const container = document.getElementById('createMatchInventory');
+            const emptyBox = document.getElementById('emptyInventoryBox');
+            container.innerHTML = '';
+            const userPets = getPetsForUser(currentUser.username);
+            if (userPets.length === 0) {
+                container.classList.add('hidden');
+                emptyBox.classList.remove('hidden');
+                return;
+            }
+            container.classList.remove('hidden');
+            emptyBox.classList.add('hidden');
+
+            const sortVal = document.getElementById('createSortDropdown').value;
+            const sorted = [...userPets];
+            if (sortVal === 'high') sorted.sort((a, b) => b.value - a.value);
+            else sorted.sort((a, b) => a.value - b.value);
+
+            sorted.forEach(pet => {
+                const card = document.createElement('div');
+                const isSelected = selectedCreatePetIds.includes(pet.id);
+                card.className =
+                    `pet-grid-item bg-cardBg p-3 rounded-xl border ${isSelected ? 'pet-card-selected border-pinkAccent' : 'border-panelBorder'} transition text-center`;
+                card.dataset.name = pet.name.toLowerCase();
+                card.dataset.petId = pet.id;
+                card.onclick = () => {
+                    const idx = selectedCreatePetIds.indexOf(pet.id);
+                    if (idx > -1) selectedCreatePetIds.splice(idx, 1);
+                    else if (selectedCreatePetIds.length < 20) selectedCreatePetIds.push(pet.id);
+                    else showNotification('error', 'Max 20 items per match.');
+                    renderCreateMatchInventory();
+                    updateCreateMatchSummary();
+                };
+                card.innerHTML = `
+                    <img src="${pet.image}" class="w-12 h-12 mx-auto object-contain mb-2">
+                    <span class="font-extrabold text-xs text-white block truncate">${escapeHtml(pet.name)}</span>
+                    <span class="text-xs text-amber-400 font-black">${pet.value} R$</span>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Update sort listener for create modal
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('createSortDropdown')?.addEventListener('change', function() {
+                renderCreateMatchInventory();
+            });
+        });
 
         function updateCreateMatchSummary() {
             const userPets = getPetsForUser(currentUser.username);
@@ -1272,20 +1429,18 @@
                 showNotification('error', 'Select at least one pet to wager.');
                 return;
             }
-            // Check if value matches
             if (joinValue < match.totalValue * 0.8 || joinValue > match.totalValue * 1.2) {
-                showNotification('error', `Wager must be between ${Math.floor(match.totalValue*0.8)} and ${Math.ceil(match.totalValue*1.2)} R$`);
+                showNotification('error',
+                    `Wager must be between ${Math.floor(match.totalValue*0.8)} and ${Math.ceil(match.totalValue*1.2)} R$`);
                 return;
             }
             inventories[currentUser.username] = userPets.filter(p => !selectedJoinPetIds.includes(p.id));
             saveState();
             closeJoinMatchModal();
 
-            // --- FLIP ANIMATION ---
             const flipModal = document.getElementById('gameFlipModal');
             const statusText = document.getElementById('modalFlipStatus');
             const coin = document.getElementById('modalCoin');
-            // Reset coin
             coin.style.transition = 'none';
             coin.className = 'coin';
             flipModal.classList.remove('hidden');
@@ -1309,7 +1464,6 @@
                     flipModal.classList.add('hidden');
                     return;
                 }
-                // Flip coin
                 setTimeout(() => {
                     coin.style.transition = 'transform 3s cubic-bezier(0.15, 0.85, 0.35, 1.2)';
                     if (result.outcome === 'heads') coin.classList.add('flip-heads');
@@ -1319,15 +1473,12 @@
                 setTimeout(() => {
                     if (!inventories[result.winner]) inventories[result.winner] = [];
                     inventories[result.winner].push(...result.totalPets);
-                    // Update stats
-                    const winnerName = result.winner;
-                    const loserName = result.loser;
-                    updateUserStats(winnerName, true);
-                    updateUserStats(loserName, false);
+                    updateUserStats(result.winner, true);
+                    updateUserStats(result.loser, false);
                     saveState();
 
                     statusText.innerHTML =
-                    `<span class="text-pinkAccent font-black text-lg">${escapeHtml(result.winner)} WON!</span>`;
+                        `<span class="text-pinkAccent font-black text-lg">${escapeHtml(result.winner)} WON!</span>`;
                     fetchServerMatches();
                     setTimeout(() => { flipModal.classList.add('hidden'); }, 2500);
                 }, 3200);
@@ -1336,7 +1487,7 @@
                 showNotification('error', 'Match error'); }
         }
 
-        // ---------- SPECTATE (with JOIN) ----------
+        // ---------- SPECTATE ----------
         let spectateMatchId = null;
 
         function openSpectateModal(matchId) {
@@ -1373,7 +1524,6 @@
                 `<div class="text-center text-xs text-gray-500 py-4">Waiting for opponent...</div>`;
             document.getElementById('spectateModal').classList.remove('hidden');
 
-            // Show/hide JOIN button based on whether user can join
             const joinBtn = document.getElementById('spectateJoinBtn');
             if (currentUser && match.creator.toLowerCase() !== currentUser.username.toLowerCase()) {
                 joinBtn.style.display = 'flex';
@@ -1398,7 +1548,6 @@
             document.getElementById('giveawayModal').classList.remove('hidden');
             renderGiveawayInventory();
             updateGiveawaySummary();
-            // reset time selection
             document.querySelectorAll('.time-pill').forEach(el => el.classList.remove('active'));
             document.querySelector('.time-pill[data-min="1"]').classList.add('active');
             giveawayTimeMinutes = 1;
@@ -1461,14 +1610,12 @@
             const userPets = getPetsForUser(currentUser.username);
             const giveawayPets = userPets.filter(p => selectedGiveawayPetIds.includes(p.id));
             const totalVal = giveawayPets.reduce((s, p) => s + p.value, 0);
-            // Remove from inventory
             inventories[currentUser.username] = userPets.filter(p => !selectedGiveawayPetIds.includes(p.id));
             saveState();
             closeGiveawayModal();
             showNotification('success',
-                `Giveaway created! ${giveawayPets.length} pet(s) (${totalVal.toLocaleString()} R$) will be given away in ${giveawayTimeMinutes} min.`
+                `Giveaway created! ${giveawayPets.length} pet(s) (${totalVal.toLocaleString()} R$) in ${giveawayTimeMinutes} min.`
                 );
-            // Log transaction
             const timeNow = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             transactions.unshift({
                 user: currentUser.username,
@@ -1481,7 +1628,7 @@
             saveState();
         }
 
-        // ---------- PROFILE ----------
+        // ---------- PROFILE (with dynamic graph) ----------
         function openUserProfileModal(username, avatar) {
             document.getElementById('userDropdownMenu').classList.add('hidden');
             targetProfileUser = { username, avatar: avatar || 'https://via.placeholder.com/150' };
@@ -1504,6 +1651,52 @@
             document.getElementById('profileModalJoinDate').textContent = stats.joinDate ? 'Joined: ' + stats.joinDate :
                 'Joined: Aug 2026';
 
+            // ---- DYNAMIC GRAPH ----
+            const history = stats.history || [];
+            const points = [];
+            let running = 0;
+            // always start at neutral
+            points.push(55); // y=55 is middle-ish (55 out of 60)
+            for (let i = 0; i < Math.min(history.length, 29); i++) {
+                running += history[i] || 0;
+                // map to y: 55 - (running * 2)  so +1 win goes up, -1 loss goes down
+                let y = 55 - (running * 2);
+                y = Math.max(5, Math.min(55, y));
+                points.push(y);
+            }
+            // pad to 30 points
+            while (points.length < 30) points.push(55);
+
+            // build svg polyline points
+            const step = 300 / (points.length - 1);
+            let pts = '';
+            let fillPts = '';
+            let areaPts = '';
+            points.forEach((y, i) => {
+                const x = Math.round(i * step);
+                pts += `${x},${y} `;
+                fillPts += `${x},${y} `;
+                areaPts += `${x},${y} `;
+            });
+            // close area
+            const lastX = 300;
+            areaPts += `${lastX},60 0,60`;
+
+            const graphLine = document.getElementById('graphLine');
+            const graphFill = document.getElementById('graphFill');
+            const graphArea = document.getElementById('graphArea');
+            const graphDot = document.getElementById('graphDot');
+
+            if (graphLine) graphLine.setAttribute('points', pts.trim());
+            if (graphFill) graphFill.setAttribute('points', pts.trim());
+            if (graphArea) graphArea.setAttribute('points', areaPts.trim());
+            if (graphDot) {
+                const lastPt = points[points.length - 1] || 55;
+                graphDot.setAttribute('cx', '300');
+                graphDot.setAttribute('cy', lastPt);
+            }
+
+            // ---- TIP BUTTON ----
             const tipBtn = document.getElementById('tipUserBtn');
             if (currentUser && currentUser.username.toLowerCase() === username.toLowerCase()) {
                 tipBtn.classList.add('hidden');
@@ -1584,9 +1777,7 @@
             const tippedPets = myPets.filter(p => selectedTipPetIds.includes(p.id));
             const totalVal = tippedPets.reduce((s, p) => s + p.value, 0);
 
-            // Remove from sender
             inventories[currentUser.username] = myPets.filter(p => !selectedTipPetIds.includes(p.id));
-            // Add to receiver
             if (!inventories[targetProfileUser.username]) inventories[targetProfileUser.username] = [];
             inventories[targetProfileUser.username].push(...tippedPets);
             saveState();
@@ -1709,12 +1900,16 @@
 
         function closeDepositModal() { document.getElementById('depositModal').classList.add('hidden'); }
 
-        // ---------- ADMIN ----------
+        // ---------- ADMIN (fixed) ----------
         function openAdminModal() {
             if (!currentUser || !isAdminUser(currentUser.username)) return;
             const select = document.getElementById('adminTargetUser');
             select.innerHTML = '';
-            Object.keys(inventories).forEach(usr => {
+            // show all users that have inventories or are in the list
+            const allUsers = new Set(Object.keys(inventories));
+            // also add current user if not in set
+            if (currentUser && !allUsers.has(currentUser.username)) allUsers.add(currentUser.username);
+            allUsers.forEach(usr => {
                 const opt = document.createElement('option');
                 opt.value = usr;
                 opt.textContent = usr;
@@ -1730,10 +1925,12 @@
             const targetUser = document.getElementById('adminTargetUser').value;
             const container = document.getElementById('adminUserPetList');
             container.innerHTML = '';
-            if (!targetUser || !inventories[targetUser]) return;
+            if (!targetUser) return;
+            if (!inventories[targetUser]) inventories[targetUser] = [];
             inventories[targetUser].forEach(pet => {
                 const card = document.createElement('div');
-                card.className = 'flex items-center justify-between bg-cardBg p-2 rounded border border-panelBorder text-xs';
+                card.className =
+                    'admin-user-pet flex items-center justify-between bg-cardBg p-2 rounded border border-panelBorder text-xs';
                 card.innerHTML = `
                     <span class="text-white font-bold truncate">${escapeHtml(pet.name)}</span>
                     <button onclick="adminRemovePet('${targetUser}', ${pet.id})" class="text-red-400 hover:text-red-300 text-xs px-2 py-1 bg-red-950/40 rounded border border-red-800">Delete</button>
@@ -1748,11 +1945,32 @@
             const petName = document.getElementById('adminPetName').value.trim();
             const petImage = document.getElementById('adminPetImage').value.trim();
             const petValue = parseInt(document.getElementById('adminPetValue').value);
+            if (!targetUser || !petName || !petImage || isNaN(petValue)) {
+                showNotification('error', 'Please fill all fields.');
+                return;
+            }
             if (!inventories[targetUser]) inventories[targetUser] = [];
-            inventories[targetUser].push({ id: Date.now(), name: petName, image: petImage, value: petValue });
+            inventories[targetUser].push({ id: Date.now() + Math.random() * 1000, name: petName, image: petImage,
+                value: petValue });
             saveState();
             renderAdminUserInventory();
-            showNotification('success', 'Pet added by admin!');
+            // also update the dropdown if new user
+            const select = document.getElementById('adminTargetUser');
+            let exists = false;
+            for (let opt of select.options) {
+                if (opt.value === targetUser) exists = true;
+            }
+            if (!exists) {
+                const opt = document.createElement('option');
+                opt.value = targetUser;
+                opt.textContent = targetUser;
+                select.appendChild(opt);
+                select.value = targetUser;
+            }
+            document.getElementById('adminPetName').value = '';
+            document.getElementById('adminPetImage').value = '';
+            document.getElementById('adminPetValue').value = '';
+            showNotification('success', `Pet "${petName}" added to ${targetUser}!`);
         }
 
         function adminRemovePet(targetUser, petId) {
@@ -1776,6 +1994,12 @@
             fetchServerMatches();
             setInterval(fetchServerMatches, 2000);
             setInterval(loadPersistentChat, 3000);
+            // set default sort
+            document.getElementById('sortDropdown').value = 'high';
+            // Coinflip URL if path is /coinflip
+            if (window.location.pathname === '/coinflip') {
+                // already good
+            }
         });
     </script>
 
