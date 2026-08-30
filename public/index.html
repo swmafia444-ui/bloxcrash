@@ -215,7 +215,7 @@
             letter-spacing: -0.02em;
             display: flex;
             align-items: center;
-            gap: 0.6rem;
+            gap: 1.2rem;
         }
         .logo-pet {
             color: #FFF;
@@ -223,20 +223,26 @@
         .logo-duel {
             color: #FFF;
         }
-        .logo-coinflip {
+        .logo-coinflip-wrap {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
             color: #FF2A85;
             font-weight: 900;
             font-size: 0.9rem;
             letter-spacing: -0.01em;
             cursor: pointer;
             transition: opacity 0.2s;
-            background: none;
-            padding: 0;
-            border: none;
-            margin-left: 0.1rem;
         }
-        .logo-coinflip:hover {
+        .logo-coinflip-wrap:hover {
             opacity: 0.8;
+        }
+        .logo-coinflip-wrap i {
+            font-size: 1rem;
+            color: #FF2A85;
+        }
+        .logo-coinflip-wrap span {
+            color: #FF2A85;
         }
 
         /* ── quick pills ── */
@@ -350,6 +356,17 @@
         }
         .giveaway-mini .g-join-btn-sm:hover {
             background: #E02374;
+        }
+        .giveaway-mini .g-del-btn {
+            background: transparent;
+            color: #ff4444;
+            border: none;
+            cursor: pointer;
+            font-size: 0.6rem;
+            padding: 0 0.2rem;
+        }
+        .giveaway-mini .g-del-btn:hover {
+            color: #ff8888;
         }
 
         /* ── chat rules modal ── */
@@ -563,53 +580,38 @@
         .comm-banner .comm-text strong {
             color: #FFF;
         }
-        .comm-banner .comm-metrics {
-            display: flex;
-            align-items: center;
-            gap: 1.2rem;
-            font-size: 0.7rem;
-            font-weight: 700;
-        }
-        .comm-banner .comm-metrics span {
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
-            color: #CCC;
-        }
-        .comm-banner .comm-metrics span .num {
-            color: #FFF;
-            font-weight: 800;
-        }
+        /* metrics removed from banner */
 
-        /* ── top links (Provably Fair, etc) ── */
+        /* ── top links ── */
         .top-links {
             display: flex;
             align-items: center;
-            gap: 1.2rem;
-            font-size: 0.6rem;
+            gap: 1.5rem;
+            font-size: 0.75rem;
             font-weight: 600;
-            color: #888;
+            color: #AAA;
             flex-wrap: wrap;
             padding: 0.2rem 0 0.4rem 0;
         }
         .top-links a {
-            color: #888;
+            color: #AAA;
             text-decoration: none;
             display: flex;
             align-items: center;
             gap: 0.3rem;
             transition: color 0.2s;
+            font-size: 0.75rem;
         }
         .top-links a:hover {
             color: #FF2A85;
         }
         .top-links a i {
-            font-size: 0.5rem;
+            font-size: 0.6rem;
             color: #FF2A85;
         }
         .top-links .sep {
             color: #333;
-            font-size: 0.5rem;
+            font-size: 0.6rem;
         }
 
         /* ── history btn ── */
@@ -631,7 +633,7 @@
             color: #FFF;
         }
 
-        /* ── metrics bar (restored) ── */
+        /* ── metrics grid ── */
         .metrics-grid {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
@@ -786,6 +788,160 @@
         .inv-empty .deposit-empty-btn:hover {
             background: #E02374;
         }
+
+        /* ── modal animations ── */
+        .modal-backdrop {
+            animation: fadeIn 0.25s ease-out;
+        }
+        .modal-backdrop>div {
+            animation: scaleIn 0.25s ease-out;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.92);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* ── provably fair / affiliate modals ── */
+        .info-modal-content {
+            background: #181A20;
+            border: 1px solid #23262F;
+            border-radius: 16px;
+            max-width: 640px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 2rem 2.2rem;
+        }
+        .info-modal-content h2 {
+            font-size: 1.2rem;
+            font-weight: 900;
+            color: #FFF;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .info-modal-content h2 i {
+            color: #FF2A85;
+        }
+        .info-modal-content .subhead {
+            font-size: 0.8rem;
+            color: #888;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+        .info-modal-content .info-block {
+            margin-bottom: 1.2rem;
+        }
+        .info-modal-content .info-block h4 {
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: #FFF;
+            margin-bottom: 0.2rem;
+        }
+        .info-modal-content .info-block p {
+            font-size: 0.75rem;
+            color: #BBB;
+            line-height: 1.6;
+        }
+        .info-modal-content .affiliate-code-box {
+            background: #0B0D13;
+            border: 1px solid #23262F;
+            border-radius: 12px;
+            padding: 1.2rem 1.5rem;
+            margin-top: 1rem;
+        }
+        .info-modal-content .affiliate-code-box label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #AAA;
+            display: block;
+            margin-bottom: 0.3rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .info-modal-content .affiliate-code-box .code-input-wrap {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        .info-modal-content .affiliate-code-box .code-input-wrap input {
+            flex: 1;
+            background: #181A20;
+            border: 1px solid #23262F;
+            border-radius: 8px;
+            padding: 0.5rem 0.8rem;
+            font-size: 0.75rem;
+            color: #FFF;
+            outline: none;
+        }
+        .info-modal-content .affiliate-code-box .code-input-wrap input:focus {
+            border-color: #FF2A85;
+        }
+        .info-modal-content .affiliate-code-box .code-input-wrap button {
+            background: #FF2A85;
+            color: #000;
+            font-weight: 800;
+            padding: 0.5rem 1.2rem;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .info-modal-content .affiliate-code-box .code-input-wrap button:hover {
+            background: #E02374;
+        }
+        .info-modal-content .affiliate-msg {
+            margin-top: 0.5rem;
+            font-size: 0.7rem;
+            color: #ff6b6b;
+        }
+
+        /* ── responsive ── */
+        @media (max-width: 768px) {
+            .metrics-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .top-links {
+                gap: 0.8rem;
+                font-size: 0.65rem;
+            }
+            .top-links a {
+                font-size: 0.65rem;
+            }
+        }
+        @media (max-width: 480px) {
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        /* prevent zoom issues */
+        .container-max {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        @media (min-width: 1400px) {
+            .container-max {
+                padding: 0 2rem;
+            }
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
@@ -809,7 +965,10 @@
                 <h1 class="logo-text text-lg">
                     <span class="logo-pet">PET</span>
                     <span class="logo-duel">DUEL</span>
-                    <span class="logo-coinflip" onclick="goToCoinflip()">COINFLIP</span>
+                    <span class="logo-coinflip-wrap" onclick="goToCoinflip()">
+                        <i class="fa-regular fa-circle"></i>
+                        <span>COINFLIP</span>
+                    </span>
                 </h1>
             </div>
         </div>
@@ -864,7 +1023,7 @@
     </header>
 
     <!-- ====== MAIN LAYOUT ====== -->
-    <div class="flex-1 grid grid-cols-1 lg:grid-cols-5 gap-6 p-6 w-full">
+    <div class="flex-1 grid grid-cols-1 lg:grid-cols-5 gap-6 p-6 w-full container-max">
 
         <!-- ====== SIDEBAR: CHAT + GIVEAWAYS ====== -->
         <aside class="lg:col-span-1 bg-cardBg rounded-2xl border border-panelBorder flex flex-col h-[680px] lg:h-full shadow-xl overflow-hidden chat-sidebar">
@@ -902,31 +1061,26 @@
 
             <!-- TOP LINKS: Provably Fair, TOS, FAQ, Claims, Affiliates -->
             <div class="top-links">
-                <a href="#"><i class="fa-regular fa-circle-check"></i> Provably Fair</a>
+                <a href="#" onclick="openProvablyFairModal(); return false;"><i class="fa-regular fa-circle-check"></i> Provably Fair</a>
                 <span class="sep">|</span>
-                <a href="#"><i class="fa-regular fa-file-lines"></i> terms of service</a>
+                <a href="#" onclick="openTermsModal(); return false;"><i class="fa-regular fa-file-lines"></i> Terms of Service</a>
                 <span class="sep">|</span>
-                <a href="#"><i class="fa-regular fa-circle-question"></i> FAQ</a>
+                <a href="#" onclick="openFAQModal(); return false;"><i class="fa-regular fa-circle-question"></i> FAQ</a>
                 <span class="sep">|</span>
-                <a href="#"><i class="fa-regular fa-handshake"></i> Claims</a>
+                <a href="#" onclick="openClaimsModal(); return false;"><i class="fa-regular fa-handshake"></i> Claims</a>
                 <span class="sep">|</span>
-                <a href="#"><i class="fa-regular fa-building"></i> Affiliates</a>
+                <a href="#" onclick="openAffiliateModal(); return false;"><i class="fa-regular fa-building"></i> Affiliates</a>
             </div>
 
-            <!-- COMMUNICATIONS BANNER -->
+            <!-- COMMUNICATIONS BANNER (metrics removed) -->
             <div class="comm-banner">
                 <div class="comm-text">
                     <i class="fa-solid fa-comment-dots"></i>
                     <span>Join Our Communications Server! <strong>Discord.gg/8qtVS7Y4p</strong> - Support &amp; Questions!</span>
                 </div>
-                <div class="comm-metrics">
-                    <span><i class="fa-regular fa-circle"></i> <span class="num" id="commAllGames">0</span> All Games</span>
-                    <span><i class="fa-brands fa-roblox"></i> <span class="num" id="commTotalValue">0</span> Total Value</span>
-                    <span><i class="fa-regular fa-clock"></i> <span class="num" id="commOpenGames">0</span> Open Games</span>
-                </div>
             </div>
 
-            <!-- METRICS BAR (restored) -->
+            <!-- METRICS BAR -->
             <div class="metrics-grid">
                 <div class="metric-card">
                     <span class="num" id="allGamesCount">0</span>
@@ -985,7 +1139,7 @@
         </div>
     </div>
 
-    <!-- ====== HISTORY MODAL (last 10 matches) ====== -->
+    <!-- ====== HISTORY MODAL ====== -->
     <div id="historyModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'historyModal')">
         <div class="bg-cardBg w-full max-w-2xl rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col max-h-[80vh]">
             <div class="p-4 border-b border-panelBorder flex justify-between items-center bg-darkBg">
@@ -993,6 +1147,121 @@
                 <button onclick="closeHistoryModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <div id="historyList" class="p-4 space-y-2.5 overflow-y-auto max-h-[60vh]"></div>
+        </div>
+    </div>
+
+    <!-- ====== PROVABLY FAIR MODAL ====== -->
+    <div id="provablyFairModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'provablyFairModal')">
+        <div class="info-modal-content" onclick="event.stopPropagation()">
+            <div class="flex justify-between items-start mb-2">
+                <h2><i class="fa-regular fa-circle-check"></i> Provably Fair</h2>
+                <button onclick="closeProvablyFairModal()" class="text-gray-400 hover:text-white bg-cardBg px-2.5 py-1 rounded-lg border border-panelBorder text-xs"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="subhead">Coinflip · Jackpot</div>
+            <div class="info-block">
+                <h4>The result is locked in early</h4>
+                <p>When a flip is created, we generate a secret seed and show you its hash. Once that hash is public, we cannot swap the seed later.</p>
+            </div>
+            <div class="info-block">
+                <h4>The EOS block is committed before anyone joins</h4>
+                <p>When a flip is created, we lock in a future EOS block number. Its block ID does not exist yet, so nobody can know or choose the outcome before the game starts.</p>
+            </div>
+            <div class="info-block">
+                <h4>Verify the result</h4>
+                <p>After the flip ends, the server seed and EOS block number are shown. Use the EOS block ID with the flip ID in the calculation below.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====== TERMS OF SERVICE MODAL ====== -->
+    <div id="termsModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'termsModal')">
+        <div class="info-modal-content" onclick="event.stopPropagation()">
+            <div class="flex justify-between items-start mb-2">
+                <h2><i class="fa-regular fa-file-lines"></i> Terms of Service</h2>
+                <button onclick="closeTermsModal()" class="text-gray-400 hover:text-white bg-cardBg px-2.5 py-1 rounded-lg border border-panelBorder text-xs"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="subhead">Last updated: August 2026</div>
+            <div class="info-block">
+                <h4>1. Acceptance of Terms</h4>
+                <p>By using PET DUEL, you agree to these terms. If you do not agree, do not use the service.</p>
+            </div>
+            <div class="info-block">
+                <h4>2. Eligibility</h4>
+                <p>You must be at least 13 years old and comply with Roblox's Terms of Service.</p>
+            </div>
+            <div class="info-block">
+                <h4>3. Fair Play</h4>
+                <p>Any form of cheating, exploiting, or abusing bugs is strictly prohibited and will result in a permanent ban.</p>
+            </div>
+            <div class="info-block">
+                <h4>4. Deposits and Withdrawals</h4>
+                <p>All deposits are final. Withdrawals are processed through the official bot. We are not responsible for trades made with unauthorized accounts.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====== FAQ MODAL ====== -->
+    <div id="faqModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'faqModal')">
+        <div class="info-modal-content" onclick="event.stopPropagation()">
+            <div class="flex justify-between items-start mb-2">
+                <h2><i class="fa-regular fa-circle-question"></i> FAQ</h2>
+                <button onclick="closeFAQModal()" class="text-gray-400 hover:text-white bg-cardBg px-2.5 py-1 rounded-lg border border-panelBorder text-xs"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="subhead">Frequently Asked Questions</div>
+            <div class="info-block">
+                <h4>How do I deposit?</h4>
+                <p>Click the "Deposit" button and follow the instructions to join the private server and trade with the official bot.</p>
+            </div>
+            <div class="info-block">
+                <h4>How are winners determined?</h4>
+                <p>Winners are determined by a provably fair coin flip using a secret seed and EOS block hash.</p>
+            </div>
+            <div class="info-block">
+                <h4>What happens if I disconnect during a match?</h4>
+                <p>The match will still resolve automatically. Your pets will be returned or awarded based on the outcome.</p>
+            </div>
+            <div class="info-block">
+                <h4>How do I get my pets back after a match?</h4>
+                <p>If you lose, the pets go to the winner. If you win, you receive the opponent's pets. Cancelled matches return your pets.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====== CLAIMS MODAL ====== -->
+    <div id="claimsModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'claimsModal')">
+        <div class="info-modal-content" onclick="event.stopPropagation()">
+            <div class="flex justify-between items-start mb-2">
+                <h2><i class="fa-regular fa-handshake"></i> Claims</h2>
+                <button onclick="closeClaimsModal()" class="text-gray-400 hover:text-white bg-cardBg px-2.5 py-1 rounded-lg border border-panelBorder text-xs"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="subhead">Dispute Resolution</div>
+            <div class="info-block">
+                <h4>Dispute Process</h4>
+                <p>If you believe a match was unfair or there was a technical error, please contact support with your match ID and evidence. All claims are reviewed within 24 hours.</p>
+            </div>
+            <div class="info-block">
+                <h4>Refund Policy</h4>
+                <p>Refunds are only issued if the official bot fails to deliver pets due to a server error. All other deposits are final.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====== AFFILIATE MODAL ====== -->
+    <div id="affiliateModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'affiliateModal')">
+        <div class="info-modal-content" onclick="event.stopPropagation()">
+            <div class="flex justify-between items-start mb-2">
+                <h2><i class="fa-regular fa-building"></i> Affiliate code</h2>
+                <button onclick="closeAffiliateModal()" class="text-gray-400 hover:text-white bg-cardBg px-2.5 py-1 rounded-lg border border-panelBorder text-xs"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="subhead">Enter a creator's code to support them.</div>
+            <div class="affiliate-code-box">
+                <label>Code</label>
+                <div class="code-input-wrap">
+                    <input type="text" id="affiliateCodeInput" placeholder="📋 Enter affiliate code" />
+                    <button onclick="applyAffiliateCode()">Apply</button>
+                </div>
+                <div id="affiliateMsg" class="affiliate-msg"></div>
+            </div>
         </div>
     </div>
 
@@ -1322,7 +1591,7 @@
         </div>
     </div>
 
-    <!-- ====== INVENTORY MODAL (redesigned) ====== -->
+    <!-- ====== INVENTORY MODAL ====== -->
     <div id="inventoryModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'inventoryModal')">
         <div class="bg-cardBg w-full max-w-2xl rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col max-h-[80vh]">
             <div class="inv-header">
@@ -1411,6 +1680,10 @@
                 <div class="bg-darkBg p-4 rounded-xl border border-panelBorder space-y-3">
                     <h4 class="font-extrabold text-xs text-red-400 uppercase">Delete User Pets</h4>
                     <div id="adminUserPetList" class="grid grid-cols-2 gap-3 max-h-40 overflow-y-auto p-2 bg-cardBg rounded-lg border border-panelBorder"></div>
+                </div>
+                <div class="bg-darkBg p-4 rounded-xl border border-panelBorder space-y-3">
+                    <h4 class="font-extrabold text-xs text-yellow-400 uppercase">Giveaway Management</h4>
+                    <div id="adminGiveawayList" class="space-y-2 max-h-40 overflow-y-auto"></div>
                 </div>
             </div>
         </div>
@@ -1768,13 +2041,17 @@
                 const div = document.createElement('div');
                 div.className = 'giveaway-mini';
                 const timeLeft = g.timeLeft || '00:15';
+                const isAdmin = currentUser && isAdminUser(currentUser.username);
                 div.innerHTML = `
                         <div class="g-top">
                             <span class="g-creator">
                                 <img src="${g.creatorAvatar || 'https://via.placeholder.com/150'}" />
                                 ${escapeHtml(g.creator)}
                             </span>
-                            <span style="font-size:0.5rem;color:#888;">🎁</span>
+                            <span style="display:flex;align-items:center;gap:0.3rem;">
+                                <span style="font-size:0.5rem;color:#888;">🎁</span>
+                                ${isAdmin ? `<button class="g-del-btn" onclick="adminDeleteGiveaway('${g.id}')" title="Delete giveaway"><i class="fa-solid fa-trash-can"></i></button>` : ''}
+                            </span>
                         </div>
                         <div class="g-mid">
                             <span class="g-prize"><i class="fa-brands fa-roblox"></i> ${g.totalValue.toLocaleString()}</span>
@@ -1803,8 +2080,6 @@
             const allGames = publicMatches.length + giveaways.length;
             document.getElementById('allGamesCount').textContent = allGames;
             document.getElementById('openGamesCount').textContent = publicMatches.length;
-            document.getElementById('commAllGames').textContent = allGames;
-            document.getElementById('commOpenGames').textContent = publicMatches.length;
 
             const totalVal = publicMatches.reduce((sum, m) => sum + m.totalValue, 0) +
                 giveaways.reduce((sum, g) => sum + g.totalValue, 0);
@@ -1812,7 +2087,6 @@
                 totalVal >= 1000 ? (totalVal / 1000).toFixed(1) + 'k' :
                 totalVal.toString();
             document.getElementById('totalValueCount').textContent = totalValDisplay;
-            document.getElementById('commTotalValue').textContent = totalValDisplay;
 
             container.innerHTML = '';
 
@@ -2068,8 +2342,10 @@
                 if (data.success) {
                     if (!inventories[currentUser.username]) inventories[currentUser.username] = [];
                     inventories[currentUser.username].push(...data.returnedPets);
+                    // Remove from publicMatches locally
+                    publicMatches = publicMatches.filter(m => m.id !== matchId);
                     saveState();
-                    fetchServerMatches();
+                    renderFeed();
                     showNotification('success', 'Match canceled! Pets returned.');
                 }
             } catch (e) {}
@@ -2175,7 +2451,6 @@
                 if (!res.ok) {
                     showNotification('error', result.error || 'Match resolve failed');
                     flipModal.classList.add('hidden');
-                    // Return pets
                     if (!inventories[currentUser.username]) inventories[currentUser.username] = [];
                     inventories[currentUser.username].push(...wagerPets);
                     saveState();
@@ -2193,7 +2468,6 @@
                     updateUserStats(result.winner, true);
                     updateUserStats(result.loser, false);
 
-                    // Add to match history
                     matchHistory.unshift({
                         id: activeJoinMatchId,
                         creator: match.creator,
@@ -2207,7 +2481,9 @@
 
                     statusText.innerHTML =
                         `<span class="text-pinkAccent font-black text-lg">${escapeHtml(result.winner)} WON!</span>`;
-                    fetchServerMatches();
+                    // Remove match from publicMatches
+                    publicMatches = publicMatches.filter(m => m.id !== activeJoinMatchId);
+                    renderFeed();
                     setTimeout(() => { flipModal.classList.add('hidden'); }, 2500);
                 }, 3200);
 
@@ -2385,6 +2661,15 @@
             saveState();
             renderFeed();
             showNotification('success', `You joined ${g.creator}'s giveaway!`);
+        }
+
+        // ─── ADMIN GIVEAWAY DELETE ───
+        function adminDeleteGiveaway(giveawayId) {
+            if (!currentUser || !isAdminUser(currentUser.username)) return;
+            giveaways = giveaways.filter(g => g.id !== giveawayId);
+            saveState();
+            renderFeed();
+            showNotification('success', 'Giveaway deleted by admin.');
         }
 
         // ─── HISTORY MODAL ───
@@ -2726,6 +3011,7 @@
             });
             document.getElementById('adminModal').classList.remove('hidden');
             renderAdminUserInventory();
+            renderAdminGiveawayList();
         }
 
         function closeAdminModal() { document.getElementById('adminModal').classList.add('hidden'); }
@@ -2787,6 +3073,67 @@
             saveState();
             renderAdminUserInventory();
             showNotification('success', 'Pet removed by admin!');
+        }
+
+        function renderAdminGiveawayList() {
+            const container = document.getElementById('adminGiveawayList');
+            container.innerHTML = '';
+            if (giveaways.length === 0) {
+                container.innerHTML =
+                    `<div class="text-xs text-gray-500 py-2">No active giveaways.</div>`;
+                return;
+            }
+            giveaways.forEach(g => {
+                const div = document.createElement('div');
+                div.className =
+                    'flex items-center justify-between bg-cardBg p-2 rounded border border-panelBorder text-xs';
+                div.innerHTML = `
+                        <span class="text-white font-bold truncate">${escapeHtml(g.creator)} - ${g.totalValue} R$</span>
+                        <button onclick="adminDeleteGiveaway('${g.id}')" class="text-red-400 hover:text-red-300 text-xs px-2 py-1 bg-red-950/40 rounded border border-red-800">Delete</button>
+                    `;
+                container.appendChild(div);
+            });
+        }
+
+        // ─── PROVABLY FAIR MODAL ───
+        function openProvablyFairModal() { document.getElementById('provablyFairModal').classList.remove('hidden'); }
+
+        function closeProvablyFairModal() { document.getElementById('provablyFairModal').classList.add('hidden'); }
+
+        // ─── TERMS MODAL ───
+        function openTermsModal() { document.getElementById('termsModal').classList.remove('hidden'); }
+
+        function closeTermsModal() { document.getElementById('termsModal').classList.add('hidden'); }
+
+        // ─── FAQ MODAL ───
+        function openFAQModal() { document.getElementById('faqModal').classList.remove('hidden'); }
+
+        function closeFAQModal() { document.getElementById('faqModal').classList.add('hidden'); }
+
+        // ─── CLAIMS MODAL ───
+        function openClaimsModal() { document.getElementById('claimsModal').classList.remove('hidden'); }
+
+        function closeClaimsModal() { document.getElementById('claimsModal').classList.add('hidden'); }
+
+        // ─── AFFILIATE MODAL ───
+        function openAffiliateModal() {
+            document.getElementById('affiliateModal').classList.remove('hidden');
+            document.getElementById('affiliateMsg').textContent = '';
+            document.getElementById('affiliateCodeInput').value = '';
+        }
+
+        function closeAffiliateModal() { document.getElementById('affiliateModal').classList.add('hidden'); }
+
+        function applyAffiliateCode() {
+            const code = document.getElementById('affiliateCodeInput').value.trim();
+            const msg = document.getElementById('affiliateMsg');
+            if (!code) {
+                msg.textContent = 'Please enter a code.';
+                msg.style.color = '#ff6b6b';
+                return;
+            }
+            msg.textContent = 'Böyle bir affiliate kodu yok.';
+            msg.style.color = '#ff6b6b';
         }
 
         // ─── SORT DROPDOWN ───
