@@ -713,7 +713,13 @@
 
         /* ── chat sidebar genişliği ── */
         .chat-sidebar {
-            /* grid tarafından belirlenecek */
+            /* grid tarafından belirlenecek, max-width ile sınırlandırdık */
+            max-width: 280px;
+        }
+        @media (max-width: 1024px) {
+            .chat-sidebar {
+                max-width: unset;
+            }
         }
 
         /* ── inventory modal ── */
@@ -1119,16 +1125,17 @@
     </header>
 
     <!-- ====== MAIN LAYOUT ====== -->
-    <div class="flex-1 grid grid-cols-1 lg:grid-cols-5 gap-6 p-6 w-full container-max">
+    <!-- Grid oranı: chat 1/4, içerik 3/4 -->
+    <div class="flex-1 grid grid-cols-1 lg:grid-cols-4 gap-4 p-4 w-full container-max">
 
         <!-- ====== SIDEBAR: CHAT + GIVEAWAYS ====== -->
-        <aside class="lg:col-span-2 bg-cardBg rounded-2xl border border-panelBorder flex flex-col h-[680px] lg:h-full shadow-xl overflow-hidden chat-sidebar">
+        <aside class="lg:col-span-1 bg-cardBg rounded-2xl border border-panelBorder flex flex-col h-[680px] lg:h-full shadow-xl overflow-hidden chat-sidebar">
             <!-- Chat header -->
             <div class="p-4 border-b border-panelBorder bg-darkBg flex items-center justify-between flex-shrink-0">
                 <h2 class="font-bold text-xs text-white uppercase tracking-wider">Chat</h2>
                 <div class="chat-online-wrap">
                     <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                    <span class="text-[10px] bg-cardBg px-2 py-0.5 rounded text-gray-400 border border-panelBorder" id="onlineCounter">98</span>
+                    <span class="text-[10px] bg-cardBg px-2 py-0.5 rounded text-gray-400 border border-panelBorder" id="onlineCounter">18</span>
                     <button class="book-icon-btn" onclick="toggleRulesModal()" title="Chat Rules">
                         <i class="fa-solid fa-book"></i>
                     </button>
@@ -1178,15 +1185,15 @@
             <div class="metrics-grid">
                 <div class="metric-card">
                     <span class="num" id="allGamesCount">0</span>
-                    <span class="label">All Games</span>
+                    <span class="label">ALL GAMES</span>
                 </div>
                 <div class="metric-card">
                     <span class="num" id="totalValueCount">0</span>
-                    <span class="label">Total Value</span>
+                    <span class="label">TOTAL VALUE</span>
                 </div>
                 <div class="metric-card">
                     <span class="num" id="openGamesCount">0</span>
-                    <span class="label">Open Games</span>
+                    <span class="label">OPEN GAMES</span>
                 </div>
             </div>
 
@@ -1197,7 +1204,7 @@
                     <option value="low">Low to high</option>
                 </select>
                 <div class="flex items-center gap-3">
-                    <button onclick="openCreateMatchModal()" class="rect-btn pink">Create</button>
+                    <button onclick="openCreateMatchModal()" class="rect-btn pink">CREATE</button>
                     <button onclick="openHistoryModal()" class="history-btn">HISTORY</button>
                 </div>
             </div>
