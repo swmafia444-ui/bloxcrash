@@ -157,14 +157,14 @@
             transform: scale(1.04);
         }
 
-        /* ── custom dropdown (CHROME OVERRIDE) ── */
+        /* ── custom dropdown ── */
         .sort-dropdown {
             appearance: none;
             -webkit-appearance: none;
             -moz-appearance: none;
             background-color: #0B0D13;
             border: 1px solid #23262F;
-            border-radius: 12px;
+            border-radius: 10px;
             padding: 0.5rem 2rem 0.5rem 1rem;
             font-size: 0.7rem;
             font-weight: 700;
@@ -178,7 +178,7 @@
             font-family: 'Inter', sans-serif;
             letter-spacing: 0.02em;
             min-width: 120px;
-            transition: background-image 0.2s, transform 0.2s;
+            transition: background-image 0.2s;
         }
         .sort-dropdown:hover {
             border-color: #FF2A85;
@@ -195,7 +195,6 @@
             padding: 0.4rem 0.8rem;
             font-weight: 600;
         }
-        /* dropdown arrow flip on focus (open) */
         .sort-dropdown:focus {
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 6l5-6 5 6z' fill='%23FF2A85'/%3E%3C/svg%3E");
         }
@@ -216,7 +215,7 @@
             letter-spacing: -0.02em;
             display: flex;
             align-items: center;
-            gap: 0.15rem;
+            gap: 0.6rem;
         }
         .logo-pet {
             color: #FFF;
@@ -274,7 +273,7 @@
             border-color: #FF2A85;
         }
 
-        /* ── giveaway card (sidebar) ── */
+        /* ── giveaway mini (sidebar) ── */
         .giveaway-mini {
             background: #0B0D13;
             border: 1px solid #23262F;
@@ -338,7 +337,7 @@
         }
         .giveaway-mini .g-join-btn-sm {
             background: #FF2A85;
-            color: #FFF;
+            color: #000;
             font-weight: 800;
             font-size: 0.55rem;
             padding: 0.15rem 0.8rem;
@@ -455,23 +454,31 @@
             object-fit: cover;
             flex-shrink: 0;
         }
-        .chat-avatar-sm {
-            width: 28px;
-            height: 28px;
-        }
 
-        /* ── pink btn text black ── */
+        /* ── pink btn black text ── */
         .btn-pink-black {
             background: #FF2A85;
             color: #000 !important;
             font-weight: 800;
+            border-radius: 8px;
+            padding: 0.6rem 1.5rem;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.15s;
         }
         .btn-pink-black:hover {
             background: #E02374;
             color: #000 !important;
+            transform: scale(1.02);
+        }
+        .btn-pink-black i {
+            display: none;
         }
 
-        /* ── profile header (avatar + username) ── */
+        /* ── profile header compact ── */
         .profile-header-compact {
             display: flex;
             align-items: center;
@@ -574,15 +581,46 @@
             font-weight: 800;
         }
 
-        /* ── history button ── */
+        /* ── top links (Provably Fair, etc) ── */
+        .top-links {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            font-size: 0.6rem;
+            font-weight: 600;
+            color: #888;
+            flex-wrap: wrap;
+            padding: 0.2rem 0 0.4rem 0;
+        }
+        .top-links a {
+            color: #888;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            transition: color 0.2s;
+        }
+        .top-links a:hover {
+            color: #FF2A85;
+        }
+        .top-links a i {
+            font-size: 0.5rem;
+            color: #FF2A85;
+        }
+        .top-links .sep {
+            color: #333;
+            font-size: 0.5rem;
+        }
+
+        /* ── history btn ── */
         .history-btn {
             background: #0B0D13;
             border: 1px solid #23262F;
             color: #CCC;
             font-weight: 700;
             font-size: 0.65rem;
-            padding: 0.5rem 1.2rem;
-            border-radius: 12px;
+            padding: 0.6rem 1.5rem;
+            border-radius: 8px;
             cursor: pointer;
             transition: all 0.2s;
             text-transform: uppercase;
@@ -591,6 +629,162 @@
         .history-btn:hover {
             border-color: #FF2A85;
             color: #FFF;
+        }
+
+        /* ── metrics bar (restored) ── */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1rem;
+        }
+        .metric-card {
+            background: #181A20;
+            border: 1px solid #23262F;
+            border-radius: 14px;
+            padding: 1rem 1.2rem;
+            text-align: center;
+        }
+        .metric-card .num {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: #FFF;
+            display: block;
+        }
+        .metric-card .label {
+            font-size: 0.65rem;
+            color: #888;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-top: 0.15rem;
+        }
+
+        /* ── rectangular buttons ── */
+        .rect-btn {
+            border-radius: 8px !important;
+            padding: 0.6rem 1.5rem !important;
+            font-size: 0.65rem !important;
+            font-weight: 800 !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.04em !important;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.15s;
+        }
+        .rect-btn:hover {
+            transform: scale(1.02);
+        }
+        .rect-btn.pink {
+            background: #FF2A85;
+            color: #000 !important;
+        }
+        .rect-btn.pink:hover {
+            background: #E02374;
+        }
+        .rect-btn.dark {
+            background: #0B0D13;
+            border: 1px solid #23262F;
+            color: #CCC;
+        }
+        .rect-btn.dark:hover {
+            border-color: #FF2A85;
+            color: #FFF;
+        }
+
+        /* ── chat sidebar wider ── */
+        .chat-sidebar {
+            min-width: 280px;
+            max-width: 320px;
+        }
+        @media (max-width: 1024px) {
+            .chat-sidebar {
+                min-width: unset;
+                max-width: unset;
+            }
+        }
+
+        /* ── inventory modal ── */
+        .inv-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #23262F;
+            background: #0B0D13;
+        }
+        .inv-header h3 {
+            font-weight: 800;
+            color: #FFF;
+            font-size: 1rem;
+        }
+        .inv-total {
+            color: #888;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+        .inv-total span {
+            color: #FFF;
+            font-weight: 800;
+        }
+        .inv-search-bar {
+            display: flex;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: #0B0D13;
+            border-bottom: 1px solid #23262F;
+        }
+        .inv-search-bar input {
+            flex: 1;
+            background: #181A20;
+            border: 1px solid #23262F;
+            border-radius: 8px;
+            padding: 0.4rem 0.8rem;
+            font-size: 0.7rem;
+            color: #FFF;
+            outline: none;
+        }
+        .inv-search-bar input:focus {
+            border-color: #FF2A85;
+        }
+        .inv-search-bar .inv-deposit-btn {
+            background: #FF2A85;
+            color: #000;
+            font-weight: 800;
+            font-size: 0.6rem;
+            padding: 0.4rem 1.2rem;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .inv-search-bar .inv-deposit-btn:hover {
+            background: #E02374;
+        }
+        .inv-empty {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem 1.5rem;
+            color: #888;
+            font-size: 0.8rem;
+            gap: 1rem;
+        }
+        .inv-empty .deposit-empty-btn {
+            background: #FF2A85;
+            color: #000;
+            font-weight: 800;
+            padding: 0.5rem 2rem;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .inv-empty .deposit-empty-btn:hover {
+            background: #E02374;
         }
     </style>
 </head>
@@ -626,13 +820,13 @@
             </button>
 
             <div id="authBox">
-                <button id="loginBtn" onclick="openLoginModal()" class="bg-pinkAccent hover:bg-pinkHover text-white font-extrabold px-5 py-2.5 rounded-xl text-xs transition flex items-center space-x-2 shadow-lg shadow-pinkAccent/20">
-                    <i class="fa-brands fa-roblox text-sm"></i> <span>Login with Roblox</span>
+                <button id="loginBtn" onclick="openLoginModal()" class="btn-pink-black">
+                    <i class="fa-brands fa-roblox text-sm mr-1"></i> Login with Roblox
                 </button>
 
                 <div id="userProfileBadge" class="hidden flex items-center space-x-3 relative">
-                    <button onclick="openInventoryModal()" class="btn-pink-black px-6 py-2.5 rounded-xl text-xs tracking-wide transition shadow-lg shadow-pinkAccent/20 flex items-center gap-2">
-                        <i class="fa-solid fa-boxes-stacked"></i> Inventory
+                    <button onclick="openInventoryModal()" class="btn-pink-black">
+                        Inventory
                     </button>
 
                     <div class="relative">
@@ -672,23 +866,21 @@
     <!-- ====== MAIN LAYOUT ====== -->
     <div class="flex-1 grid grid-cols-1 lg:grid-cols-5 gap-6 p-6 w-full">
 
-        <!-- ====== SIDEBAR: LIVE CHAT + GIVEAWAYS ====== -->
-        <aside class="lg:col-span-1 bg-cardBg rounded-2xl border border-panelBorder flex flex-col h-[680px] lg:h-full shadow-xl overflow-hidden">
+        <!-- ====== SIDEBAR: CHAT + GIVEAWAYS ====== -->
+        <aside class="lg:col-span-1 bg-cardBg rounded-2xl border border-panelBorder flex flex-col h-[680px] lg:h-full shadow-xl overflow-hidden chat-sidebar">
             <!-- Chat header -->
             <div class="p-4 border-b border-panelBorder bg-darkBg flex items-center justify-between flex-shrink-0">
-                <div class="flex items-center space-x-2">
-                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                    <h2 class="font-bold text-xs text-white uppercase tracking-wider">Live Chat</h2>
-                </div>
+                <h2 class="font-bold text-xs text-white uppercase tracking-wider">Chat</h2>
                 <div class="chat-online-wrap">
-                    <span class="text-[10px] bg-cardBg px-2 py-0.5 rounded text-gray-400 border border-panelBorder" id="onlineCounter">98 Online</span>
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span class="text-[10px] bg-cardBg px-2 py-0.5 rounded text-gray-400 border border-panelBorder" id="onlineCounter">98</span>
                     <button class="book-icon-btn" onclick="toggleRulesModal()" title="Chat Rules">
                         <i class="fa-solid fa-book"></i>
                     </button>
                 </div>
             </div>
 
-            <!-- Giveaways section (under chat header) -->
+            <!-- Giveaways section -->
             <div id="sidebarGiveaways" class="px-3 pt-2 pb-1 flex-shrink-0 max-h-36 overflow-y-auto space-y-1.5 border-b border-panelBorder/50">
                 <!-- dynamically rendered -->
             </div>
@@ -706,18 +898,47 @@
         </aside>
 
         <!-- ====== MAIN CONTENT ====== -->
-        <main class="lg:col-span-4 flex flex-col space-y-5">
+        <main class="lg:col-span-4 flex flex-col space-y-4">
 
-            <!-- COMMUNICATIONS BANNER + METRICS (like image 2) -->
+            <!-- TOP LINKS: Provably Fair, TOS, FAQ, Claims, Affiliates -->
+            <div class="top-links">
+                <a href="#"><i class="fa-regular fa-circle-check"></i> Provably Fair</a>
+                <span class="sep">|</span>
+                <a href="#"><i class="fa-regular fa-file-lines"></i> terms of service</a>
+                <span class="sep">|</span>
+                <a href="#"><i class="fa-regular fa-circle-question"></i> FAQ</a>
+                <span class="sep">|</span>
+                <a href="#"><i class="fa-regular fa-handshake"></i> Claims</a>
+                <span class="sep">|</span>
+                <a href="#"><i class="fa-regular fa-building"></i> Affiliates</a>
+            </div>
+
+            <!-- COMMUNICATIONS BANNER -->
             <div class="comm-banner">
                 <div class="comm-text">
                     <i class="fa-solid fa-comment-dots"></i>
-                    <span>Join Our Communications Server! <strong>Discord.gg/AMPDuel</strong> - Support &amp; Questions!</span>
+                    <span>Join Our Communications Server! <strong>Discord.gg/8qtVS7Y4p</strong> - Support &amp; Questions!</span>
                 </div>
                 <div class="comm-metrics">
                     <span><i class="fa-regular fa-circle"></i> <span class="num" id="commAllGames">0</span> All Games</span>
                     <span><i class="fa-brands fa-roblox"></i> <span class="num" id="commTotalValue">0</span> Total Value</span>
                     <span><i class="fa-regular fa-clock"></i> <span class="num" id="commOpenGames">0</span> Open Games</span>
+                </div>
+            </div>
+
+            <!-- METRICS BAR (restored) -->
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <span class="num" id="allGamesCount">0</span>
+                    <span class="label">All Games</span>
+                </div>
+                <div class="metric-card">
+                    <span class="num" id="totalValueCount">0</span>
+                    <span class="label">Total Value</span>
+                </div>
+                <div class="metric-card">
+                    <span class="num" id="openGamesCount">0</span>
+                    <span class="label">Open Games</span>
                 </div>
             </div>
 
@@ -728,12 +949,8 @@
                     <option value="low">Low to high</option>
                 </select>
                 <div class="flex items-center gap-3">
-                    <button onclick="openCreateMatchModal()" class="bg-pinkAccent hover:bg-pinkHover text-white font-extrabold px-6 py-2.5 rounded-xl text-xs uppercase tracking-wider transition shadow-lg shadow-pinkAccent/20 flex items-center gap-2">
-                        <i class="fa-solid fa-plus"></i> Create
-                    </button>
-                    <button onclick="openTransactionsModal()" class="history-btn">
-                        <i class="fa-solid fa-clock-rotate-left"></i> History
-                    </button>
+                    <button onclick="openCreateMatchModal()" class="rect-btn pink">Create</button>
+                    <button onclick="openHistoryModal()" class="rect-btn dark"><i class="fa-regular fa-clock mr-1"></i> History</button>
                 </div>
             </div>
 
@@ -768,7 +985,18 @@
         </div>
     </div>
 
-    <!-- ====== GIVEAWAY MODAL (create) ====== -->
+    <!-- ====== HISTORY MODAL (last 10 matches) ====== -->
+    <div id="historyModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'historyModal')">
+        <div class="bg-cardBg w-full max-w-2xl rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col max-h-[80vh]">
+            <div class="p-4 border-b border-panelBorder flex justify-between items-center bg-darkBg">
+                <h3 class="font-bold text-white text-sm flex items-center gap-2"><i class="fa-regular fa-clock text-pinkAccent"></i> Match History (last 10)</h3>
+                <button onclick="closeHistoryModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div id="historyList" class="p-4 space-y-2.5 overflow-y-auto max-h-[60vh]"></div>
+        </div>
+    </div>
+
+    <!-- ====== GIVEAWAY MODAL ====== -->
     <div id="giveawayModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'giveawayModal')">
         <div class="bg-[#12141D] w-full max-w-4xl rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col p-6 space-y-6 max-h-[90vh]">
             <div class="flex justify-between items-center">
@@ -1094,14 +1322,24 @@
         </div>
     </div>
 
-    <!-- ====== INVENTORY MODAL ====== -->
+    <!-- ====== INVENTORY MODAL (redesigned) ====== -->
     <div id="inventoryModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'inventoryModal')">
         <div class="bg-cardBg w-full max-w-2xl rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col max-h-[80vh]">
-            <div class="p-4 border-b border-panelBorder flex justify-between items-center bg-darkBg">
-                <h3 class="font-bold text-white text-sm flex items-center gap-2"><i class="fa-solid fa-boxes-stacked text-pinkAccent"></i> My Pet Inventory</h3>
-                <button onclick="closeInventoryModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            <div class="inv-header">
+                <h3>Inventory</h3>
+                <span class="inv-total">Total value <span id="invTotalValue">0</span></span>
             </div>
-            <div id="myFullInventoryList" class="p-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 overflow-y-auto"></div>
+            <div class="inv-search-bar">
+                <input type="text" id="invSearchInput" placeholder="Search items..." oninput="filterInventory()" />
+                <button class="inv-deposit-btn" onclick="openDepositModal()">+ Deposit</button>
+                <select id="invSortDropdown" class="sort-dropdown" style="min-width:100px;padding:0.3rem 1.5rem 0.3rem 0.8rem;font-size:0.6rem;" onchange="renderInventoryModal()">
+                    <option value="high">High to low</option>
+                    <option value="low">Low to high</option>
+                </select>
+            </div>
+            <div id="inventoryContent" class="p-6 overflow-y-auto flex-1">
+                <!-- dynamically rendered -->
+            </div>
         </div>
     </div>
 
@@ -1197,6 +1435,7 @@
         let giveawayTimeMinutes = 1;
         let giveaways = JSON.parse(localStorage.getItem('petduel_giveaways')) || [];
         let systemChatMessageShown = false;
+        let matchHistory = JSON.parse(localStorage.getItem('petduel_matchhistory')) || [];
 
         // ─── ADMIN LIST ───
         const ADMIN_USERS = ['dedokxxreal', 'emoxdrill'];
@@ -1223,6 +1462,7 @@
             localStorage.setItem('petduel_transactions', JSON.stringify(transactions));
             localStorage.setItem('petduel_userstats', JSON.stringify(userStats));
             localStorage.setItem('petduel_giveaways', JSON.stringify(giveaways));
+            localStorage.setItem('petduel_matchhistory', JSON.stringify(matchHistory));
             if (currentUser) localStorage.setItem('petduel_user', JSON.stringify(currentUser));
             else localStorage.removeItem('petduel_user');
         }
@@ -1436,7 +1676,7 @@
         function initDynamicOnlineCounter() {
             setInterval(() => {
                 const count = Math.floor(Math.random() * (30 - 15 + 1)) + 15;
-                document.getElementById('onlineCounter').textContent = `${count} Online`;
+                document.getElementById('onlineCounter').textContent = count;
             }, 5000);
         }
 
@@ -1447,7 +1687,6 @@
                 const chatBox = document.getElementById('chatMessages');
                 chatBox.innerHTML = '';
 
-                // Add system message if not shown yet
                 if (!systemChatMessageShown) {
                     const sysMsg = document.createElement('div');
                     sysMsg.className =
@@ -1516,7 +1755,7 @@
             } catch (e) {}
         }
 
-        // ─── GIVEAWAY SIDEBAR RENDER ───
+        // ─── GIVEAWAY SIDEBAR ───
         function renderSidebarGiveaways() {
             const container = document.getElementById('sidebarGiveaways');
             container.innerHTML = '';
@@ -1558,7 +1797,7 @@
                 renderFeed(); }
         }
 
-        // ─── RENDER FEED (matches only) ───
+        // ─── RENDER FEED ───
         function renderFeed() {
             const container = document.getElementById('matchesList');
             const allGames = publicMatches.length + giveaways.length;
@@ -1569,15 +1808,16 @@
 
             const totalVal = publicMatches.reduce((sum, m) => sum + m.totalValue, 0) +
                 giveaways.reduce((sum, g) => sum + g.totalValue, 0);
-            document.getElementById('totalValueCount').textContent = (totalVal / 1000).toFixed(1) + 'k';
-            document.getElementById('commTotalValue').textContent = (totalVal / 1000).toFixed(1) + 'k';
+            const totalValDisplay = totalVal >= 1000000 ? (totalVal / 1000000).toFixed(1) + 'm' :
+                totalVal >= 1000 ? (totalVal / 1000).toFixed(1) + 'k' :
+                totalVal.toString();
+            document.getElementById('totalValueCount').textContent = totalValDisplay;
+            document.getElementById('commTotalValue').textContent = totalValDisplay;
 
             container.innerHTML = '';
 
-            // ── Giveaways in sidebar only ──
             renderSidebarGiveaways();
 
-            // ── Matches ──
             if (publicMatches.length === 0) {
                 container.innerHTML +=
                     `<div class="text-center text-gray-500 py-12 text-xs bg-cardBg rounded-xl border border-panelBorder">No active matches. Click "Create" to post one!</div>`;
@@ -1646,7 +1886,6 @@
             updateCreateMatchSummary();
             document.getElementById('createSortDropdown').value = 'high';
             document.getElementById('createMatchSearch').value = '';
-            // reset quick pills
             document.querySelectorAll('.quick-pill').forEach(p => p.classList.remove('active'));
         }
 
@@ -1684,7 +1923,6 @@
                     else showNotification('error', 'Max 20 items per match.');
                     renderCreateMatchInventory();
                     updateCreateMatchSummary();
-                    // deactivate quick pills when manually selecting
                     document.querySelectorAll('.quick-pill').forEach(p => p.classList.remove('active'));
                 };
                 card.innerHTML = `
@@ -1713,10 +1951,8 @@
                 if (el.style.display !== 'none') visible.push(el);
             });
 
-            // toggle: if already active, deselect
             const isActive = btn.classList.contains('active');
             if (isActive) {
-                // deselect all
                 selectedCreatePetIds = [];
                 document.querySelectorAll('.quick-pill').forEach(p => p.classList.remove('active'));
                 renderCreateMatchInventory();
@@ -1724,7 +1960,6 @@
                 return;
             }
 
-            // deselect all first
             selectedCreatePetIds = [];
             document.querySelectorAll('.quick-pill').forEach(p => p.classList.remove('active'));
             btn.classList.add('active');
@@ -1769,11 +2004,13 @@
             const userPets = getPetsForUser(currentUser.username);
             const wagerPets = userPets.filter(p => selectedCreatePetIds.includes(p.id));
             const totalVal = wagerPets.reduce((s, p) => s + p.value, 0);
+
+            // Remove from inventory
             inventories[currentUser.username] = userPets.filter(p => !selectedCreatePetIds.includes(p.id));
             saveState();
 
             try {
-                await fetch('/api/matches/create', {
+                const res = await fetch('/api/matches/create', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -1787,10 +2024,36 @@
                         petLimit: 50
                     })
                 });
-                closeCreateMatchModal();
-                fetchServerMatches();
-                showNotification('success', 'Match created!');
-            } catch (e) {}
+                const data = await res.json();
+                if (res.ok) {
+                    // Add to match history
+                    matchHistory.unshift({
+                        id: data.id || 'match-' + Date.now(),
+                        creator: currentUser.username,
+                        opponent: 'Waiting...',
+                        winner: null,
+                        totalValue: totalVal,
+                        timestamp: new Date().toISOString()
+                    });
+                    if (matchHistory.length > 10) matchHistory = matchHistory.slice(0, 10);
+                    saveState();
+                    closeCreateMatchModal();
+                    fetchServerMatches();
+                    showNotification('success', 'Match created!');
+                } else {
+                    // Return pets if creation failed
+                    if (!inventories[currentUser.username]) inventories[currentUser.username] = [];
+                    inventories[currentUser.username].push(...wagerPets);
+                    saveState();
+                    showNotification('error', data.error || 'Failed to create match');
+                }
+            } catch (e) {
+                // Return pets on error
+                if (!inventories[currentUser.username]) inventories[currentUser.username] = [];
+                inventories[currentUser.username].push(...wagerPets);
+                saveState();
+                showNotification('error', 'Network error');
+            }
         }
 
         async function cancelMatch(matchId) {
@@ -1912,6 +2175,10 @@
                 if (!res.ok) {
                     showNotification('error', result.error || 'Match resolve failed');
                     flipModal.classList.add('hidden');
+                    // Return pets
+                    if (!inventories[currentUser.username]) inventories[currentUser.username] = [];
+                    inventories[currentUser.username].push(...wagerPets);
+                    saveState();
                     return;
                 }
                 setTimeout(() => {
@@ -1925,6 +2192,17 @@
                     inventories[result.winner].push(...result.totalPets);
                     updateUserStats(result.winner, true);
                     updateUserStats(result.loser, false);
+
+                    // Add to match history
+                    matchHistory.unshift({
+                        id: activeJoinMatchId,
+                        creator: match.creator,
+                        opponent: currentUser.username,
+                        winner: result.winner,
+                        totalValue: match.totalValue,
+                        timestamp: new Date().toISOString()
+                    });
+                    if (matchHistory.length > 10) matchHistory = matchHistory.slice(0, 10);
                     saveState();
 
                     statusText.innerHTML =
@@ -1933,8 +2211,13 @@
                     setTimeout(() => { flipModal.classList.add('hidden'); }, 2500);
                 }, 3200);
 
-            } catch (e) { flipModal.classList.add('hidden');
-                showNotification('error', 'Match error'); }
+            } catch (e) {
+                flipModal.classList.add('hidden');
+                if (!inventories[currentUser.username]) inventories[currentUser.username] = [];
+                inventories[currentUser.username].push(...wagerPets);
+                saveState();
+                showNotification('error', 'Match error');
+            }
         }
 
         // ─── SPECTATE ───
@@ -1990,7 +2273,7 @@
             openJoinMatchModal(spectateMatchId);
         }
 
-        // ─── GIVEAWAY (create) ───
+        // ─── GIVEAWAY ───
         function openGiveawayModal() {
             if (!currentUser) { openLoginModal(); return; }
             selectedGiveawayPetIds = [];
@@ -2103,6 +2386,39 @@
             renderFeed();
             showNotification('success', `You joined ${g.creator}'s giveaway!`);
         }
+
+        // ─── HISTORY MODAL ───
+        function openHistoryModal() {
+            const container = document.getElementById('historyList');
+            container.innerHTML = '';
+            if (matchHistory.length === 0) {
+                container.innerHTML =
+                    `<div class="text-center text-xs text-gray-500 py-8">No match history yet.</div>`;
+            } else {
+                matchHistory.slice(0, 10).forEach(m => {
+                    const row = document.createElement('div');
+                    row.className =
+                        'flex items-center justify-between bg-darkBg p-3 rounded-xl border border-panelBorder text-xs';
+                    const winnerText = m.winner ? `🏆 ${escapeHtml(m.winner)}` : '⏳ Pending';
+                    row.innerHTML = `
+                            <div>
+                                <span class="font-bold text-white">${escapeHtml(m.creator)}</span>
+                                <span class="text-gray-500"> vs </span>
+                                <span class="font-bold text-white">${escapeHtml(m.opponent || '?')}</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="text-amber-400 font-bold">${m.totalValue.toLocaleString()} R$</span>
+                                <span class="text-[10px] text-gray-500">${new Date(m.timestamp).toLocaleTimeString()}</span>
+                                <span class="text-[10px] font-bold ${m.winner ? 'text-emerald-400' : 'text-yellow-400'}">${winnerText}</span>
+                            </div>
+                        `;
+                    container.appendChild(row);
+                });
+            }
+            document.getElementById('historyModal').classList.remove('hidden');
+        }
+
+        function closeHistoryModal() { document.getElementById('historyModal').classList.add('hidden'); }
 
         // ─── PROFILE ───
         function openUserProfileModal(username, avatar) {
@@ -2330,37 +2646,66 @@
             saveState();
         }
 
-        // ─── INVENTORY ───
+        // ─── INVENTORY MODAL ───
         function openInventoryModal() {
             if (!currentUser) { openLoginModal(); return; }
             document.getElementById('userDropdownMenu').classList.add('hidden');
-            const container = document.getElementById('myFullInventoryList');
-            container.innerHTML = '';
-            const userPets = getPetsForUser(currentUser.username);
-            if (userPets.length === 0) {
-                container.innerHTML =
-                    `<div class="col-span-4 text-center text-gray-500 py-8 text-xs">Inventory is empty.</div>`;
-            } else {
-                userPets.forEach(pet => {
-                    const card = document.createElement('div');
-                    card.className = 'bg-darkBg p-3 rounded-xl border border-panelBorder text-center shadow';
-                    card.innerHTML = `
-                            <img src="${pet.image}" class="w-12 h-12 mx-auto object-contain mb-2">
-                            <span class="font-extrabold text-xs text-white block truncate">${escapeHtml(pet.name)}</span>
-                            <span class="text-xs pet-value-white">${pet.value.toLocaleString()} R$</span>
-                        `;
-                    container.appendChild(card);
-                });
-            }
             document.getElementById('inventoryModal').classList.remove('hidden');
+            renderInventoryModal();
+            document.getElementById('invSearchInput').value = '';
+            document.getElementById('invSortDropdown').value = 'high';
         }
 
         function closeInventoryModal() { document.getElementById('inventoryModal').classList.add('hidden'); }
+
+        function renderInventoryModal() {
+            const container = document.getElementById('inventoryContent');
+            const search = document.getElementById('invSearchInput').value.toLowerCase();
+            const sort = document.getElementById('invSortDropdown').value;
+
+            let pets = getPetsForUser(currentUser.username);
+            const totalVal = pets.reduce((s, p) => s + p.value, 0);
+            document.getElementById('invTotalValue').textContent = totalVal.toLocaleString();
+
+            if (search) {
+                pets = pets.filter(p => p.name.toLowerCase().includes(search));
+            }
+            if (sort === 'high') pets.sort((a, b) => b.value - a.value);
+            else pets.sort((a, b) => a.value - b.value);
+
+            container.innerHTML = '';
+            if (pets.length === 0) {
+                container.innerHTML = `
+                        <div class="inv-empty">
+                            <span>Your inventory is empty.</span>
+                            <button class="deposit-empty-btn" onclick="openDepositModal()">+ Deposit</button>
+                        </div>
+                    `;
+                return;
+            }
+
+            const grid = document.createElement('div');
+            grid.className = 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4';
+            pets.forEach(pet => {
+                const card = document.createElement('div');
+                card.className = 'bg-darkBg p-3 rounded-xl border border-panelBorder text-center shadow';
+                card.innerHTML = `
+                        <img src="${pet.image}" class="w-12 h-12 mx-auto object-contain mb-2">
+                        <span class="font-extrabold text-xs text-white block truncate">${escapeHtml(pet.name)}</span>
+                        <span class="text-xs pet-value-white">${pet.value.toLocaleString()} R$</span>
+                    `;
+                grid.appendChild(card);
+            });
+            container.appendChild(grid);
+        }
+
+        function filterInventory() { renderInventoryModal(); }
 
         // ─── DEPOSIT ───
         function openDepositModal() {
             closeCreateMatchModal();
             closeGiveawayModal();
+            closeInventoryModal();
             document.getElementById('depositModal').classList.remove('hidden');
         }
 
@@ -2414,8 +2759,8 @@
                 return;
             }
             if (!inventories[targetUser]) inventories[targetUser] = [];
-            inventories[targetUser].push({ id: Date.now() + Math.random() * 1000, name: petName, image: petImage,
-                value: petValue });
+            const newPet = { id: Date.now() + Math.random() * 1000, name: petName, image: petImage, value: petValue };
+            inventories[targetUser].push(newPet);
             saveState();
             renderAdminUserInventory();
             const select = document.getElementById('adminTargetUser');
@@ -2459,7 +2804,6 @@
             setInterval(loadPersistentChat, 4000);
             document.getElementById('sortDropdown').value = 'high';
             if (window.location.pathname === '/coinflip') {}
-            // render giveaways sidebar
             renderSidebarGiveaways();
         });
     </script>
