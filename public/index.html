@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+,<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
@@ -700,10 +700,10 @@
             color: #FFF;
         }
 
-        /* ── chat sidebar wider ── */
+        /* ── chat sidebar width ── */
         .chat-sidebar {
-            min-width: 280px;
-            max-width: 320px;
+            min-width: 260px;
+            max-width: 300px;
         }
         @media (max-width: 1024px) {
             .chat-sidebar {
@@ -1021,13 +1021,15 @@
                 padding: 0 2rem;
             }
         }
-        /* fix overlap */
-        .grid-cols-5 {
-            grid-template-columns: 280px 1fr !important;
+        /* Grid layout fix */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 1.5rem;
         }
         @media (max-width: 1024px) {
-            .grid-cols-5 {
-                grid-template-columns: 1fr !important;
+            .main-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -1111,10 +1113,10 @@
     </header>
 
     <!-- ====== MAIN LAYOUT ====== -->
-    <div class="flex-1 grid grid-cols-5 gap-6 p-6 w-full container-max">
+    <div class="flex-1 main-grid container-max p-6">
 
         <!-- ====== SIDEBAR: CHAT + GIVEAWAYS ====== -->
-        <aside class="col-span-1 bg-cardBg rounded-2xl border border-panelBorder flex flex-col h-[680px] lg:h-full shadow-xl overflow-hidden chat-sidebar">
+        <aside class="bg-cardBg rounded-2xl border border-panelBorder flex flex-col h-[680px] lg:h-full shadow-xl overflow-hidden chat-sidebar">
             <!-- Chat header -->
             <div class="p-4 border-b border-panelBorder bg-darkBg flex items-center justify-between flex-shrink-0">
                 <h2 class="font-bold text-xs text-white uppercase tracking-wider">Chat</h2>
@@ -1145,7 +1147,7 @@
         </aside>
 
         <!-- ====== MAIN CONTENT ====== -->
-        <main class="col-span-4 flex flex-col space-y-4">
+        <main class="flex flex-col space-y-4">
 
             <!-- TOP LINKS -->
             <div class="top-links">
@@ -1887,7 +1889,6 @@
             window.addEventListener('popstate', function(e) {
                 if (e.state && e.state.page === 'coinflip') {}
             });
-            // Hash routing for affiliates
             if (window.location.hash === '#affiliates') {
                 openAffiliateModal();
             }
@@ -2394,7 +2395,6 @@
                 });
                 const data = await res.json();
                 if (res.ok) {
-                    // Only add to history when match is resolved, not here
                     closeCreateMatchModal();
                     fetchServerMatches();
                     showNotification('success', 'Match created!');
@@ -2549,7 +2549,6 @@
                     updateUserStats(result.winner, true);
                     updateUserStats(result.loser, false);
 
-                    // Add to history only when resolved
                     matchHistory.unshift({
                         id: activeJoinMatchId,
                         creator: match.creator,
@@ -2753,7 +2752,7 @@
             showNotification('success', 'Giveaway deleted by admin.');
         }
 
-        // ─── HISTORY MODAL (only resolved matches, with pagination) ───
+        // ─── HISTORY MODAL ───
         function openHistoryModal() {
             historyPage = 0;
             renderHistoryPage();
@@ -2767,7 +2766,6 @@
             const pagination = document.getElementById('historyPagination');
             container.innerHTML = '';
 
-            // Filter only resolved matches (winner not null)
             const resolved = matchHistory.filter(m => m.winner !== null && m.winner !== undefined);
             const totalPages = Math.max(1, Math.ceil(resolved.length / HISTORY_PER_PAGE));
             if (historyPage >= totalPages) historyPage = totalPages - 1;
@@ -2808,7 +2806,6 @@
                 container.appendChild(div);
             });
 
-            // Pagination controls
             pagination.innerHTML = '';
             if (totalPages > 1) {
                 for (let i = 0; i < totalPages; i++) {
@@ -3241,7 +3238,6 @@
             document.getElementById('affiliateModal').classList.remove('hidden');
             document.getElementById('affiliateMsg').textContent = '';
             document.getElementById('affiliateCodeInput').value = '';
-            // Update URL hash
             if (window.location.hash !== '#affiliates') {
                 history.pushState(null, '', '#affiliates');
             }
@@ -3269,7 +3265,6 @@
         // ─── SORT DROPDOWN ───
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('sortDropdown').addEventListener('change', renderFeed);
-            // Check hash on load
             if (window.location.hash === '#affiliates') {
                 openAffiliateModal();
             }
