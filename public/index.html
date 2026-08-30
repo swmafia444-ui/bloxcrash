@@ -178,6 +178,7 @@
             font-family: 'Inter', sans-serif;
             letter-spacing: 0.02em;
             min-width: 120px;
+            transition: background-image 0.2s, transform 0.2s;
         }
         .sort-dropdown:hover {
             border-color: #FF2A85;
@@ -186,12 +187,17 @@
             outline: none;
             border-color: #FF2A85;
             box-shadow: 0 0 0 3px rgba(255, 42, 133, 0.15);
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 6l5-6 5 6z' fill='%23FF2A85'/%3E%3C/svg%3E");
         }
         .sort-dropdown option {
             background: #0B0D13;
             color: #E0E6ED;
             padding: 0.4rem 0.8rem;
             font-weight: 600;
+        }
+        /* dropdown arrow flip on focus (open) */
+        .sort-dropdown:focus {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 6l5-6 5 6z' fill='%23FF2A85'/%3E%3C/svg%3E");
         }
 
         /* ── pet grid ── */
@@ -208,28 +214,30 @@
         .logo-text {
             font-weight: 900;
             letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            gap: 0.15rem;
         }
         .logo-pet {
             color: #FFF;
         }
         .logo-duel {
-            color: #FF2A85;
+            color: #FFF;
         }
         .logo-coinflip {
             color: #FF2A85;
-            background: rgba(255, 42, 133, 0.12);
-            padding: 0.1rem 0.6rem 0.1rem 0.6rem;
-            border-radius: 30px;
-            font-size: 0.8rem;
-            margin-left: 0.25rem;
-            border: 1px solid rgba(255, 42, 133, 0.2);
+            font-weight: 900;
+            font-size: 0.9rem;
+            letter-spacing: -0.01em;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: opacity 0.2s;
+            background: none;
+            padding: 0;
+            border: none;
+            margin-left: 0.1rem;
         }
         .logo-coinflip:hover {
-            background: rgba(255, 42, 133, 0.25);
-            border-color: #FF2A85;
-            box-shadow: 0 0 20px rgba(255, 42, 133, 0.15);
+            opacity: 0.8;
         }
 
         /* ── quick pills ── */
@@ -266,97 +274,83 @@
             border-color: #FF2A85;
         }
 
-        /* ── giveaway card ── */
-        .giveaway-card {
-            background: #181A20;
+        /* ── giveaway card (sidebar) ── */
+        .giveaway-mini {
+            background: #0B0D13;
             border: 1px solid #23262F;
-            border-radius: 16px;
-            padding: 1.25rem 1.5rem;
-            transition: border 0.2s, transform 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 1rem;
+            border-radius: 12px;
+            padding: 0.7rem 1rem;
+            margin-bottom: 0.5rem;
+            transition: border 0.2s;
+            cursor: default;
         }
-        .giveaway-card:hover {
+        .giveaway-mini:hover {
             border-color: #FF2A85;
-            transform: translateY(-2px);
         }
-        .giveaway-card .g-left {
+        .giveaway-mini .g-top {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 1.2rem;
-            flex-wrap: wrap;
-        }
-        .giveaway-card .g-creator {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            font-size: 0.6rem;
             font-weight: 700;
-            font-size: 0.75rem;
-            color: #CCC;
+            color: #AAA;
         }
-        .giveaway-card .g-creator img {
-            width: 28px;
-            height: 28px;
+        .giveaway-mini .g-top .g-creator {
+            color: #FFF;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .giveaway-mini .g-top .g-creator img {
+            width: 18px;
+            height: 18px;
             border-radius: 50%;
             border: 1px solid #23262F;
             object-fit: cover;
         }
-        .giveaway-card .g-creator span {
-            color: #FFF;
+        .giveaway-mini .g-mid {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+            margin-top: 0.2rem;
+            font-size: 0.6rem;
+            color: #CCC;
         }
-        .giveaway-card .g-prize {
+        .giveaway-mini .g-mid .g-prize {
             font-weight: 800;
-            font-size: 0.85rem;
             color: #FFD966;
             display: flex;
             align-items: center;
-            gap: 0.25rem;
+            gap: 0.2rem;
         }
-        .giveaway-card .g-prize i {
+        .giveaway-mini .g-mid .g-prize i {
+            font-size: 0.5rem;
             color: #888;
-            font-size: 0.7rem;
         }
-        .giveaway-card .g-meta {
-            font-size: 0.65rem;
+        .giveaway-mini .g-mid .g-entries {
             color: #888;
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            font-weight: 600;
         }
-        .giveaway-card .g-meta .entries {
-            color: #AAA;
-        }
-        .giveaway-card .g-timer {
-            font-weight: 800;
-            font-size: 0.85rem;
+        .giveaway-mini .g-mid .g-timer {
             color: #FF2A85;
-            background: rgba(255, 42, 133, 0.12);
-            padding: 0.15rem 0.7rem;
-            border-radius: 30px;
-            border: 1px solid rgba(255, 42, 133, 0.2);
-            font-variant-numeric: tabular-nums;
+            font-weight: 800;
+            font-size: 0.65rem;
         }
-        .giveaway-card .g-join-btn {
+        .giveaway-mini .g-join-btn-sm {
             background: #FF2A85;
             color: #FFF;
             font-weight: 800;
-            font-size: 0.7rem;
-            padding: 0.5rem 1.6rem;
+            font-size: 0.55rem;
+            padding: 0.15rem 0.8rem;
             border-radius: 30px;
             border: none;
             cursor: pointer;
-            transition: background 0.2s, transform 0.15s;
+            transition: background 0.2s;
             text-transform: uppercase;
-            letter-spacing: 0.04em;
-            box-shadow: 0 0 20px rgba(255, 42, 133, 0.2);
+            letter-spacing: 0.03em;
         }
-        .giveaway-card .g-join-btn:hover {
+        .giveaway-mini .g-join-btn-sm:hover {
             background: #E02374;
-            transform: scale(1.03);
         }
 
         /* ── chat rules modal ── */
@@ -445,11 +439,158 @@
             color: #FF2A85;
         }
 
-        /* ── misc ── */
+        /* ── chat online wrap ── */
         .chat-online-wrap {
             display: flex;
             align-items: center;
             gap: 0.5rem;
+        }
+
+        /* ── chat avatar size ── */
+        .chat-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 1px solid #23262F;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+        .chat-avatar-sm {
+            width: 28px;
+            height: 28px;
+        }
+
+        /* ── pink btn text black ── */
+        .btn-pink-black {
+            background: #FF2A85;
+            color: #000 !important;
+            font-weight: 800;
+        }
+        .btn-pink-black:hover {
+            background: #E02374;
+            color: #000 !important;
+        }
+
+        /* ── profile header (avatar + username) ── */
+        .profile-header-compact {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .profile-header-compact img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid #FF2A85;
+            object-fit: cover;
+        }
+        .profile-header-compact .pname {
+            font-weight: 800;
+            font-size: 0.9rem;
+            color: #FFF;
+        }
+
+        /* ── value with roblox icon ── */
+        .value-with-roblox {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.2rem;
+        }
+        .value-with-roblox i {
+            color: #FFF;
+            font-size: 0.6rem;
+        }
+        .value-with-roblox .num {
+            color: #FFF;
+            font-weight: 700;
+        }
+
+        /* ── pet value white ── */
+        .pet-value-white {
+            color: #FFF !important;
+            font-weight: 700;
+        }
+
+        /* ── system chat msg ── */
+        .chat-system-msg {
+            opacity: 0.6;
+            cursor: default !important;
+            pointer-events: none;
+        }
+        .chat-system-msg .clickable-area {
+            pointer-events: none;
+        }
+        .chat-system-msg .system-badge {
+            color: #888;
+            font-weight: 700;
+            font-size: 0.6rem;
+            background: #1A1C24;
+            padding: 0.05rem 0.5rem;
+            border-radius: 10px;
+            border: 1px solid #23262F;
+        }
+
+        /* ── communications banner ── */
+        .comm-banner {
+            background: #181A20;
+            border: 1px solid #23262F;
+            border-radius: 14px;
+            padding: 0.6rem 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .comm-banner .comm-text {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #AAA;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .comm-banner .comm-text i {
+            color: #FF2A85;
+        }
+        .comm-banner .comm-text strong {
+            color: #FFF;
+        }
+        .comm-banner .comm-metrics {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+        .comm-banner .comm-metrics span {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            color: #CCC;
+        }
+        .comm-banner .comm-metrics span .num {
+            color: #FFF;
+            font-weight: 800;
+        }
+
+        /* ── history button ── */
+        .history-btn {
+            background: #0B0D13;
+            border: 1px solid #23262F;
+            color: #CCC;
+            font-weight: 700;
+            font-size: 0.65rem;
+            padding: 0.5rem 1.2rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+        .history-btn:hover {
+            border-color: #FF2A85;
+            color: #FFF;
         }
     </style>
 </head>
@@ -471,7 +612,7 @@
                 <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png" alt="Logo" class="w-full h-full object-contain" />
             </div>
             <div>
-                <h1 class="logo-text text-lg flex items-center gap-1">
+                <h1 class="logo-text text-lg">
                     <span class="logo-pet">PET</span>
                     <span class="logo-duel">DUEL</span>
                     <span class="logo-coinflip" onclick="goToCoinflip()">COINFLIP</span>
@@ -490,14 +631,14 @@
                 </button>
 
                 <div id="userProfileBadge" class="hidden flex items-center space-x-3 relative">
-                    <button onclick="openInventoryModal()" class="bg-pinkAccent hover:bg-pinkHover text-white font-black px-6 py-2.5 rounded-xl text-xs tracking-wide transition shadow-lg shadow-pinkAccent/20">
-                        Inventory
+                    <button onclick="openInventoryModal()" class="btn-pink-black px-6 py-2.5 rounded-xl text-xs tracking-wide transition shadow-lg shadow-pinkAccent/20 flex items-center gap-2">
+                        <i class="fa-solid fa-boxes-stacked"></i> Inventory
                     </button>
 
                     <div class="relative">
-                        <div class="flex items-center space-x-2.5 bg-darkBg border border-panelBorder px-3.5 py-1.5 rounded-full cursor-pointer hover:border-pinkAccent transition" onclick="toggleUserDropdown(event)">
-                            <img id="navRobloxAvatar" src="" class="w-8 h-8 rounded-full border border-panelBorder object-cover" />
-                            <span id="navRobloxUser" class="font-black text-xs text-white"></span>
+                        <div class="profile-header-compact bg-darkBg border border-panelBorder px-3.5 py-1.5 rounded-full cursor-pointer hover:border-pinkAccent transition" onclick="toggleUserDropdown(event)">
+                            <img id="navRobloxAvatar" src="" />
+                            <span id="navRobloxUser" class="pname"></span>
                             <i class="fa-solid fa-chevron-down text-gray-400 text-[10px] ml-1"></i>
                         </div>
 
@@ -531,22 +672,32 @@
     <!-- ====== MAIN LAYOUT ====== -->
     <div class="flex-1 grid grid-cols-1 lg:grid-cols-5 gap-6 p-6 w-full">
 
-        <!-- ====== LIVE CHAT (sidebar) ====== -->
-        <aside class="lg:col-span-1 bg-cardBg rounded-2xl border border-panelBorder flex flex-col h-[650px] lg:h-full shadow-xl overflow-hidden">
-            <div class="p-4 border-b border-panelBorder bg-darkBg flex items-center justify-between">
+        <!-- ====== SIDEBAR: LIVE CHAT + GIVEAWAYS ====== -->
+        <aside class="lg:col-span-1 bg-cardBg rounded-2xl border border-panelBorder flex flex-col h-[680px] lg:h-full shadow-xl overflow-hidden">
+            <!-- Chat header -->
+            <div class="p-4 border-b border-panelBorder bg-darkBg flex items-center justify-between flex-shrink-0">
                 <div class="flex items-center space-x-2">
                     <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
                     <h2 class="font-bold text-xs text-white uppercase tracking-wider">Live Chat</h2>
                 </div>
                 <div class="chat-online-wrap">
-                    <span class="text-[10px] bg-cardBg px-2 py-0.5 rounded text-gray-400 border border-panelBorder" id="onlineCounter">14 Online</span>
+                    <span class="text-[10px] bg-cardBg px-2 py-0.5 rounded text-gray-400 border border-panelBorder" id="onlineCounter">98 Online</span>
                     <button class="book-icon-btn" onclick="toggleRulesModal()" title="Chat Rules">
                         <i class="fa-solid fa-book"></i>
                     </button>
                 </div>
             </div>
+
+            <!-- Giveaways section (under chat header) -->
+            <div id="sidebarGiveaways" class="px-3 pt-2 pb-1 flex-shrink-0 max-h-36 overflow-y-auto space-y-1.5 border-b border-panelBorder/50">
+                <!-- dynamically rendered -->
+            </div>
+
+            <!-- Chat messages -->
             <div id="chatMessages" class="flex-1 p-3 overflow-y-auto space-y-3 text-xs"></div>
-            <div class="p-3 border-t border-panelBorder bg-darkBg">
+
+            <!-- Chat input -->
+            <div class="p-3 border-t border-panelBorder bg-darkBg flex-shrink-0">
                 <form onsubmit="sendChatMessage(event)" class="flex gap-2">
                     <input type="text" id="chatInput" placeholder="Login to chat..." disabled class="flex-1 bg-cardBg border border-panelBorder rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-pinkAccent transition-all" />
                     <button type="submit" id="chatSendBtn" disabled class="bg-pinkAccent hover:bg-pinkHover text-white font-bold px-3 py-2 rounded-lg text-xs transition"><i class="fa-solid fa-paper-plane"></i></button>
@@ -555,23 +706,18 @@
         </aside>
 
         <!-- ====== MAIN CONTENT ====== -->
-        <main class="lg:col-span-4 flex flex-col space-y-6">
+        <main class="lg:col-span-4 flex flex-col space-y-5">
 
-            <!-- METRICS BAR -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="bg-cardBg p-4 rounded-xl border border-panelBorder">
-                    <span class="text-xl font-extrabold text-white block" id="allGamesCount">0</span>
-                    <span class="text-xs text-gray-400 font-semibold">All Games</span>
+            <!-- COMMUNICATIONS BANNER + METRICS (like image 2) -->
+            <div class="comm-banner">
+                <div class="comm-text">
+                    <i class="fa-solid fa-comment-dots"></i>
+                    <span>Join Our Communications Server! <strong>Discord.gg/AMPDuel</strong> - Support &amp; Questions!</span>
                 </div>
-                <div class="bg-cardBg p-4 rounded-xl border border-panelBorder">
-                    <span class="text-xl font-extrabold text-white flex items-center gap-1.5">
-                        <i class="fa-brands fa-roblox text-gray-400 text-sm"></i> <span id="totalValueCount">0</span>
-                    </span>
-                    <span class="text-xs text-gray-400 font-semibold">Total Value</span>
-                </div>
-                <div class="bg-cardBg p-4 rounded-xl border border-panelBorder">
-                    <span class="text-xl font-extrabold text-white block" id="openGamesCount">0</span>
-                    <span class="text-xs text-gray-400 font-semibold">Open Games</span>
+                <div class="comm-metrics">
+                    <span><i class="fa-regular fa-circle"></i> <span class="num" id="commAllGames">0</span> All Games</span>
+                    <span><i class="fa-brands fa-roblox"></i> <span class="num" id="commTotalValue">0</span> Total Value</span>
+                    <span><i class="fa-regular fa-clock"></i> <span class="num" id="commOpenGames">0</span> Open Games</span>
                 </div>
             </div>
 
@@ -581,13 +727,18 @@
                     <option value="high">High to low</option>
                     <option value="low">Low to high</option>
                 </select>
-                <button onclick="openCreateMatchModal()" class="bg-pinkAccent hover:bg-pinkHover text-white font-extrabold px-6 py-2.5 rounded-xl text-xs uppercase tracking-wider transition shadow-lg shadow-pinkAccent/20 flex items-center gap-2">
-                    <i class="fa-solid fa-plus"></i> Create
-                </button>
+                <div class="flex items-center gap-3">
+                    <button onclick="openCreateMatchModal()" class="bg-pinkAccent hover:bg-pinkHover text-white font-extrabold px-6 py-2.5 rounded-xl text-xs uppercase tracking-wider transition shadow-lg shadow-pinkAccent/20 flex items-center gap-2">
+                        <i class="fa-solid fa-plus"></i> Create
+                    </button>
+                    <button onclick="openTransactionsModal()" class="history-btn">
+                        <i class="fa-solid fa-clock-rotate-left"></i> History
+                    </button>
+                </div>
             </div>
 
-            <!-- FEED: MATCHES + GIVEAWAYS -->
-            <div id="feedContainer" class="space-y-4"></div>
+            <!-- FEED: MATCHES -->
+            <div id="matchesList" class="space-y-3"></div>
 
         </main>
     </div>
@@ -786,10 +937,10 @@
                     </div>
                 </div>
                 <div class="flex items-center space-x-1.5">
-                    <button class="quick-pill" onclick="quickSelectPets(1)">1x</button>
-                    <button class="quick-pill" onclick="quickSelectPets(5)">5x</button>
-                    <button class="quick-pill" onclick="quickSelectPets(10)">10x</button>
-                    <button class="quick-pill" onclick="quickSelectPets(15)">15x</button>
+                    <button class="quick-pill" data-count="1" onclick="quickSelectPets(1,this)">1x</button>
+                    <button class="quick-pill" data-count="5" onclick="quickSelectPets(5,this)">5x</button>
+                    <button class="quick-pill" data-count="10" onclick="quickSelectPets(10,this)">10x</button>
+                    <button class="quick-pill" data-count="15" onclick="quickSelectPets(15,this)">15x</button>
                 </div>
             </div>
 
@@ -881,7 +1032,7 @@
         </div>
     </div>
 
-    <!-- ====== SPECTATE MODAL (with JOIN button) ====== -->
+    <!-- ====== SPECTATE MODAL ====== -->
     <div id="spectateModal" class="modal-backdrop fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'spectateModal')">
         <div class="bg-[#12141D] w-full max-w-4xl rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col">
             <div class="p-4 border-b border-panelBorder/50 flex justify-between items-center bg-[#0B0D13]">
@@ -902,7 +1053,6 @@
                         <span id="specCreatorName" class="font-extrabold text-sm text-white"></span>
                     </div>
 
-                    <!-- CENTER: JOIN button instead of spinning icon -->
                     <div class="flex flex-col items-center">
                         <button id="spectateJoinBtn" onclick="openJoinFromSpectate()" class="spectate-join-btn bg-pinkAccent hover:bg-pinkHover text-white font-extrabold px-8 py-3.5 rounded-xl text-sm uppercase tracking-wider shadow-lg shadow-pinkAccent/20 flex items-center gap-2">
                             <i class="fa-solid fa-arrow-right-to-bracket"></i> Join
@@ -1046,6 +1196,7 @@
         let selectedGiveawayPetIds = [];
         let giveawayTimeMinutes = 1;
         let giveaways = JSON.parse(localStorage.getItem('petduel_giveaways')) || [];
+        let systemChatMessageShown = false;
 
         // ─── ADMIN LIST ───
         const ADMIN_USERS = ['dedokxxreal', 'emoxdrill'];
@@ -1284,7 +1435,7 @@
         // ─── CHAT ───
         function initDynamicOnlineCounter() {
             setInterval(() => {
-                const count = Math.floor(Math.random() * (20 - 10 + 1)) + 10;
+                const count = Math.floor(Math.random() * (30 - 15 + 1)) + 15;
                 document.getElementById('onlineCounter').textContent = `${count} Online`;
             }, 5000);
         }
@@ -1295,23 +1446,56 @@
                 const messages = await res.json();
                 const chatBox = document.getElementById('chatMessages');
                 chatBox.innerHTML = '';
+
+                // Add system message if not shown yet
+                if (!systemChatMessageShown) {
+                    const sysMsg = document.createElement('div');
+                    sysMsg.className =
+                        'flex items-start space-x-2 bg-darkBg p-2 rounded-lg border border-panelBorder/50 chat-system-msg opacity-60';
+                    sysMsg.innerHTML = `
+                            <span class="system-badge">SYSTEM</span>
+                            <span class="text-gray-400 text-[10px]">Welcome to PET DUEL · Coinflip! Login to chat.</span>
+                        `;
+                    sysMsg.onclick = function(e) {
+                        e.stopPropagation();
+                        showNotification('info', 'This is a system message. Please login to chat.');
+                    };
+                    chatBox.appendChild(sysMsg);
+                    systemChatMessageShown = true;
+                }
+
                 messages.forEach(m => {
                     const msgEl = document.createElement('div');
-                    msgEl.className =
-                        'flex items-start space-x-2 bg-darkBg p-2 rounded-lg border border-panelBorder cursor-pointer hover:border-pinkAccent transition';
-                    msgEl.onclick = () => openUserProfileModal(m.username, m.avatar);
-                    msgEl.innerHTML = `
-                            <img src="${m.avatar}" class="w-6 h-6 rounded-full border border-panelBorder mt-0.5 object-cover">
-                            <div class="flex-1 overflow-hidden">
-                                <div class="flex items-center justify-between">
-                                    <span class="font-bold text-white text-[11px] truncate">${escapeHtml(m.username)}</span>
-                                    <span class="text-[9px] text-gray-500">${m.time}</span>
+                    const isSystem = m.username === 'SYSTEM' || m.username === 'system';
+                    if (isSystem) {
+                        msgEl.className =
+                            'flex items-start space-x-2 bg-darkBg p-2 rounded-lg border border-panelBorder/50 chat-system-msg opacity-60';
+                        msgEl.innerHTML = `
+                                <span class="system-badge">SYSTEM</span>
+                                <span class="text-gray-400 text-[10px]">${escapeHtml(m.msg)}</span>
+                            `;
+                        msgEl.onclick = function(e) {
+                            e.stopPropagation();
+                            showNotification('info', 'This is a system message.');
+                        };
+                    } else {
+                        msgEl.className =
+                            'flex items-start space-x-2 bg-darkBg p-2 rounded-lg border border-panelBorder cursor-pointer hover:border-pinkAccent transition';
+                        msgEl.onclick = () => openUserProfileModal(m.username, m.avatar);
+                        msgEl.innerHTML = `
+                                <img src="${m.avatar}" class="chat-avatar">
+                                <div class="flex-1 overflow-hidden">
+                                    <div class="flex items-center justify-between">
+                                        <span class="font-bold text-white text-[11px] truncate">${escapeHtml(m.username)}</span>
+                                        <span class="text-[9px] text-gray-500">${m.time}</span>
+                                    </div>
+                                    <p class="text-gray-300 text-[11px] break-words mt-0.5">${escapeHtml(m.msg)}</p>
                                 </div>
-                                <p class="text-gray-300 text-[11px] break-words mt-0.5">${escapeHtml(m.msg)}</p>
-                            </div>
-                        `;
+                            `;
+                    }
                     chatBox.appendChild(msgEl);
                 });
+                chatBox.scrollTop = chatBox.scrollHeight;
             } catch (e) {}
         }
 
@@ -1332,6 +1516,38 @@
             } catch (e) {}
         }
 
+        // ─── GIVEAWAY SIDEBAR RENDER ───
+        function renderSidebarGiveaways() {
+            const container = document.getElementById('sidebarGiveaways');
+            container.innerHTML = '';
+            if (giveaways.length === 0) {
+                container.innerHTML =
+                    `<div class="text-[10px] text-gray-500 py-1 text-center">No active giveaways</div>`;
+                return;
+            }
+            giveaways.forEach(g => {
+                const div = document.createElement('div');
+                div.className = 'giveaway-mini';
+                const timeLeft = g.timeLeft || '00:15';
+                div.innerHTML = `
+                        <div class="g-top">
+                            <span class="g-creator">
+                                <img src="${g.creatorAvatar || 'https://via.placeholder.com/150'}" />
+                                ${escapeHtml(g.creator)}
+                            </span>
+                            <span style="font-size:0.5rem;color:#888;">🎁</span>
+                        </div>
+                        <div class="g-mid">
+                            <span class="g-prize"><i class="fa-brands fa-roblox"></i> ${g.totalValue.toLocaleString()}</span>
+                            <span class="g-entries">${g.entries || 0} entries</span>
+                            <span class="g-timer">${timeLeft}</span>
+                            <button class="g-join-btn-sm" onclick="joinGiveaway('${g.id}')">Join</button>
+                        </div>
+                    `;
+                container.appendChild(div);
+            });
+        }
+
         // ─── MATCHES ───
         async function fetchServerMatches() {
             try {
@@ -1342,50 +1558,29 @@
                 renderFeed(); }
         }
 
-        // ─── RENDER FEED (matches + giveaways) ───
+        // ─── RENDER FEED (matches only) ───
         function renderFeed() {
-            const container = document.getElementById('feedContainer');
+            const container = document.getElementById('matchesList');
             const allGames = publicMatches.length + giveaways.length;
             document.getElementById('allGamesCount').textContent = allGames;
             document.getElementById('openGamesCount').textContent = publicMatches.length;
+            document.getElementById('commAllGames').textContent = allGames;
+            document.getElementById('commOpenGames').textContent = publicMatches.length;
 
             const totalVal = publicMatches.reduce((sum, m) => sum + m.totalValue, 0) +
                 giveaways.reduce((sum, g) => sum + g.totalValue, 0);
             document.getElementById('totalValueCount').textContent = (totalVal / 1000).toFixed(1) + 'k';
+            document.getElementById('commTotalValue').textContent = (totalVal / 1000).toFixed(1) + 'k';
 
             container.innerHTML = '';
 
-            // ── Giveaways first ──
-            if (giveaways.length > 0) {
-                giveaways.forEach(g => {
-                    const card = document.createElement('div');
-                    card.className = 'giveaway-card';
-                    const timeLeft = g.timeLeft || '00:15';
-                    card.innerHTML = `
-                            <div class="g-left">
-                                <div class="g-creator">
-                                    <img src="${g.creatorAvatar || 'https://via.placeholder.com/150'}" />
-                                    <span>${escapeHtml(g.creator)}</span>
-                                </div>
-                                <div class="g-prize">
-                                    <i class="fa-brands fa-roblox"></i> ${g.totalValue.toLocaleString()} value
-                                </div>
-                                <div class="g-meta">
-                                    <span>${g.winnerCount || 1} winner</span>
-                                    <span class="entries">· ${g.entries || 0} entries</span>
-                                </div>
-                                <div class="g-timer">${timeLeft}</div>
-                            </div>
-                            <button class="g-join-btn" onclick="joinGiveaway('${g.id}')">Join Giveaway</button>
-                        `;
-                    container.appendChild(card);
-                });
-            }
+            // ── Giveaways in sidebar only ──
+            renderSidebarGiveaways();
 
             // ── Matches ──
-            if (publicMatches.length === 0 && giveaways.length === 0) {
+            if (publicMatches.length === 0) {
                 container.innerHTML +=
-                    `<div class="text-center text-gray-500 py-12 text-xs bg-cardBg rounded-xl border border-panelBorder">No active matches or giveaways. Click "Create" to post one!</div>`;
+                    `<div class="text-center text-gray-500 py-12 text-xs bg-cardBg rounded-xl border border-panelBorder">No active matches. Click "Create" to post one!</div>`;
                 return;
             }
 
@@ -1425,7 +1620,7 @@
                         <div class="flex items-center space-x-4">
                             <div class="text-right">
                                 <span class="text-sm font-extrabold text-white flex items-center gap-1 justify-end">
-                                    <i class="fa-brands fa-roblox text-xs text-gray-400"></i> ${match.totalValue.toLocaleString()}
+                                    <i class="fa-brands fa-roblox text-xs text-white"></i> ${match.totalValue.toLocaleString()}
                                 </span>
                             </div>
                             ${isMyMatch ? `
@@ -1451,6 +1646,8 @@
             updateCreateMatchSummary();
             document.getElementById('createSortDropdown').value = 'high';
             document.getElementById('createMatchSearch').value = '';
+            // reset quick pills
+            document.querySelectorAll('.quick-pill').forEach(p => p.classList.remove('active'));
         }
 
         function closeCreateMatchModal() { document.getElementById('createMatchModal').classList.add('hidden'); }
@@ -1487,11 +1684,13 @@
                     else showNotification('error', 'Max 20 items per match.');
                     renderCreateMatchInventory();
                     updateCreateMatchSummary();
+                    // deactivate quick pills when manually selecting
+                    document.querySelectorAll('.quick-pill').forEach(p => p.classList.remove('active'));
                 };
                 card.innerHTML = `
                         <img src="${pet.image}" class="w-12 h-12 mx-auto object-contain mb-2">
                         <span class="font-extrabold text-xs text-white block truncate">${escapeHtml(pet.name)}</span>
-                        <span class="text-xs text-amber-400 font-black">${pet.value} R$</span>
+                        <span class="text-xs pet-value-white">${pet.value} R$</span>
                     `;
                 container.appendChild(card);
             });
@@ -1506,26 +1705,36 @@
             });
         }
 
-        function quickSelectPets(count) {
+        function quickSelectPets(count, btn) {
             const container = document.getElementById('createMatchInventory');
             const items = container.querySelectorAll('.pet-grid-item');
             const visible = [];
             items.forEach(el => {
                 if (el.style.display !== 'none') visible.push(el);
             });
+
+            // toggle: if already active, deselect
+            const isActive = btn.classList.contains('active');
+            if (isActive) {
+                // deselect all
+                selectedCreatePetIds = [];
+                document.querySelectorAll('.quick-pill').forEach(p => p.classList.remove('active'));
+                renderCreateMatchInventory();
+                updateCreateMatchSummary();
+                return;
+            }
+
+            // deselect all first
             selectedCreatePetIds = [];
+            document.querySelectorAll('.quick-pill').forEach(p => p.classList.remove('active'));
+            btn.classList.add('active');
+
             for (let i = 0; i < Math.min(count, visible.length); i++) {
                 const petId = parseInt(visible[i].dataset.petId) || 0;
                 if (petId) selectedCreatePetIds.push(petId);
             }
             renderCreateMatchInventory();
             updateCreateMatchSummary();
-            document.querySelectorAll('.quick-pill').forEach(p => p.classList.remove('active'));
-            const pillMap = { 1: 0, 5: 1, 10: 2, 15: 3 };
-            const idx = pillMap[count];
-            if (idx !== undefined) {
-                document.querySelectorAll('.quick-pill')[idx]?.classList.add('active');
-            }
         }
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -1647,7 +1856,7 @@
                 card.innerHTML = `
                         <img src="${pet.image}" class="w-10 h-10 mx-auto object-contain mb-1">
                         <span class="font-bold text-[10px] text-white block truncate">${escapeHtml(pet.name)}</span>
-                        <span class="text-[10px] text-amber-400 font-bold">${pet.value} R$</span>
+                        <span class="text-[10px] pet-value-white">${pet.value} R$</span>
                     `;
                 container.appendChild(card);
             });
@@ -1823,7 +2032,7 @@
                 card.innerHTML = `
                         <img src="${pet.image}" class="w-12 h-12 mx-auto object-contain mb-2">
                         <span class="font-extrabold text-xs text-white block truncate">${escapeHtml(pet.name)}</span>
-                        <span class="text-xs text-amber-400 font-black">${pet.value} R$</span>
+                        <span class="text-xs pet-value-white">${pet.value} R$</span>
                     `;
                 container.appendChild(card);
             });
@@ -1854,7 +2063,6 @@
             inventories[currentUser.username] = userPets.filter(p => !selectedGiveawayPetIds.includes(p.id));
             saveState();
 
-            // create giveaway entry
             const newGiveaway = {
                 id: 'GV-' + Date.now().toString(36).toUpperCase(),
                 creator: currentUser.username,
@@ -1890,7 +2098,6 @@
             if (!currentUser) { openLoginModal(); return; }
             const g = giveaways.find(gw => gw.id === giveawayId);
             if (!g) return;
-            // In a real app, this would add the user to the giveaway
             g.entries = (g.entries || 0) + 1;
             saveState();
             renderFeed();
@@ -2012,7 +2219,7 @@
                 card.innerHTML = `
                         <img src="${pet.image}" class="w-10 h-10 mx-auto object-contain mb-1">
                         <span class="font-extrabold text-[10px] text-white block truncate">${escapeHtml(pet.name)}</span>
-                        <span class="text-[10px] text-amber-400 font-bold">${pet.value} R$</span>
+                        <span class="text-[10px] pet-value-white">${pet.value} R$</span>
                     `;
                 container.appendChild(card);
             });
@@ -2063,7 +2270,7 @@
 
         // ─── TRANSACTIONS ───
         function openTransactionsModal() {
-            if (!currentUser) return;
+            if (!currentUser) { openLoginModal(); return; }
             document.getElementById('userDropdownMenu').classList.add('hidden');
             const container = document.getElementById('transactionsList');
             container.innerHTML = '';
@@ -2125,7 +2332,7 @@
 
         // ─── INVENTORY ───
         function openInventoryModal() {
-            if (!currentUser) return;
+            if (!currentUser) { openLoginModal(); return; }
             document.getElementById('userDropdownMenu').classList.add('hidden');
             const container = document.getElementById('myFullInventoryList');
             container.innerHTML = '';
@@ -2140,7 +2347,7 @@
                     card.innerHTML = `
                             <img src="${pet.image}" class="w-12 h-12 mx-auto object-contain mb-2">
                             <span class="font-extrabold text-xs text-white block truncate">${escapeHtml(pet.name)}</span>
-                            <span class="text-xs text-amber-400 font-black">${pet.value.toLocaleString()} R$</span>
+                            <span class="text-xs pet-value-white">${pet.value.toLocaleString()} R$</span>
                         `;
                     container.appendChild(card);
                 });
@@ -2248,10 +2455,12 @@
             initDynamicOnlineCounter();
             loadPersistentChat();
             fetchServerMatches();
-            setInterval(fetchServerMatches, 2000);
-            setInterval(loadPersistentChat, 3000);
+            setInterval(fetchServerMatches, 3000);
+            setInterval(loadPersistentChat, 4000);
             document.getElementById('sortDropdown').value = 'high';
             if (window.location.pathname === '/coinflip') {}
+            // render giveaways sidebar
+            renderSidebarGiveaways();
         });
     </script>
 
