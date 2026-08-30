@@ -215,13 +215,11 @@
             letter-spacing: -0.02em;
             display: flex;
             align-items: center;
-            gap: 0.6rem;
+            gap: 0.2rem;
         }
-        .logo-pet {
+        .logo-petduel {
             color: #FFF;
-        }
-        .logo-duel {
-            color: #FFF;
+            font-size: 1.3rem;
         }
         .logo-coinflip {
             color: #FF2A85;
@@ -233,10 +231,20 @@
             background: none;
             padding: 0;
             border: none;
-            margin-left: 0.1rem;
+            margin-left: 2rem;
+            border-bottom: 2px solid #FF2A85;
+            padding-bottom: 2px;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
         }
         .logo-coinflip:hover {
             opacity: 0.8;
+        }
+        .logo-coinflip img {
+            width: 24px;
+            height: 24px;
+            filter: brightness(0) saturate(100%) invert(32%) sepia(100%) saturate(7494%) hue-rotate(330deg) brightness(97%) contrast(101%);
         }
 
         /* ── quick pills ── */
@@ -494,18 +502,34 @@
             display: flex;
             align-items: center;
             gap: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
         }
         .profile-header-compact img {
-            width: 40px;
-            height: 40px;
+            width: 56px;
+            height: 56px;
             border-radius: 50%;
-            border: 2px solid #FF2A85;
+            border: none;
             object-fit: cover;
         }
         .profile-header-compact .pname {
             font-weight: 800;
             font-size: 0.9rem;
             color: #FFF;
+        }
+        /* Dropdown animasyonu */
+        #userDropdownMenu {
+            transition: all 0.25s ease-in-out;
+            transform-origin: top right;
+            transform: scale(0.95);
+            opacity: 0;
+            pointer-events: none;
+            display: block !important;
+        }
+        #userDropdownMenu.open {
+            transform: scale(1);
+            opacity: 1;
+            pointer-events: auto;
         }
 
         /* ── value with roblox icon ── */
@@ -532,11 +556,8 @@
         /* ── system chat msg ── */
         .chat-system-msg {
             opacity: 0.6;
-            cursor: default !important;
-            pointer-events: none;
-        }
-        .chat-system-msg .clickable-area {
-            pointer-events: none;
+            cursor: pointer !important;
+            pointer-events: auto !important;
         }
         .chat-system-msg .system-badge {
             color: #888;
@@ -551,76 +572,64 @@
         /* ── communications banner ── */
         .comm-banner {
             background: #181A20;
-            border: 1px solid #23262F;
+            border: 2px solid #FF2A85;
             border-radius: 14px;
-            padding: 0.6rem 1.2rem;
+            padding: 0.8rem 1.5rem;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 0.5rem;
+            text-align: center;
+            gap: 0.2rem;
         }
-        .comm-banner .comm-text {
-            font-size: 0.7rem;
-            font-weight: 600;
-            color: #AAA;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .comm-banner .comm-text i {
-            color: #FF2A85;
-        }
-        .comm-banner .comm-text strong {
-            color: #FFF;
-        }
-        .comm-banner .comm-metrics {
-            display: flex;
-            align-items: center;
-            gap: 1.2rem;
-            font-size: 0.7rem;
+        .comm-banner .comm-title {
+            font-size: 0.85rem;
             font-weight: 700;
-        }
-        .comm-banner .comm-metrics span {
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
-            color: #CCC;
-        }
-        .comm-banner .comm-metrics span .num {
             color: #FFF;
-            font-weight: 800;
+            letter-spacing: 0.02em;
+        }
+        .comm-banner .comm-title i {
+            color: #FF2A85;
+            margin-right: 0.4rem;
+        }
+        .comm-banner .comm-sub {
+            font-size: 0.75rem;
+            color: #AAA;
+            font-weight: 500;
+        }
+        .comm-banner .comm-sub strong {
+            color: #FF2A85;
         }
 
         /* ── top links ── */
         .top-links {
             display: flex;
             align-items: center;
-            gap: 1.2rem;
-            font-size: 0.6rem;
+            gap: 1.8rem;
+            font-size: 0.85rem;
             font-weight: 600;
-            color: #888;
+            color: #AAA;
             flex-wrap: wrap;
             padding: 0.2rem 0 0.4rem 0;
         }
         .top-links a {
-            color: #888;
+            color: #AAA;
             text-decoration: none;
             display: flex;
             align-items: center;
-            gap: 0.3rem;
+            gap: 0.4rem;
             transition: color 0.2s;
+            font-size: 0.85rem;
         }
         .top-links a:hover {
             color: #FF2A85;
         }
         .top-links a i {
-            font-size: 0.5rem;
+            font-size: 0.7rem;
             color: #FF2A85;
         }
         .top-links .sep {
             color: #333;
-            font-size: 0.5rem;
+            font-size: 0.6rem;
         }
 
         /* ── history btn ── */
@@ -642,7 +651,7 @@
             color: #FFF;
         }
 
-        /* ── metrics bar ── */
+        /* ── metrics grid ── */
         .metrics-grid {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
@@ -653,7 +662,7 @@
             border: 1px solid #23262F;
             border-radius: 14px;
             padding: 1rem 1.2rem;
-            text-align: center;
+            text-align: left;
         }
         .metric-card .num {
             font-size: 1.5rem;
@@ -702,15 +711,9 @@
             color: #FFF;
         }
 
-        /* ── chat sidebar wider ── */
+        /* ── chat sidebar genişliği ── */
         .chat-sidebar {
-            /* genişlik grid tarafından belirlenecek */
-        }
-        @media (max-width: 1024px) {
-            .chat-sidebar {
-                min-width: unset;
-                max-width: unset;
-            }
+            /* grid tarafından belirlenecek */
         }
 
         /* ── inventory modal ── */
@@ -925,6 +928,19 @@
             font-size: 0.7rem;
             color: #ff6b6b;
         }
+        .info-modal-content .affiliate-back {
+            display: inline-block;
+            margin-top: 1rem;
+            color: #FF2A85;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 0.8rem;
+            transition: color 0.2s;
+        }
+        .info-modal-content .affiliate-back:hover {
+            color: #FF6BAE;
+        }
 
         /* ── history modal ── */
         .history-item {
@@ -1012,10 +1028,10 @@
             }
             .top-links {
                 gap: 0.8rem;
-                font-size: 0.65rem;
+                font-size: 0.7rem;
             }
             .top-links a {
-                font-size: 0.65rem;
+                font-size: 0.7rem;
             }
         }
         @media (max-width: 480px) {
@@ -1044,9 +1060,11 @@
             </div>
             <div>
                 <h1 class="logo-text text-lg">
-                    <span class="logo-pet">PET</span>
-                    <span class="logo-duel">DUEL</span>
-                    <span class="logo-coinflip" onclick="goToCoinflip()">COINFLIP</span>
+                    <span class="logo-petduel">PETDUEL</span>
+                    <button class="logo-coinflip" onclick="goToCoinflip()">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FF2A85'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm1-13h-2v6l5.25 3.15L17 12.23l-4-2.37V7z'/%3E%3C/svg%3E" alt="coin" />
+                        <span>COINFLIP</span>
+                    </button>
                 </h1>
             </div>
         </div>
@@ -1067,7 +1085,7 @@
                     </button>
 
                     <div class="relative">
-                        <div class="profile-header-compact bg-darkBg border border-panelBorder px-3.5 py-1.5 rounded-full cursor-pointer hover:border-pinkAccent transition" onclick="toggleUserDropdown(event)">
+                        <div class="profile-header-compact bg-darkBg border border-panelBorder px-3.5 py-1.5 rounded-full hover:border-pinkAccent transition" onclick="toggleUserDropdown(event)">
                             <img id="navRobloxAvatar" src="" />
                             <span id="navRobloxUser" class="pname"></span>
                             <i class="fa-solid fa-chevron-down text-gray-400 text-[10px] ml-1"></i>
@@ -1104,7 +1122,7 @@
     <div class="flex-1 grid grid-cols-1 lg:grid-cols-5 gap-6 p-6 w-full container-max">
 
         <!-- ====== SIDEBAR: CHAT + GIVEAWAYS ====== -->
-        <aside class="lg:col-span-1 bg-cardBg rounded-2xl border border-panelBorder flex flex-col h-[680px] lg:h-full shadow-xl overflow-hidden chat-sidebar">
+        <aside class="lg:col-span-2 bg-cardBg rounded-2xl border border-panelBorder flex flex-col h-[680px] lg:h-full shadow-xl overflow-hidden chat-sidebar">
             <!-- Chat header -->
             <div class="p-4 border-b border-panelBorder bg-darkBg flex items-center justify-between flex-shrink-0">
                 <h2 class="font-bold text-xs text-white uppercase tracking-wider">Chat</h2>
@@ -1135,13 +1153,13 @@
         </aside>
 
         <!-- ====== MAIN CONTENT ====== -->
-        <main class="lg:col-span-4 flex flex-col space-y-4">
+        <main class="lg:col-span-3 flex flex-col space-y-4">
 
             <!-- TOP LINKS: Provably Fair, TOS, FAQ, Claims, Affiliates -->
             <div class="top-links">
                 <a href="#" onclick="openProvablyFairModal(); return false;"><i class="fa-regular fa-circle-check"></i> Provably Fair</a>
                 <span class="sep">|</span>
-                <a href="#" onclick="openTermsModal(); return false;"><i class="fa-regular fa-file-lines"></i> terms of service</a>
+                <a href="#" onclick="openTermsModal(); return false;"><i class="fa-regular fa-file-lines"></i> Terms of Service</a>
                 <span class="sep">|</span>
                 <a href="#" onclick="openFAQModal(); return false;"><i class="fa-regular fa-circle-question"></i> FAQ</a>
                 <span class="sep">|</span>
@@ -1150,20 +1168,13 @@
                 <a href="#" onclick="openAffiliateModal(); return false;"><i class="fa-regular fa-building"></i> Affiliates</a>
             </div>
 
-            <!-- COMMUNICATIONS BANNER (tek satır, metrikler sağda) -->
+            <!-- COMMUNICATIONS BANNER (iki satır, pembe çerçeve) -->
             <div class="comm-banner">
-                <div class="comm-text">
-                    <i class="fa-solid fa-comment-dots"></i>
-                    <span>Join Our Communications Server! <strong>Discord.gg/8qtVS7Y4p</strong> - Support &amp; Questions!</span>
-                </div>
-                <div class="comm-metrics">
-                    <span><i class="fa-regular fa-circle"></i> <span class="num" id="commAllGames">0</span> All Games</span>
-                    <span><i class="fa-brands fa-roblox"></i> <span class="num" id="commTotalValue">0</span> Total Value</span>
-                    <span><i class="fa-regular fa-clock"></i> <span class="num" id="commOpenGames">0</span> Open Games</span>
-                </div>
+                <div class="comm-title"><i class="fa-regular fa-comment-dots"></i> Join Our Communications Server!</div>
+                <div class="comm-sub"><strong>Discord.gg/8qtVS7Y4p</strong> - Support &amp; Questions!</div>
             </div>
 
-            <!-- METRICS BAR (3 sütun) -->
+            <!-- METRICS BAR (sol hizalı) -->
             <div class="metrics-grid">
                 <div class="metric-card">
                     <span class="num" id="allGamesCount">0</span>
@@ -1179,15 +1190,15 @@
                 </div>
             </div>
 
-            <!-- ACTION BAR -->
-            <div class="flex items-center justify-between bg-cardBg p-4 rounded-xl border border-panelBorder">
+            <!-- ACTION BAR (arka plan şeffaf) -->
+            <div class="flex items-center justify-between p-4 rounded-xl border border-panelBorder">
                 <select id="sortDropdown" class="sort-dropdown">
                     <option value="high">High to low</option>
                     <option value="low">Low to high</option>
                 </select>
                 <div class="flex items-center gap-3">
                     <button onclick="openCreateMatchModal()" class="rect-btn pink">Create</button>
-                    <button onclick="openHistoryModal()" class="rect-btn dark"><i class="fa-regular fa-clock mr-1"></i> History</button>
+                    <button onclick="openHistoryModal()" class="history-btn">HISTORY</button>
                 </div>
             </div>
 
@@ -1348,6 +1359,7 @@
                 </div>
                 <div id="affiliateMsg" class="affiliate-msg"></div>
             </div>
+            <a class="affiliate-back" onclick="closeAffiliateModal(); goToCoinflip();">← Coinflip</a>
         </div>
     </div>
 
@@ -1877,6 +1889,8 @@
             if (window.location.pathname !== '/coinflip') {
                 history.pushState({ page: 'coinflip' }, 'PET DUEL — Coinflip', '/coinflip');
             }
+            // Kapatılan affiliate modal'ı varsa kapat
+            closeAffiliateModal();
         }
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -1921,15 +1935,19 @@
             document.getElementById('rulesModal').classList.add('hidden');
         }
 
-        // ─── DROPDOWN ───
+        // ─── DROPDOWN (animasyonlu) ───
         function toggleUserDropdown(e) {
             e.stopPropagation();
-            document.getElementById('userDropdownMenu').classList.toggle('hidden');
+            const menu = document.getElementById('userDropdownMenu');
+            menu.classList.toggle('hidden');
+            menu.classList.toggle('open');
         }
         document.addEventListener('click', (e) => {
             const badge = document.getElementById('userProfileBadge');
             if (badge && !badge.contains(e.target)) {
-                document.getElementById('userDropdownMenu').classList.add('hidden');
+                const menu = document.getElementById('userDropdownMenu');
+                menu.classList.add('hidden');
+                menu.classList.remove('open');
             }
         });
 
@@ -2171,8 +2189,6 @@
             const allGames = publicMatches.length + giveaways.length;
             document.getElementById('allGamesCount').textContent = allGames;
             document.getElementById('openGamesCount').textContent = publicMatches.length;
-            document.getElementById('commAllGames').textContent = allGames;
-            document.getElementById('commOpenGames').textContent = publicMatches.length;
 
             const totalVal = publicMatches.reduce((sum, m) => sum + m.totalValue, 0) +
                 giveaways.reduce((sum, g) => sum + g.totalValue, 0);
@@ -2180,7 +2196,6 @@
                 totalVal >= 1000 ? (totalVal / 1000).toFixed(1) + 'k' :
                 totalVal.toString();
             document.getElementById('totalValueCount').textContent = totalValDisplay;
-            document.getElementById('commTotalValue').textContent = totalValDisplay;
 
             container.innerHTML = '';
 
@@ -3256,7 +3271,7 @@
                 msg.style.color = '#ff6b6b';
                 return;
             }
-            msg.textContent = 'Böyle bir affiliate kodu yok.';
+            msg.textContent = 'Invalid affiliate code.';
             msg.style.color = '#ff6b6b';
         }
 
