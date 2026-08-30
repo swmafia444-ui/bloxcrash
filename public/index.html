@@ -222,7 +222,7 @@
             font-size: 1.3rem;
         }
         .logo-coinflip {
-            color: #FF2A85;
+            color: #FFF;
             font-weight: 900;
             font-size: 0.9rem;
             letter-spacing: -0.01em;
@@ -504,10 +504,15 @@
             gap: 0.75rem;
             cursor: pointer;
             transition: all 0.2s;
+            padding: 0.3rem 0.8rem 0.3rem 0.4rem;
+            border-radius: 30px;
+        }
+        .profile-header-compact:hover {
+            background: rgba(255, 255, 255, 0.05);
         }
         .profile-header-compact img {
-            width: 56px;
-            height: 56px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             border: none;
             object-fit: cover;
@@ -571,14 +576,14 @@
 
         /* ── communications banner ── */
         .comm-banner {
-            background: #181A20;
+            background: rgba(255, 42, 133, 0.05);
             border: 2px solid #FF2A85;
             border-radius: 14px;
             padding: 0.8rem 1.5rem;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            text-align: center;
+            align-items: flex-start;
+            text-align: left;
             gap: 0.2rem;
         }
         .comm-banner .comm-title {
@@ -586,10 +591,6 @@
             font-weight: 700;
             color: #FFF;
             letter-spacing: 0.02em;
-        }
-        .comm-banner .comm-title i {
-            color: #FF2A85;
-            margin-right: 0.4rem;
         }
         .comm-banner .comm-sub {
             font-size: 0.75rem;
@@ -806,6 +807,37 @@
         .inv-empty .deposit-empty-btn:hover {
             background: #E02374;
         }
+        /* Inventory Withdraw */
+        .inv-withdraw-bar {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid #23262F;
+            background: #0B0D13;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .inv-withdraw-bar .info {
+            font-size: 0.7rem;
+            color: #888;
+        }
+        .inv-withdraw-bar .info strong {
+            color: #FFF;
+        }
+        .inv-withdraw-btn {
+            background: #FF2A85;
+            color: #000;
+            font-weight: 800;
+            padding: 0.4rem 1.5rem;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .inv-withdraw-btn:hover {
+            background: #E02374;
+        }
 
         /* ── modal animations ── */
         .modal-backdrop {
@@ -880,73 +912,6 @@
             color: #BBB;
             line-height: 1.6;
             margin: 0;
-        }
-        .info-modal-content .affiliate-code-box {
-            background: #0B0D13;
-            border: 1px solid #23262F;
-            border-radius: 12px;
-            padding: 1.2rem 1.5rem;
-            margin-top: 1rem;
-        }
-        .info-modal-content .affiliate-code-box label {
-            font-size: 0.7rem;
-            font-weight: 700;
-            color: #AAA;
-            display: block;
-            margin-bottom: 0.3rem;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-        }
-        .info-modal-content .affiliate-code-box .code-input-wrap {
-            display: flex;
-            gap: 0.5rem;
-            align-items: center;
-        }
-        .info-modal-content .affiliate-code-box .code-input-wrap input {
-            flex: 1;
-            background: #181A20;
-            border: 1px solid #23262F;
-            border-radius: 8px;
-            padding: 0.5rem 0.8rem;
-            font-size: 0.75rem;
-            color: #FFF;
-            outline: none;
-        }
-        .info-modal-content .affiliate-code-box .code-input-wrap input:focus {
-            border-color: #FF2A85;
-        }
-        .info-modal-content .affiliate-code-box .code-input-wrap button {
-            background: #FF2A85;
-            color: #000;
-            font-weight: 800;
-            padding: 0.5rem 1.2rem;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            font-size: 0.65rem;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-        }
-        .info-modal-content .affiliate-code-box .code-input-wrap button:hover {
-            background: #E02374;
-        }
-        .info-modal-content .affiliate-msg {
-            margin-top: 0.5rem;
-            font-size: 0.7rem;
-            color: #ff6b6b;
-        }
-        .info-modal-content .affiliate-back {
-            display: inline-block;
-            margin-top: 1rem;
-            color: #FF2A85;
-            font-weight: 700;
-            cursor: pointer;
-            text-decoration: none;
-            font-size: 0.8rem;
-            transition: color 0.2s;
-        }
-        .info-modal-content .affiliate-back:hover {
-            color: #FF6BAE;
         }
 
         /* ── history modal ── */
@@ -1092,7 +1057,7 @@
                     </button>
 
                     <div class="relative">
-                        <div class="profile-header-compact bg-darkBg border border-panelBorder px-3.5 py-1.5 rounded-full hover:border-pinkAccent transition" onclick="toggleUserDropdown(event)">
+                        <div class="profile-header-compact hover:bg-white/5 transition" onclick="toggleUserDropdown(event)">
                             <img id="navRobloxAvatar" src="" />
                             <span id="navRobloxUser" class="pname"></span>
                             <i class="fa-solid fa-chevron-down text-gray-400 text-[10px] ml-1"></i>
@@ -1163,7 +1128,7 @@
         <!-- ====== MAIN CONTENT ====== -->
         <main class="lg:col-span-3 flex flex-col space-y-4">
 
-            <!-- TOP LINKS: Provably Fair, TOS, FAQ, Claims, Affiliates -->
+            <!-- TOP LINKS: Provably Fair, TOS, FAQ, Claims -->
             <div class="top-links">
                 <a href="#" onclick="openProvablyFairModal(); return false;"><i class="fa-regular fa-circle-check"></i> Provably Fair</a>
                 <span class="sep">|</span>
@@ -1172,13 +1137,11 @@
                 <a href="#" onclick="openFAQModal(); return false;"><i class="fa-regular fa-circle-question"></i> FAQ</a>
                 <span class="sep">|</span>
                 <a href="#" onclick="openClaimsModal(); return false;"><i class="fa-regular fa-handshake"></i> Claims</a>
-                <span class="sep">|</span>
-                <a href="#" onclick="openAffiliateModal(); return false;"><i class="fa-regular fa-building"></i> Affiliates</a>
             </div>
 
             <!-- COMMUNICATIONS BANNER (iki satır, pembe çerçeve) -->
             <div class="comm-banner">
-                <div class="comm-title"><i class="fa-regular fa-comment-dots"></i> Join Our Communications Server!</div>
+                <div class="comm-title">Join Our Communications Server!</div>
                 <div class="comm-sub"><strong>Discord.gg/8qtVS7Y4p</strong> - Support &amp; Questions!</div>
             </div>
 
@@ -1351,26 +1314,6 @@
         </div>
     </div>
 
-    <!-- ====== AFFILIATE MODAL ====== -->
-    <div id="affiliateModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'affiliateModal')">
-        <div class="info-modal-content" onclick="event.stopPropagation()">
-            <div class="flex justify-between items-start mb-2">
-                <h2><i class="fa-regular fa-building"></i> Affiliate code</h2>
-                <button onclick="closeAffiliateModal()" class="text-gray-400 hover:text-white bg-cardBg px-2.5 py-1 rounded-lg border border-panelBorder text-xs"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <div class="subhead">Enter a creator's code to support them.</div>
-            <div class="affiliate-code-box">
-                <label>Code</label>
-                <div class="code-input-wrap">
-                    <input type="text" id="affiliateCodeInput" placeholder="📋 Enter affiliate code" />
-                    <button onclick="applyAffiliateCode()">Apply</button>
-                </div>
-                <div id="affiliateMsg" class="affiliate-msg"></div>
-            </div>
-            <a class="affiliate-back" onclick="closeAffiliateModal(); goToCoinflip();">← Coinflip</a>
-        </div>
-    </div>
-
     <!-- ====== GIVEAWAY MODAL ====== -->
     <div id="giveawayModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'giveawayModal')">
         <div class="bg-[#12141D] w-full max-w-4xl rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col p-6 space-y-6 max-h-[90vh]">
@@ -1520,6 +1463,59 @@
         </div>
     </div>
 
+    <!-- ====== JOIN MATCH MODAL (YENİ TASARIM) ====== -->
+    <div id="joinMatchModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'joinMatchModal')">
+        <div class="bg-cardBg w-full max-w-lg rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div class="p-4 border-b border-panelBorder flex justify-between items-center bg-darkBg">
+                <h3 class="font-bold text-white text-sm">Join</h3>
+                <button onclick="closeJoinMatchModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="p-4 overflow-y-auto space-y-4">
+                <!-- Match Info -->
+                <div id="joinMatchInfo" class="bg-darkBg p-3 rounded-xl border border-panelBorder text-xs space-y-2">
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Selected value</span>
+                        <span id="joinSelectedValue" class="font-bold text-pinkAccent">0 R$</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Required</span>
+                        <span id="joinRequiredRange" class="font-bold text-amber-400">0 - 0</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Max join items</span>
+                        <span id="joinMaxItems" class="font-bold text-red-400">0</span>
+                    </div>
+                </div>
+
+                <!-- Search & Sort -->
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                    <div class="relative flex-1 min-w-[140px]">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-xs text-gray-500"></i>
+                        <input type="text" id="joinMatchSearch" placeholder="Search items..." oninput="filterJoinMatchInventory()" class="w-full bg-[#0B0D13] border border-panelBorder rounded-xl pl-8 pr-3 py-1.5 text-xs text-white focus:outline-none focus:border-pinkAccent transition" />
+                    </div>
+                    <select id="joinSortDropdown" onchange="renderJoinMatchInventory()" class="sort-dropdown bg-[#0B0D13] border border-panelBorder rounded-xl px-3 py-1.5 text-xs text-gray-300 font-bold focus:outline-none focus:border-pinkAccent transition" style="min-width:100px;">
+                        <option value="high">High to low</option>
+                        <option value="low">Low to high</option>
+                    </select>
+                </div>
+
+                <!-- Inventory -->
+                <div>
+                    <div id="joinMatchInventory" class="grid grid-cols-2 gap-2 max-h-48 overflow-y-auto p-2 bg-darkBg rounded-xl border border-panelBorder"></div>
+                    <div id="joinEmptyBox" class="text-center space-y-3 py-6 hidden">
+                        <p class="text-sm font-semibold text-gray-400">You do not have any available items.</p>
+                        <button onclick="openDepositModal()" class="bg-pinkAccent hover:bg-pinkHover text-white font-extrabold px-6 py-2 rounded-xl text-xs uppercase tracking-wider transition shadow-lg shadow-pinkAccent/20">
+                            + Deposit
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="p-4 border-t border-panelBorder bg-darkBg">
+                <button onclick="confirmJoinMatch()" class="w-full py-3 rounded-xl bg-pinkAccent hover:bg-pinkHover text-white font-extrabold text-sm uppercase tracking-wider transition">JOIN</button>
+            </div>
+        </div>
+    </div>
+
     <!-- ====== CREATE MATCH MODAL ====== -->
     <div id="createMatchModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'createMatchModal')">
         <div class="bg-[#12141D] w-full max-w-4xl rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col p-6 space-y-6 max-h-[90vh]">
@@ -1580,30 +1576,6 @@
                 <button onclick="submitCreateMatch()" class="bg-pinkAccent hover:bg-pinkHover text-white font-extrabold px-12 py-3 rounded-xl text-sm transition shadow-lg">
                     Create
                 </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- ====== JOIN MATCH MODAL ====== -->
-    <div id="joinMatchModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'joinMatchModal')">
-        <div class="bg-cardBg w-full max-w-lg rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
-            <div class="p-4 border-b border-panelBorder flex justify-between items-center bg-darkBg">
-                <h3 class="font-bold text-white text-sm">Join Pet Coin Flip Duel</h3>
-                <button onclick="closeJoinMatchModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <div class="p-6 overflow-y-auto space-y-4">
-                <div id="joinMatchInfo" class="bg-darkBg p-3 rounded-xl border border-panelBorder text-xs space-y-1"></div>
-                <div>
-                    <label class="block text-xs font-bold text-gray-300 uppercase mb-2">Select Your Pet(s) to Match Wager</label>
-                    <div id="joinMatchInventory" class="grid grid-cols-2 gap-3 max-h-48 overflow-y-auto p-2 bg-darkBg rounded-xl border border-panelBorder"></div>
-                    <div class="flex justify-between items-center mt-2 text-xs">
-                        <span class="text-gray-400">Your Selected Total:</span>
-                        <span id="joinWagerTotal" class="font-extrabold text-amber-400 text-sm">0 R$</span>
-                    </div>
-                </div>
-            </div>
-            <div class="p-4 border-t border-panelBorder bg-darkBg">
-                <button onclick="confirmJoinMatch()" class="w-full py-3 rounded-xl bg-pinkAccent hover:bg-pinkHover text-white font-extrabold text-sm uppercase tracking-wider transition">ACCEPT DUEL &amp; FLIP</button>
             </div>
         </div>
     </div>
@@ -1697,7 +1669,7 @@
         </div>
     </div>
 
-    <!-- ====== INVENTORY MODAL ====== -->
+    <!-- ====== INVENTORY MODAL (Withdraw özellikli) ====== -->
     <div id="inventoryModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'inventoryModal')">
         <div class="bg-cardBg w-full max-w-2xl rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col max-h-[80vh]">
             <div class="inv-header">
@@ -1714,6 +1686,11 @@
             </div>
             <div id="inventoryContent" class="p-6 overflow-y-auto flex-1">
                 <!-- dynamically rendered -->
+            </div>
+            <!-- Withdraw Bar -->
+            <div class="inv-withdraw-bar" id="invWithdrawBar">
+                <div class="info">Selected: <strong id="invSelectedCount">0</strong> items · <strong id="invSelectedValue">0 R$</strong></div>
+                <button class="inv-withdraw-btn" onclick="withdrawSelectedPets()">Withdraw</button>
             </div>
         </div>
     </div>
@@ -1811,6 +1788,7 @@
         let selectedJoinPetIds = [];
         let selectedCreatePetIds = [];
         let selectedGiveawayPetIds = [];
+        let selectedInventoryPetIds = []; // Inventory seçimi için
         let giveawayTimeMinutes = 1;
         let giveaways = JSON.parse(localStorage.getItem('petduel_giveaways')) || [];
         let systemChatMessageShown = false;
@@ -1892,13 +1870,11 @@
             return ADMIN_USERS.some(a => a.toLowerCase() === username.toLowerCase());
         }
 
-        // ─── URL ROUTING (affiliate hash) ───
+        // ─── URL ROUTING ───
         function goToCoinflip() {
             if (window.location.pathname !== '/coinflip') {
                 history.pushState({ page: 'coinflip' }, 'PET DUEL — Coinflip', '/coinflip');
             }
-            // Kapatılan affiliate modal'ı varsa kapat
-            closeAffiliateModal();
         }
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -1906,9 +1882,6 @@
             window.addEventListener('popstate', function(e) {
                 if (e.state && e.state.page === 'coinflip') {}
             });
-            if (window.location.hash === '#affiliates') {
-                openAffiliateModal();
-            }
         });
 
         // ─── NOTIFICATION ───
@@ -2268,6 +2241,184 @@
             });
         }
 
+        // ─── JOIN MATCH (YENİ) ───
+        function openJoinMatchModal(matchId) {
+            if (!currentUser) { openLoginModal(); return; }
+            const match = publicMatches.find(m => m.id === matchId);
+            if (!match) return;
+            activeJoinMatchId = matchId;
+            selectedJoinPetIds = [];
+
+            // Bilgileri güncelle
+            const minRange = match.minRange || Math.floor(match.totalValue * 0.8);
+            const maxRange = match.maxRange || Math.ceil(match.totalValue * 1.2);
+            const maxItems = match.pets.length;
+
+            document.getElementById('joinSelectedValue').textContent = '0 R$';
+            document.getElementById('joinRequiredRange').textContent = `${minRange.toLocaleString()} - ${maxRange.toLocaleString()}`;
+            document.getElementById('joinMaxItems').textContent = maxItems;
+
+            document.getElementById('joinMatchModal').classList.remove('hidden');
+            renderJoinMatchInventory();
+            updateJoinMatchSummary();
+        }
+
+        function closeJoinMatchModal() { document.getElementById('joinMatchModal').classList.add('hidden'); }
+
+        function filterJoinMatchInventory() {
+            const q = document.getElementById('joinMatchSearch').value.toLowerCase();
+            const items = document.querySelectorAll('#joinMatchInventory .pet-grid-item');
+            items.forEach(el => {
+                const name = el.dataset.name || '';
+                el.style.display = name.includes(q) ? '' : 'none';
+            });
+        }
+
+        function renderJoinMatchInventory() {
+            const container = document.getElementById('joinMatchInventory');
+            const emptyBox = document.getElementById('joinEmptyBox');
+            container.innerHTML = '';
+            const userPets = getPetsForUser(currentUser.username);
+            if (userPets.length === 0) {
+                container.classList.add('hidden');
+                emptyBox.classList.remove('hidden');
+                return;
+            }
+            container.classList.remove('hidden');
+            emptyBox.classList.add('hidden');
+
+            const sortVal = document.getElementById('joinSortDropdown').value;
+            const sorted = [...userPets];
+            if (sortVal === 'high') sorted.sort((a, b) => b.value - a.value);
+            else sorted.sort((a, b) => a.value - b.value);
+
+            const maxItems = parseInt(document.getElementById('joinMaxItems').textContent) || 1;
+
+            sorted.forEach(pet => {
+                const card = document.createElement('div');
+                const isSelected = selectedJoinPetIds.includes(pet.id);
+                card.className =
+                    `pet-grid-item bg-darkBg p-2 rounded-lg border cursor-pointer transition text-center ${isSelected ? 'pet-card-selected border-pinkAccent' : 'border-panelBorder'}`;
+                card.dataset.name = pet.name.toLowerCase();
+                card.dataset.petId = pet.id;
+                card.onclick = () => {
+                    const idx = selectedJoinPetIds.indexOf(pet.id);
+                    if (idx > -1) {
+                        selectedJoinPetIds.splice(idx, 1);
+                    } else {
+                        if (selectedJoinPetIds.length >= maxItems) {
+                            showNotification('error', `You can only select up to ${maxItems} item(s).`);
+                            return;
+                        }
+                        selectedJoinPetIds.push(pet.id);
+                    }
+                    renderJoinMatchInventory();
+                    updateJoinMatchSummary();
+                };
+                card.innerHTML = `
+                        <img src="${pet.image}" class="w-10 h-10 mx-auto object-contain mb-1">
+                        <span class="font-bold text-[10px] text-white block truncate">${escapeHtml(pet.name)}</span>
+                        <span class="text-[10px] pet-value-white">${pet.value} R$</span>
+                    `;
+                container.appendChild(card);
+            });
+        }
+
+        function updateJoinMatchSummary() {
+            const userPets = getPetsForUser(currentUser.username);
+            const selected = userPets.filter(p => selectedJoinPetIds.includes(p.id));
+            const total = selected.reduce((s, p) => s + p.value, 0);
+            document.getElementById('joinSelectedValue').textContent = total.toLocaleString() + ' R$';
+        }
+
+        async function confirmJoinMatch() {
+            const match = publicMatches.find(m => m.id === activeJoinMatchId);
+            if (!match) return;
+            const userPets = getPetsForUser(currentUser.username);
+            const wagerPets = userPets.filter(p => selectedJoinPetIds.includes(p.id));
+            const joinValue = wagerPets.reduce((s, p) => s + p.value, 0);
+            if (wagerPets.length === 0) {
+                showNotification('error', 'Select at least one pet to wager.');
+                return;
+            }
+            const minRange = match.minRange || Math.floor(match.totalValue * 0.8);
+            const maxRange = match.maxRange || Math.ceil(match.totalValue * 1.2);
+            if (joinValue < minRange || joinValue > maxRange) {
+                showNotification('error', `Wager must be between ${minRange.toLocaleString()} and ${maxRange.toLocaleString()} R$`);
+                return;
+            }
+            inventories[currentUser.username] = userPets.filter(p => !selectedJoinPetIds.includes(p.id));
+            saveState();
+            closeJoinMatchModal();
+
+            const flipModal = document.getElementById('gameFlipModal');
+            const statusText = document.getElementById('modalFlipStatus');
+            const coin = document.getElementById('modalCoin');
+            coin.style.transition = 'none';
+            coin.className = 'coin';
+            flipModal.classList.remove('hidden');
+            statusText.textContent = "FLIPPING COIN...";
+
+            try {
+                const res = await fetch('/api/matches/resolve', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        matchId: activeJoinMatchId,
+                        joiner: currentUser.username,
+                        joinerAvatar: currentUser.avatar,
+                        joinerPets: wagerPets,
+                        joinerValue: joinValue
+                    })
+                });
+                const result = await res.json();
+                if (!res.ok) {
+                    showNotification('error', result.error || 'Match resolve failed');
+                    flipModal.classList.add('hidden');
+                    if (!inventories[currentUser.username]) inventories[currentUser.username] = [];
+                    inventories[currentUser.username].push(...wagerPets);
+                    saveState();
+                    return;
+                }
+                setTimeout(() => {
+                    coin.style.transition = 'transform 3s cubic-bezier(0.15, 0.85, 0.35, 1.2)';
+                    if (result.outcome === 'heads') coin.classList.add('flip-heads');
+                    else coin.classList.add('flip-tails');
+                }, 50);
+
+                setTimeout(() => {
+                    if (!inventories[result.winner]) inventories[result.winner] = [];
+                    inventories[result.winner].push(...result.totalPets);
+                    updateUserStats(result.winner, true);
+                    updateUserStats(result.loser, false);
+
+                    matchHistory.unshift({
+                        id: activeJoinMatchId,
+                        creator: match.creator,
+                        opponent: currentUser.username,
+                        winner: result.winner,
+                        totalValue: match.totalValue,
+                        timestamp: new Date().toISOString()
+                    });
+                    if (matchHistory.length > 20) matchHistory = matchHistory.slice(0, 20);
+                    saveState();
+
+                    statusText.innerHTML =
+                        `<span class="text-pinkAccent font-black text-lg">${escapeHtml(result.winner)} WON!</span>`;
+                    publicMatches = publicMatches.filter(m => m.id !== activeJoinMatchId);
+                    renderFeed();
+                    setTimeout(() => { flipModal.classList.add('hidden'); }, 2500);
+                }, 3200);
+
+            } catch (e) {
+                flipModal.classList.add('hidden');
+                if (!inventories[currentUser.username]) inventories[currentUser.username] = [];
+                inventories[currentUser.username].push(...wagerPets);
+                saveState();
+                showNotification('error', 'Match error');
+            }
+        }
+
         // ─── CREATE MATCH ───
         function openCreateMatchModal() {
             if (!currentUser) { openLoginModal(); return; }
@@ -2314,6 +2465,7 @@
                     else showNotification('error', 'Max 20 items per match.');
                     renderCreateMatchInventory();
                     updateCreateMatchSummary();
+                    // Quick pill'lerin aktifliğini kaldır
                     document.querySelectorAll('.quick-pill').forEach(p => p.classList.remove('active'));
                 };
                 card.innerHTML = `
@@ -2334,6 +2486,7 @@
             });
         }
 
+        // Quick Pills - Artık toggle değil, sadece seçim yapıyor
         function quickSelectPets(count, btn) {
             const container = document.getElementById('createMatchInventory');
             const items = container.querySelectorAll('.pet-grid-item');
@@ -2342,18 +2495,12 @@
                 if (el.style.display !== 'none') visible.push(el);
             });
 
-            const isActive = btn.classList.contains('active');
-            if (isActive) {
-                selectedCreatePetIds = [];
-                document.querySelectorAll('.quick-pill').forEach(p => p.classList.remove('active'));
-                renderCreateMatchInventory();
-                updateCreateMatchSummary();
-                return;
-            }
-
-            selectedCreatePetIds = [];
+            // Tüm aktif sınıflarını kaldır
             document.querySelectorAll('.quick-pill').forEach(p => p.classList.remove('active'));
             btn.classList.add('active');
+
+            // Seçili petleri temizle
+            selectedCreatePetIds = [];
 
             for (let i = 0; i < Math.min(count, visible.length); i++) {
                 const petId = parseInt(visible[i].dataset.petId) || 0;
@@ -2451,150 +2598,6 @@
                     showNotification('success', 'Match canceled! Pets returned.');
                 }
             } catch (e) {}
-        }
-
-        // ─── JOIN MATCH ───
-        function openJoinMatchModal(matchId) {
-            if (!currentUser) { openLoginModal(); return; }
-            const match = publicMatches.find(m => m.id === matchId);
-            if (!match) return;
-            activeJoinMatchId = matchId;
-            selectedJoinPetIds = [];
-            document.getElementById('joinMatchInfo').innerHTML = `
-                    <div class="flex justify-between font-bold">
-                        <span class="text-gray-300">Opponent: ${escapeHtml(match.creator)}</span>
-                        <span class="text-amber-400">Wager: ${match.totalValue} R$</span>
-                    </div>
-                `;
-            document.getElementById('joinMatchModal').classList.remove('hidden');
-            renderJoinMatchInventory();
-            updateJoinMatchSummary();
-        }
-
-        function closeJoinMatchModal() { document.getElementById('joinMatchModal').classList.add('hidden'); }
-
-        function renderJoinMatchInventory() {
-            const container = document.getElementById('joinMatchInventory');
-            container.innerHTML = '';
-            const userPets = getPetsForUser(currentUser.username);
-            if (userPets.length === 0) {
-                container.innerHTML =
-                    `<div class="col-span-2 text-center text-xs text-gray-500 py-4">No pets in inventory!</div>`;
-                return;
-            }
-            userPets.forEach(pet => {
-                const card = document.createElement('div');
-                const isSelected = selectedJoinPetIds.includes(pet.id);
-                card.className =
-                    `bg-cardBg p-2 rounded-lg border cursor-pointer transition text-center ${isSelected ? 'pet-card-selected border-pinkAccent' : 'border-panelBorder'}`;
-                card.onclick = () => {
-                    const idx = selectedJoinPetIds.indexOf(pet.id);
-                    if (idx > -1) selectedJoinPetIds.splice(idx, 1);
-                    else selectedJoinPetIds.push(pet.id);
-                    renderJoinMatchInventory();
-                    updateJoinMatchSummary();
-                };
-                card.innerHTML = `
-                        <img src="${pet.image}" class="w-10 h-10 mx-auto object-contain mb-1">
-                        <span class="font-bold text-[10px] text-white block truncate">${escapeHtml(pet.name)}</span>
-                        <span class="text-[10px] pet-value-white">${pet.value} R$</span>
-                    `;
-                container.appendChild(card);
-            });
-        }
-
-        function updateJoinMatchSummary() {
-            const userPets = getPetsForUser(currentUser.username);
-            const selected = userPets.filter(p => selectedJoinPetIds.includes(p.id));
-            const total = selected.reduce((s, p) => s + p.value, 0);
-            document.getElementById('joinWagerTotal').textContent = total.toLocaleString() + ' R$';
-        }
-
-        async function confirmJoinMatch() {
-            const match = publicMatches.find(m => m.id === activeJoinMatchId);
-            if (!match) return;
-            const userPets = getPetsForUser(currentUser.username);
-            const wagerPets = userPets.filter(p => selectedJoinPetIds.includes(p.id));
-            const joinValue = wagerPets.reduce((s, p) => s + p.value, 0);
-            if (wagerPets.length === 0) {
-                showNotification('error', 'Select at least one pet to wager.');
-                return;
-            }
-            if (joinValue < match.totalValue * 0.8 || joinValue > match.totalValue * 1.2) {
-                showNotification('error',
-                    `Wager must be between ${Math.floor(match.totalValue*0.8)} and ${Math.ceil(match.totalValue*1.2)} R$`);
-                return;
-            }
-            inventories[currentUser.username] = userPets.filter(p => !selectedJoinPetIds.includes(p.id));
-            saveState();
-            closeJoinMatchModal();
-
-            const flipModal = document.getElementById('gameFlipModal');
-            const statusText = document.getElementById('modalFlipStatus');
-            const coin = document.getElementById('modalCoin');
-            coin.style.transition = 'none';
-            coin.className = 'coin';
-            flipModal.classList.remove('hidden');
-            statusText.textContent = "FLIPPING COIN...";
-
-            try {
-                const res = await fetch('/api/matches/resolve', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        matchId: activeJoinMatchId,
-                        joiner: currentUser.username,
-                        joinerAvatar: currentUser.avatar,
-                        joinerPets: wagerPets,
-                        joinerValue: joinValue
-                    })
-                });
-                const result = await res.json();
-                if (!res.ok) {
-                    showNotification('error', result.error || 'Match resolve failed');
-                    flipModal.classList.add('hidden');
-                    if (!inventories[currentUser.username]) inventories[currentUser.username] = [];
-                    inventories[currentUser.username].push(...wagerPets);
-                    saveState();
-                    return;
-                }
-                setTimeout(() => {
-                    coin.style.transition = 'transform 3s cubic-bezier(0.15, 0.85, 0.35, 1.2)';
-                    if (result.outcome === 'heads') coin.classList.add('flip-heads');
-                    else coin.classList.add('flip-tails');
-                }, 50);
-
-                setTimeout(() => {
-                    if (!inventories[result.winner]) inventories[result.winner] = [];
-                    inventories[result.winner].push(...result.totalPets);
-                    updateUserStats(result.winner, true);
-                    updateUserStats(result.loser, false);
-
-                    matchHistory.unshift({
-                        id: activeJoinMatchId,
-                        creator: match.creator,
-                        opponent: currentUser.username,
-                        winner: result.winner,
-                        totalValue: match.totalValue,
-                        timestamp: new Date().toISOString()
-                    });
-                    if (matchHistory.length > 20) matchHistory = matchHistory.slice(0, 20);
-                    saveState();
-
-                    statusText.innerHTML =
-                        `<span class="text-pinkAccent font-black text-lg">${escapeHtml(result.winner)} WON!</span>`;
-                    publicMatches = publicMatches.filter(m => m.id !== activeJoinMatchId);
-                    renderFeed();
-                    setTimeout(() => { flipModal.classList.add('hidden'); }, 2500);
-                }, 3200);
-
-            } catch (e) {
-                flipModal.classList.add('hidden');
-                if (!inventories[currentUser.username]) inventories[currentUser.username] = [];
-                inventories[currentUser.username].push(...wagerPets);
-                saveState();
-                showNotification('error', 'Match error');
-            }
         }
 
         // ─── SPECTATE ───
@@ -3070,17 +3073,52 @@
             saveState();
         }
 
-        // ─── INVENTORY MODAL ───
+        // ─── INVENTORY MODAL (Withdraw özellikli) ───
         function openInventoryModal() {
             if (!currentUser) { openLoginModal(); return; }
+            selectedInventoryPetIds = [];
             document.getElementById('userDropdownMenu').classList.add('hidden');
             document.getElementById('inventoryModal').classList.remove('hidden');
             renderInventoryModal();
             document.getElementById('invSearchInput').value = '';
             document.getElementById('invSortDropdown').value = 'high';
+            updateInventoryWithdrawBar();
         }
 
         function closeInventoryModal() { document.getElementById('inventoryModal').classList.add('hidden'); }
+
+        function toggleInventoryPetSelection(petId) {
+            const idx = selectedInventoryPetIds.indexOf(petId);
+            if (idx > -1) selectedInventoryPetIds.splice(idx, 1);
+            else selectedInventoryPetIds.push(petId);
+            renderInventoryModal();
+            updateInventoryWithdrawBar();
+        }
+
+        function updateInventoryWithdrawBar() {
+            const userPets = getPetsForUser(currentUser.username);
+            const selected = userPets.filter(p => selectedInventoryPetIds.includes(p.id));
+            const count = selected.length;
+            const total = selected.reduce((s, p) => s + p.value, 0);
+            document.getElementById('invSelectedCount').textContent = count;
+            document.getElementById('invSelectedValue').textContent = total.toLocaleString() + ' R$';
+        }
+
+        function withdrawSelectedPets() {
+            if (!currentUser) return;
+            if (selectedInventoryPetIds.length === 0) {
+                showNotification('error', 'No pets selected for withdrawal.');
+                return;
+            }
+            const userPets = getPetsForUser(currentUser.username);
+            const newPets = userPets.filter(p => !selectedInventoryPetIds.includes(p.id));
+            inventories[currentUser.username] = newPets;
+            saveState();
+            showNotification('success', `Withdrawn ${selectedInventoryPetIds.length} pet(s)!`);
+            selectedInventoryPetIds = [];
+            renderInventoryModal();
+            updateInventoryWithdrawBar();
+        }
 
         function renderInventoryModal() {
             const container = document.getElementById('inventoryContent');
@@ -3112,7 +3150,10 @@
             grid.className = 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4';
             pets.forEach(pet => {
                 const card = document.createElement('div');
-                card.className = 'bg-darkBg p-3 rounded-xl border border-panelBorder text-center shadow';
+                const isSelected = selectedInventoryPetIds.includes(pet.id);
+                card.className =
+                    `bg-darkBg p-3 rounded-xl border cursor-pointer transition text-center ${isSelected ? 'pet-card-selected border-pinkAccent' : 'border-panelBorder'}`;
+                card.onclick = () => toggleInventoryPetSelection(pet.id);
                 card.innerHTML = `
                         <img src="${pet.image}" class="w-12 h-12 mx-auto object-contain mb-2">
                         <span class="font-extrabold text-xs text-white block truncate">${escapeHtml(pet.name)}</span>
@@ -3121,6 +3162,7 @@
                 grid.appendChild(card);
             });
             container.appendChild(grid);
+            updateInventoryWithdrawBar();
         }
 
         function filterInventory() { renderInventoryModal(); }
@@ -3254,41 +3296,9 @@
 
         function closeClaimsModal() { document.getElementById('claimsModal').classList.add('hidden'); }
 
-        // ─── AFFILIATE MODAL ───
-        function openAffiliateModal() {
-            document.getElementById('affiliateModal').classList.remove('hidden');
-            document.getElementById('affiliateMsg').textContent = '';
-            document.getElementById('affiliateCodeInput').value = '';
-            if (window.location.hash !== '#affiliates') {
-                history.pushState(null, '', '#affiliates');
-            }
-        }
-
-        function closeAffiliateModal() {
-            document.getElementById('affiliateModal').classList.add('hidden');
-            if (window.location.hash === '#affiliates') {
-                history.pushState(null, '', window.location.pathname);
-            }
-        }
-
-        function applyAffiliateCode() {
-            const code = document.getElementById('affiliateCodeInput').value.trim();
-            const msg = document.getElementById('affiliateMsg');
-            if (!code) {
-                msg.textContent = 'Please enter a code.';
-                msg.style.color = '#ff6b6b';
-                return;
-            }
-            msg.textContent = 'Invalid affiliate code.';
-            msg.style.color = '#ff6b6b';
-        }
-
         // ─── SORT DROPDOWN ───
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('sortDropdown').addEventListener('change', renderFeed);
-            if (window.location.hash === '#affiliates') {
-                openAffiliateModal();
-            }
         });
 
         // ─── INIT ───
