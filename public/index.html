@@ -29,6 +29,7 @@
     </script>
 
     <style>
+        /* ── reset & base ── */
         html {
             scroll-behavior: smooth;
         }
@@ -50,6 +51,7 @@
             border-radius: 4px;
         }
 
+        /* ── coin flip ── */
         .coin-container {
             perspective: 1000px;
         }
@@ -101,6 +103,7 @@
             transform: rotateY(1980deg);
         }
 
+        /* ── pet cards ── */
         .pet-card-selected {
             border-color: #FF2A85 !important;
             background-color: rgba(255, 42, 133, 0.15) !important;
@@ -114,6 +117,7 @@
             }
         }
 
+        /* ── time pills ── */
         .time-pill {
             cursor: pointer;
             transition: all 0.2s;
@@ -138,12 +142,14 @@
             box-shadow: 0 0 20px rgba(255, 42, 133, 0.3);
         }
 
+        /* ── profile graph ── */
         .profile-graph svg {
             width: 100%;
             height: 60px;
             display: block;
         }
 
+        /* ── spectate join btn ── */
         .spectate-join-btn {
             transition: all 0.2s;
         }
@@ -151,11 +157,44 @@
             transform: scale(1.04);
         }
 
+        /* ── custom dropdown (CHROME OVERRIDE) ── */
+        .sort-dropdown {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-color: #0B0D13;
+            border: 1px solid #23262F;
+            border-radius: 12px;
+            padding: 0.5rem 2rem 0.5rem 1rem;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #CCC;
+            cursor: pointer;
+            transition: border 0.2s, box-shadow 0.2s;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23888'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 10px 6px;
+            font-family: 'Inter', sans-serif;
+            letter-spacing: 0.02em;
+            min-width: 120px;
+        }
+        .sort-dropdown:hover {
+            border-color: #FF2A85;
+        }
+        .sort-dropdown:focus {
+            outline: none;
+            border-color: #FF2A85;
+            box-shadow: 0 0 0 3px rgba(255, 42, 133, 0.15);
+        }
         .sort-dropdown option {
             background: #0B0D13;
             color: #E0E6ED;
+            padding: 0.4rem 0.8rem;
+            font-weight: 600;
         }
 
+        /* ── pet grid ── */
         .pet-grid-item {
             transition: all 0.15s;
             cursor: pointer;
@@ -165,6 +204,7 @@
             transform: translateY(-2px);
         }
 
+        /* ── logo ── */
         .logo-text {
             font-weight: 900;
             letter-spacing: -0.02em;
@@ -192,7 +232,7 @@
             box-shadow: 0 0 20px rgba(255, 42, 133, 0.15);
         }
 
-        /* quick-select pills */
+        /* ── quick pills ── */
         .quick-pill {
             cursor: pointer;
             transition: all 0.2s;
@@ -218,17 +258,204 @@
             box-shadow: 0 0 20px rgba(255, 42, 133, 0.25);
         }
 
+        /* ── admin ── */
         .admin-user-pet {
             transition: all 0.15s;
         }
         .admin-user-pet:hover {
             border-color: #FF2A85;
         }
+
+        /* ── giveaway card ── */
+        .giveaway-card {
+            background: #181A20;
+            border: 1px solid #23262F;
+            border-radius: 16px;
+            padding: 1.25rem 1.5rem;
+            transition: border 0.2s, transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .giveaway-card:hover {
+            border-color: #FF2A85;
+            transform: translateY(-2px);
+        }
+        .giveaway-card .g-left {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+        }
+        .giveaway-card .g-creator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 700;
+            font-size: 0.75rem;
+            color: #CCC;
+        }
+        .giveaway-card .g-creator img {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 1px solid #23262F;
+            object-fit: cover;
+        }
+        .giveaway-card .g-creator span {
+            color: #FFF;
+        }
+        .giveaway-card .g-prize {
+            font-weight: 800;
+            font-size: 0.85rem;
+            color: #FFD966;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        .giveaway-card .g-prize i {
+            color: #888;
+            font-size: 0.7rem;
+        }
+        .giveaway-card .g-meta {
+            font-size: 0.65rem;
+            color: #888;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-weight: 600;
+        }
+        .giveaway-card .g-meta .entries {
+            color: #AAA;
+        }
+        .giveaway-card .g-timer {
+            font-weight: 800;
+            font-size: 0.85rem;
+            color: #FF2A85;
+            background: rgba(255, 42, 133, 0.12);
+            padding: 0.15rem 0.7rem;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 42, 133, 0.2);
+            font-variant-numeric: tabular-nums;
+        }
+        .giveaway-card .g-join-btn {
+            background: #FF2A85;
+            color: #FFF;
+            font-weight: 800;
+            font-size: 0.7rem;
+            padding: 0.5rem 1.6rem;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.15s;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            box-shadow: 0 0 20px rgba(255, 42, 133, 0.2);
+        }
+        .giveaway-card .g-join-btn:hover {
+            background: #E02374;
+            transform: scale(1.03);
+        }
+
+        /* ── chat rules modal ── */
+        .rules-modal-content {
+            background: #181A20;
+            border: 1px solid #23262F;
+            border-radius: 16px;
+            max-width: 520px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 1.8rem 2rem;
+        }
+        .rules-modal-content h3 {
+            font-size: 1rem;
+            font-weight: 800;
+            color: #FFF;
+            margin-bottom: 0.25rem;
+            letter-spacing: -0.01em;
+        }
+        .rules-modal-content .sub {
+            font-size: 0.7rem;
+            color: #888;
+            font-weight: 500;
+            margin-bottom: 1.2rem;
+        }
+        .rules-modal-content .rule-item {
+            display: flex;
+            gap: 0.7rem;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            font-size: 0.78rem;
+            line-height: 1.5;
+            color: #CCC;
+        }
+        .rules-modal-content .rule-item .num {
+            color: #FF2A85;
+            font-weight: 800;
+            min-width: 20px;
+            font-size: 0.7rem;
+        }
+        .rules-modal-content .rule-item:last-child {
+            border-bottom: none;
+        }
+        .rules-modal-content .rule-item strong {
+            color: #FFF;
+        }
+        .rules-modal-content .role-section {
+            margin-top: 1.2rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .rules-modal-content .role-section .role {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.7rem;
+            color: #AAA;
+            padding: 0.25rem 0;
+        }
+        .rules-modal-content .role-section .role .badge {
+            font-weight: 800;
+            color: #FFD966;
+            background: rgba(255, 217, 102, 0.08);
+            padding: 0.1rem 0.6rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 217, 102, 0.15);
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        /* ── book icon ── */
+        .book-icon-btn {
+            background: none;
+            border: none;
+            color: #888;
+            cursor: pointer;
+            font-size: 0.85rem;
+            padding: 0 0.25rem;
+            transition: color 0.2s;
+            display: inline-flex;
+            align-items: center;
+        }
+        .book-icon-btn:hover {
+            color: #FF2A85;
+        }
+
+        /* ── misc ── */
+        .chat-online-wrap {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
 
-    <!-- TOP NOTIFICATION -->
+    <!-- ====== TOP NOTIFICATION ====== -->
     <div id="notificationToast" class="fixed top-4 right-4 z-[60] flex items-center justify-between px-5 py-3.5 rounded-xl shadow-2xl bg-cardBg border border-panelBorder text-white transform transition-all duration-300 translate-x-full opacity-0 pointer-events-none">
         <div class="flex items-center space-x-3 mr-4">
             <i id="toastIcon" class="fa-solid fa-circle-info text-pinkAccent text-base"></i>
@@ -237,7 +464,7 @@
         <button onclick="hideNotification()" class="text-gray-400 hover:text-white text-xs"><i class="fa-solid fa-xmark"></i></button>
     </div>
 
-    <!-- HEADER -->
+    <!-- ====== HEADER ====== -->
     <header class="w-full bg-cardBg border-b border-panelBorder px-6 py-3.5 flex items-center justify-between sticky top-0 z-40">
         <div class="flex items-center space-x-3">
             <div class="w-10 h-10 rounded-xl bg-pinkAccent/10 border border-pinkAccent p-1.5 flex items-center justify-center">
@@ -301,17 +528,22 @@
         </div>
     </header>
 
-    <!-- MAIN LAYOUT -->
+    <!-- ====== MAIN LAYOUT ====== -->
     <div class="flex-1 grid grid-cols-1 lg:grid-cols-5 gap-6 p-6 w-full">
 
-        <!-- LIVE CHAT -->
+        <!-- ====== LIVE CHAT (sidebar) ====== -->
         <aside class="lg:col-span-1 bg-cardBg rounded-2xl border border-panelBorder flex flex-col h-[650px] lg:h-full shadow-xl overflow-hidden">
             <div class="p-4 border-b border-panelBorder bg-darkBg flex items-center justify-between">
                 <div class="flex items-center space-x-2">
                     <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
                     <h2 class="font-bold text-xs text-white uppercase tracking-wider">Live Chat</h2>
                 </div>
-                <span class="text-[10px] bg-cardBg px-2 py-0.5 rounded text-gray-400 border border-panelBorder" id="onlineCounter">14 Online</span>
+                <div class="chat-online-wrap">
+                    <span class="text-[10px] bg-cardBg px-2 py-0.5 rounded text-gray-400 border border-panelBorder" id="onlineCounter">14 Online</span>
+                    <button class="book-icon-btn" onclick="toggleRulesModal()" title="Chat Rules">
+                        <i class="fa-solid fa-book"></i>
+                    </button>
+                </div>
             </div>
             <div id="chatMessages" class="flex-1 p-3 overflow-y-auto space-y-3 text-xs"></div>
             <div class="p-3 border-t border-panelBorder bg-darkBg">
@@ -322,7 +554,7 @@
             </div>
         </aside>
 
-        <!-- MAIN CONTENT -->
+        <!-- ====== MAIN CONTENT ====== -->
         <main class="lg:col-span-4 flex flex-col space-y-6">
 
             <!-- METRICS BAR -->
@@ -345,7 +577,7 @@
 
             <!-- ACTION BAR -->
             <div class="flex items-center justify-between bg-cardBg p-4 rounded-xl border border-panelBorder">
-                <select id="sortDropdown" class="sort-dropdown bg-darkBg border border-panelBorder rounded-lg px-3 py-2 text-xs text-gray-300 font-bold focus:outline-none focus:border-pinkAccent transition">
+                <select id="sortDropdown" class="sort-dropdown">
                     <option value="high">High to low</option>
                     <option value="low">Low to high</option>
                 </select>
@@ -354,12 +586,38 @@
                 </button>
             </div>
 
-            <!-- PUBLIC MATCHES FEED -->
-            <div id="matchesList" class="space-y-3"></div>
+            <!-- FEED: MATCHES + GIVEAWAYS -->
+            <div id="feedContainer" class="space-y-4"></div>
+
         </main>
     </div>
 
-    <!-- ========== GIVEAWAY MODAL ========== -->
+    <!-- ====== CHAT RULES MODAL ====== -->
+    <div id="rulesModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'rulesModal')">
+        <div class="rules-modal-content" onclick="event.stopPropagation()">
+            <div class="flex justify-between items-center mb-3">
+                <div>
+                    <h3><i class="fa-solid fa-book-open text-pinkAccent mr-2"></i>Chat Rules</h3>
+                    <div class="sub">Keep PET DUEL chat welcoming and useful. Breaking these rules may result in a temporary or permanent mute.</div>
+                </div>
+                <button onclick="closeRulesModal()" class="text-gray-400 hover:text-white bg-cardBg px-2.5 py-1 rounded-lg border border-panelBorder text-xs"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <div class="rule-item"><span class="num">1.</span><span><strong>Respect everyone</strong> — Harassment, hate speech, threats, and targeted abuse are not allowed.</span></div>
+            <div class="rule-item"><span class="num">2.</span><span><strong>Do not spam</strong> — Avoid repeated messages, excessive caps, and flooding the chat.</span></div>
+            <div class="rule-item"><span class="num">3.</span><span><strong>No begging</strong> — Do not repeatedly ask other players for items or account benefits.</span></div>
+            <div class="rule-item"><span class="num">4.</span><span><strong>No advertising</strong> — Do not promote unrelated websites, communities, or services.</span></div>
+            <div class="rule-item"><span class="num">5.</span><span><strong>No scams or impersonation</strong> — Never mislead players or pretend to be PET DUEL staff.</span></div>
+            <div class="rule-item"><span class="num">6.</span><span><strong>Follow moderation</strong> — Moderator decisions and instructions must be respected.</span></div>
+
+            <div class="role-section">
+                <div class="role"><span class="badge">Whale</span> Awarded after wagering 50M Value in total.</div>
+                <div class="role"><span class="badge">High Roller</span> Awarded after wagering 25M Value in total.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====== GIVEAWAY MODAL (create) ====== -->
     <div id="giveawayModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'giveawayModal')">
         <div class="bg-[#12141D] w-full max-w-4xl rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col p-6 space-y-6 max-h-[90vh]">
             <div class="flex justify-between items-center">
@@ -410,7 +668,7 @@
         </div>
     </div>
 
-    <!-- ========== USER PROFILE MODAL ========== -->
+    <!-- ====== USER PROFILE MODAL ====== -->
     <div id="userProfileModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'userProfileModal')">
         <div class="bg-[#12141D] w-full max-w-2xl rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
             <div class="p-4 border-b border-panelBorder/50 flex justify-between items-center bg-[#0B0D13]">
@@ -451,7 +709,6 @@
                     </div>
                 </div>
 
-                <!-- Dynamic Graph -->
                 <div class="bg-[#0B0D13] p-3 rounded-xl border border-panelBorder">
                     <div class="flex items-center justify-between text-[10px] text-gray-400 font-bold uppercase mb-1">
                         <span>Performance</span>
@@ -459,12 +716,9 @@
                     </div>
                     <div class="profile-graph" id="profileGraphContainer">
                         <svg viewBox="0 0 300 60" preserveAspectRatio="none" id="profileGraphSvg">
-                            <polyline id="graphLine" points="0,55 25,40 50,50 75,25 100,35 125,15 150,30 175,10 200,20 225,8 250,18 275,5 300,12"
-                            fill="none" stroke="#FF2A85" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-                            <polyline id="graphFill" points="0,55 25,40 50,50 75,25 100,35 125,15 150,30 175,10 200,20 225,8 250,18 275,5 300,12"
-                            fill="none" stroke="none" />
-                            <polygon id="graphArea" points="0,55 25,40 50,50 75,25 100,35 125,15 150,30 175,10 200,20 225,8 250,18 275,5 300,12 300,60 0,60"
-                            fill="rgba(255,42,133,0.08)" />
+                            <polyline id="graphLine" points="0,55 25,40 50,50 75,25 100,35 125,15 150,30 175,10 200,20 225,8 250,18 275,5 300,12" fill="none" stroke="#FF2A85" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <polyline id="graphFill" points="0,55 25,40 50,50 75,25 100,35 125,15 150,30 175,10 200,20 225,8 250,18 275,5 300,12" fill="none" stroke="none" />
+                            <polygon id="graphArea" points="0,55 25,40 50,50 75,25 100,35 125,15 150,30 175,10 200,20 225,8 250,18 275,5 300,12 300,60 0,60" fill="rgba(255,42,133,0.08)" />
                             <circle id="graphDot" cx="300" cy="12" r="3" fill="#FF2A85" />
                         </svg>
                     </div>
@@ -484,7 +738,7 @@
         </div>
     </div>
 
-    <!-- ========== TIP INVENTORY MODAL ========== -->
+    <!-- ====== TIP INVENTORY MODAL ====== -->
     <div id="tipInventoryModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'tipInventoryModal')">
         <div class="bg-cardBg w-full max-w-md rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col max-h-[80vh]">
             <div class="p-4 border-b border-panelBorder flex justify-between items-center bg-darkBg">
@@ -501,7 +755,7 @@
         </div>
     </div>
 
-    <!-- ========== TRANSACTIONS MODAL ========== -->
+    <!-- ====== TRANSACTIONS MODAL ====== -->
     <div id="transactionsModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'transactionsModal')">
         <div class="bg-cardBg w-full max-w-xl rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col max-h-[80vh]">
             <div class="p-4 border-b border-panelBorder flex justify-between items-center bg-darkBg">
@@ -512,7 +766,7 @@
         </div>
     </div>
 
-    <!-- ========== CREATE MATCH MODAL (with 1x 5x 10x 15x) ========== -->
+    <!-- ====== CREATE MATCH MODAL ====== -->
     <div id="createMatchModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'createMatchModal')">
         <div class="bg-[#12141D] w-full max-w-4xl rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col p-6 space-y-6 max-h-[90vh]">
             <div class="flex justify-between items-center">
@@ -531,7 +785,6 @@
                         <span id="selectedItemCount">0</span>/20 ITEMS
                     </div>
                 </div>
-                <!-- 1x 5x 10x 15x pills -->
                 <div class="flex items-center space-x-1.5">
                     <button class="quick-pill" onclick="quickSelectPets(1)">1x</button>
                     <button class="quick-pill" onclick="quickSelectPets(5)">5x</button>
@@ -577,7 +830,7 @@
         </div>
     </div>
 
-    <!-- ========== JOIN MATCH MODAL ========== -->
+    <!-- ====== JOIN MATCH MODAL ====== -->
     <div id="joinMatchModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'joinMatchModal')">
         <div class="bg-cardBg w-full max-w-lg rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
             <div class="p-4 border-b border-panelBorder flex justify-between items-center bg-darkBg">
@@ -601,7 +854,7 @@
         </div>
     </div>
 
-    <!-- ========== DEPOSIT MODAL ========== -->
+    <!-- ====== DEPOSIT MODAL ====== -->
     <div id="depositModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'depositModal')">
         <div class="bg-[#12141D] w-full max-w-md rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col p-6 space-y-6 text-center">
             <div class="flex justify-between items-center border-b border-panelBorder/50 pb-3">
@@ -628,7 +881,7 @@
         </div>
     </div>
 
-    <!-- ========== SPECTATE MODAL ========== -->
+    <!-- ====== SPECTATE MODAL (with JOIN button) ====== -->
     <div id="spectateModal" class="modal-backdrop fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'spectateModal')">
         <div class="bg-[#12141D] w-full max-w-4xl rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col">
             <div class="p-4 border-b border-panelBorder/50 flex justify-between items-center bg-[#0B0D13]">
@@ -648,16 +901,15 @@
                         </div>
                         <span id="specCreatorName" class="font-extrabold text-sm text-white"></span>
                     </div>
+
+                    <!-- CENTER: JOIN button instead of spinning icon -->
                     <div class="flex flex-col items-center">
-                        <div class="w-24 h-24 rounded-full bg-pinkAccent p-2 shadow-2xl shadow-pinkAccent/30 flex items-center justify-center border-4 border-white pulse-spin">
-                            <div class="w-full h-full rounded-full border-2 border-dashed border-white/60 flex items-center justify-center">
-                                <i class="fa-solid fa-paw text-white text-3xl"></i>
-                            </div>
-                        </div>
-                        <button id="spectateJoinBtn" onclick="openJoinFromSpectate()" class="spectate-join-btn mt-3 bg-pinkAccent hover:bg-pinkHover text-white font-extrabold px-6 py-2 rounded-xl text-xs uppercase tracking-wider shadow-lg shadow-pinkAccent/20 flex items-center gap-2">
+                        <button id="spectateJoinBtn" onclick="openJoinFromSpectate()" class="spectate-join-btn bg-pinkAccent hover:bg-pinkHover text-white font-extrabold px-8 py-3.5 rounded-xl text-sm uppercase tracking-wider shadow-lg shadow-pinkAccent/20 flex items-center gap-2">
                             <i class="fa-solid fa-arrow-right-to-bracket"></i> Join
                         </button>
+                        <span class="text-[10px] text-gray-500 mt-2 font-medium">Waiting for opponent</span>
                     </div>
+
                     <div class="flex flex-col items-center space-y-2">
                         <div class="relative">
                             <img id="specJoinerAvatar" src="" class="w-16 h-16 rounded-full border-2 border-panelBorder object-cover" />
@@ -666,11 +918,13 @@
                         <span id="specJoinerName" class="font-extrabold text-sm text-white"></span>
                     </div>
                 </div>
+
                 <div class="grid grid-cols-3 gap-3">
                     <div class="bg-cardBg p-2.5 rounded-lg border border-panelBorder text-center font-mono text-[10px] text-gray-400 truncate"><i class="fa-solid fa-shield-halved text-pinkAccent mr-1"></i> <span id="specHash1">46bb6dfc54ce42...</span></div>
                     <div class="bg-cardBg p-2.5 rounded-lg border border-panelBorder text-center font-mono text-[10px] text-gray-400 truncate"><i class="fa-solid fa-key text-pinkAccent mr-1"></i> <span id="specHash2">8c2239c9dab207...</span></div>
                     <div class="bg-cardBg p-2.5 rounded-lg border border-panelBorder text-center font-mono text-[10px] text-gray-400 truncate"><i class="fa-solid fa-circle-question text-pinkAccent mr-1"></i> <span id="specHash3">1ed3c85df666d6...</span></div>
                 </div>
+
                 <div class="grid grid-cols-2 gap-4">
                     <div class="bg-cardBg p-3 rounded-xl border border-panelBorder flex justify-between items-center">
                         <span class="font-extrabold text-xs text-white">50.00%</span>
@@ -681,6 +935,7 @@
                         <span class="font-extrabold text-xs text-white flex items-center gap-1"><i class="fa-brands fa-roblox text-pinkAccent"></i> <span id="specJoinerVal">0</span></span>
                     </div>
                 </div>
+
                 <div class="grid grid-cols-2 gap-4 max-h-48 overflow-y-auto">
                     <div id="specCreatorItems" class="space-y-2"></div>
                     <div id="specJoinerItems" class="space-y-2"></div>
@@ -689,7 +944,7 @@
         </div>
     </div>
 
-    <!-- ========== INVENTORY MODAL ========== -->
+    <!-- ====== INVENTORY MODAL ====== -->
     <div id="inventoryModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'inventoryModal')">
         <div class="bg-cardBg w-full max-w-2xl rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col max-h-[80vh]">
             <div class="p-4 border-b border-panelBorder flex justify-between items-center bg-darkBg">
@@ -700,7 +955,7 @@
         </div>
     </div>
 
-    <!-- ========== LOGIN MODAL ========== -->
+    <!-- ====== LOGIN MODAL ====== -->
     <div id="loginModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'loginModal')">
         <div class="bg-cardBg w-full max-w-md rounded-2xl border border-panelBorder shadow-2xl overflow-hidden">
             <div class="p-4 border-b border-panelBorder flex justify-between items-center bg-darkBg">
@@ -731,7 +986,7 @@
         </div>
     </div>
 
-    <!-- ========== FLIP ANIMATION MODAL ========== -->
+    <!-- ====== FLIP ANIMATION MODAL ====== -->
     <div id="gameFlipModal" class="fixed inset-0 bg-black/90 backdrop-blur-lg z-50 flex items-center justify-center p-4 hidden">
         <div class="bg-cardBg w-full max-w-md rounded-2xl border border-panelBorder p-8 flex flex-col items-center justify-center text-center space-y-6">
             <h3 class="text-xs font-extrabold text-gray-400 uppercase tracking-widest">DUEL IN PROGRESS</h3>
@@ -745,7 +1000,7 @@
         </div>
     </div>
 
-    <!-- ========== ADMIN PANEL MODAL ========== -->
+    <!-- ====== ADMIN PANEL MODAL ====== -->
     <div id="adminModal" class="modal-backdrop fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden" onclick="handleOutsideClick(event, 'adminModal')">
         <div class="bg-cardBg w-full max-w-xl rounded-2xl border border-panelBorder shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
             <div class="p-4 border-b border-panelBorder flex justify-between items-center bg-darkBg">
@@ -777,7 +1032,7 @@
     <!-- JAVASCRIPT -->
     <!-- ======================================================================== -->
     <script>
-        // ---------- GLOBALS ----------
+        // ─── GLOBALS ───
         let currentUser = null;
         let fetchedRobloxUser = null;
         let generatedBioCode = "";
@@ -790,11 +1045,12 @@
         let selectedCreatePetIds = [];
         let selectedGiveawayPetIds = [];
         let giveawayTimeMinutes = 1;
+        let giveaways = JSON.parse(localStorage.getItem('petduel_giveaways')) || [];
 
-        // ---------- ADMIN LIST ----------
+        // ─── ADMIN LIST ───
         const ADMIN_USERS = ['dedokxxreal', 'emoxdrill'];
 
-        // ---------- STORAGE ----------
+        // ─── STORAGE ───
         let inventories = JSON.parse(localStorage.getItem('petduel_inventories')) || {
             "dedokxxreal": [
                 { id: 101, name: "Neon Unicorn", image: "https://cdn-icons-png.flaticon.com/512/616/616408.png",
@@ -810,11 +1066,12 @@
         let publicMatches = [];
         let userStats = JSON.parse(localStorage.getItem('petduel_userstats')) || {};
 
-        // ---------- HELPERS ----------
+        // ─── HELPERS ───
         function saveState() {
             localStorage.setItem('petduel_inventories', JSON.stringify(inventories));
             localStorage.setItem('petduel_transactions', JSON.stringify(transactions));
             localStorage.setItem('petduel_userstats', JSON.stringify(userStats));
+            localStorage.setItem('petduel_giveaways', JSON.stringify(giveaways));
             if (currentUser) localStorage.setItem('petduel_user', JSON.stringify(currentUser));
             else localStorage.removeItem('petduel_user');
         }
@@ -838,7 +1095,7 @@
                     wins: 0,
                     losses: 0,
                     joinDate: new Date().toISOString().slice(0, 7),
-                    history: [] // array of +1 (win) or -1 (loss)
+                    history: []
                 };
                 saveState();
             }
@@ -855,7 +1112,6 @@
                 stats.losses = (stats.losses || 0) + 1;
                 stats.history.push(-1);
             }
-            // keep last 30 entries
             if (stats.history.length > 30) stats.history = stats.history.slice(-30);
             saveState();
         }
@@ -864,27 +1120,21 @@
             return ADMIN_USERS.some(a => a.toLowerCase() === username.toLowerCase());
         }
 
-        // ---------- URL ROUTING ----------
+        // ─── URL ROUTING ───
         function goToCoinflip() {
             if (window.location.pathname !== '/coinflip') {
                 history.pushState({ page: 'coinflip' }, 'PET DUEL — Coinflip', '/coinflip');
             }
         }
 
-        // Check URL on load
         document.addEventListener('DOMContentLoaded', function() {
-            if (window.location.pathname === '/coinflip') {
-                // already on coinflip page, nothing special needed
-            }
-            // Handle back/forward
+            if (window.location.pathname === '/coinflip') {}
             window.addEventListener('popstate', function(e) {
-                if (e.state && e.state.page === 'coinflip') {
-                    // stay on coinflip
-                }
+                if (e.state && e.state.page === 'coinflip') {}
             });
         });
 
-        // ---------- NOTIFICATION ----------
+        // ─── NOTIFICATION ───
         function showNotification(type, message) {
             const toast = document.getElementById('notificationToast');
             document.getElementById('toastMessage').textContent = message;
@@ -900,14 +1150,23 @@
             toast.classList.remove('translate-x-0', 'opacity-100');
         }
 
-        // ---------- OUTSIDE CLICK ----------
+        // ─── OUTSIDE CLICK ───
         function handleOutsideClick(event, modalId) {
             if (event.target.id === modalId) {
                 document.getElementById(modalId).classList.add('hidden');
             }
         }
 
-        // ---------- DROPDOWN ----------
+        // ─── RULES MODAL ───
+        function toggleRulesModal() {
+            document.getElementById('rulesModal').classList.toggle('hidden');
+        }
+
+        function closeRulesModal() {
+            document.getElementById('rulesModal').classList.add('hidden');
+        }
+
+        // ─── DROPDOWN ───
         function toggleUserDropdown(e) {
             e.stopPropagation();
             document.getElementById('userDropdownMenu').classList.toggle('hidden');
@@ -919,7 +1178,7 @@
             }
         });
 
-        // ---------- AUTH ----------
+        // ─── AUTH ───
         function checkAuthSession() {
             const saved = localStorage.getItem('petduel_user');
             if (saved) {
@@ -1022,7 +1281,7 @@
             window.location.reload();
         }
 
-        // ---------- CHAT ----------
+        // ─── CHAT ───
         function initDynamicOnlineCounter() {
             setInterval(() => {
                 const count = Math.floor(Math.random() * (20 - 10 + 1)) + 10;
@@ -1042,15 +1301,15 @@
                         'flex items-start space-x-2 bg-darkBg p-2 rounded-lg border border-panelBorder cursor-pointer hover:border-pinkAccent transition';
                     msgEl.onclick = () => openUserProfileModal(m.username, m.avatar);
                     msgEl.innerHTML = `
-                        <img src="${m.avatar}" class="w-6 h-6 rounded-full border border-panelBorder mt-0.5 object-cover">
-                        <div class="flex-1 overflow-hidden">
-                            <div class="flex items-center justify-between">
-                                <span class="font-bold text-white text-[11px] truncate">${escapeHtml(m.username)}</span>
-                                <span class="text-[9px] text-gray-500">${m.time}</span>
+                            <img src="${m.avatar}" class="w-6 h-6 rounded-full border border-panelBorder mt-0.5 object-cover">
+                            <div class="flex-1 overflow-hidden">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-bold text-white text-[11px] truncate">${escapeHtml(m.username)}</span>
+                                    <span class="text-[9px] text-gray-500">${m.time}</span>
+                                </div>
+                                <p class="text-gray-300 text-[11px] break-words mt-0.5">${escapeHtml(m.msg)}</p>
                             </div>
-                            <p class="text-gray-300 text-[11px] break-words mt-0.5">${escapeHtml(m.msg)}</p>
-                        </div>
-                    `;
+                        `;
                     chatBox.appendChild(msgEl);
                 });
             } catch (e) {}
@@ -1073,29 +1332,60 @@
             } catch (e) {}
         }
 
-        // ---------- MATCHES ----------
+        // ─── MATCHES ───
         async function fetchServerMatches() {
             try {
                 const res = await fetch('/api/matches');
                 publicMatches = await res.json();
-                renderMatches();
+                renderFeed();
             } catch (e) { publicMatches = [];
-                renderMatches(); }
+                renderFeed(); }
         }
 
-        function renderMatches() {
-            const container = document.getElementById('matchesList');
-            const allGames = publicMatches.length;
+        // ─── RENDER FEED (matches + giveaways) ───
+        function renderFeed() {
+            const container = document.getElementById('feedContainer');
+            const allGames = publicMatches.length + giveaways.length;
             document.getElementById('allGamesCount').textContent = allGames;
             document.getElementById('openGamesCount').textContent = publicMatches.length;
 
-            const totalVal = publicMatches.reduce((sum, m) => sum + m.totalValue, 0);
+            const totalVal = publicMatches.reduce((sum, m) => sum + m.totalValue, 0) +
+                giveaways.reduce((sum, g) => sum + g.totalValue, 0);
             document.getElementById('totalValueCount').textContent = (totalVal / 1000).toFixed(1) + 'k';
 
             container.innerHTML = '';
-            if (publicMatches.length === 0) {
-                container.innerHTML =
-                    `<div class="text-center text-gray-500 py-12 text-xs bg-cardBg rounded-xl border border-panelBorder">No active matches online. Click "Create" to post one!</div>`;
+
+            // ── Giveaways first ──
+            if (giveaways.length > 0) {
+                giveaways.forEach(g => {
+                    const card = document.createElement('div');
+                    card.className = 'giveaway-card';
+                    const timeLeft = g.timeLeft || '00:15';
+                    card.innerHTML = `
+                            <div class="g-left">
+                                <div class="g-creator">
+                                    <img src="${g.creatorAvatar || 'https://via.placeholder.com/150'}" />
+                                    <span>${escapeHtml(g.creator)}</span>
+                                </div>
+                                <div class="g-prize">
+                                    <i class="fa-brands fa-roblox"></i> ${g.totalValue.toLocaleString()} value
+                                </div>
+                                <div class="g-meta">
+                                    <span>${g.winnerCount || 1} winner</span>
+                                    <span class="entries">· ${g.entries || 0} entries</span>
+                                </div>
+                                <div class="g-timer">${timeLeft}</div>
+                            </div>
+                            <button class="g-join-btn" onclick="joinGiveaway('${g.id}')">Join Giveaway</button>
+                        `;
+                    container.appendChild(card);
+                });
+            }
+
+            // ── Matches ──
+            if (publicMatches.length === 0 && giveaways.length === 0) {
+                container.innerHTML +=
+                    `<div class="text-center text-gray-500 py-12 text-xs bg-cardBg rounded-xl border border-panelBorder">No active matches or giveaways. Click "Create" to post one!</div>`;
                 return;
             }
 
@@ -1112,7 +1402,7 @@
                 let extraCount = match.pets.length - 4;
                 let petsHtml = visiblePets.map(p =>
                     `<div class="relative w-10 h-10 rounded-full bg-darkBg border border-panelBorder p-1 flex items-center justify-center"><img src="${p.image}" class="w-full h-full object-contain"></div>`
-                    ).join('');
+                ).join('');
                 if (extraCount > 0) {
                     petsHtml +=
                         `<div class="w-8 h-8 rounded-full bg-darkBg border border-panelBorder flex items-center justify-center text-[10px] font-bold text-white">+${extraCount}</div>`;
@@ -1121,38 +1411,38 @@
                 const isMyMatch = currentUser && match.creator.toLowerCase() === currentUser.username.toLowerCase();
 
                 card.innerHTML = `
-                    <div class="flex items-center space-x-3">
-                        <div class="relative cursor-pointer" onclick="openUserProfileModal('${match.creator}','${match.creatorAvatar}')">
-                            <img src="${match.creatorAvatar}" class="w-10 h-10 rounded-full border-2 border-darkBg object-cover">
-                            <span class="absolute -top-1 -right-1 w-4 h-4 rounded-full ${match.side === 'blue' ? 'bg-blueCoin' : 'bg-pinkCoin'} border border-white flex items-center justify-center text-[8px]"></span>
+                        <div class="flex items-center space-x-3">
+                            <div class="relative cursor-pointer" onclick="openUserProfileModal('${match.creator}','${match.creatorAvatar}')">
+                                <img src="${match.creatorAvatar}" class="w-10 h-10 rounded-full border-2 border-darkBg object-cover">
+                                <span class="absolute -top-1 -right-1 w-4 h-4 rounded-full ${match.side === 'blue' ? 'bg-blueCoin' : 'bg-pinkCoin'} border border-white flex items-center justify-center text-[8px]"></span>
+                            </div>
+                            <span class="text-xs font-bold text-gray-500">VS</span>
+                            <div class="relative">
+                                <div class="w-10 h-10 rounded-full bg-darkBg border border-panelBorder flex items-center justify-center text-gray-400 font-bold text-xs">?</div>
+                            </div>
                         </div>
-                        <span class="text-xs font-bold text-gray-500">VS</span>
-                        <div class="relative">
-                            <div class="w-10 h-10 rounded-full bg-darkBg border border-panelBorder flex items-center justify-center text-gray-400 font-bold text-xs">?</div>
+                        <div class="flex items-center space-x-2 flex-1 overflow-x-auto justify-start md:justify-center">${petsHtml}</div>
+                        <div class="flex items-center space-x-4">
+                            <div class="text-right">
+                                <span class="text-sm font-extrabold text-white flex items-center gap-1 justify-end">
+                                    <i class="fa-brands fa-roblox text-xs text-gray-400"></i> ${match.totalValue.toLocaleString()}
+                                </span>
+                            </div>
+                            ${isMyMatch ? `
+                                <button onclick="cancelMatch('${match.id}')" class="bg-red-600 hover:bg-red-700 text-white font-bold px-4 py-2 rounded-xl text-xs transition">Cancel</button>
+                            ` : `
+                                <button onclick="openJoinMatchModal('${match.id}')" class="bg-pinkAccent hover:bg-pinkHover text-white font-bold px-5 py-2 rounded-xl text-xs transition shadow-lg shadow-pinkAccent/20">Join</button>
+                            `}
+                            <button onclick="openSpectateModal('${match.id}')" class="bg-darkBg hover:bg-panelBorder text-gray-300 px-3 py-2 rounded-xl border border-panelBorder text-xs transition" title="View Match">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
                         </div>
-                    </div>
-                    <div class="flex items-center space-x-2 flex-1 overflow-x-auto justify-start md:justify-center">${petsHtml}</div>
-                    <div class="flex items-center space-x-4">
-                        <div class="text-right">
-                            <span class="text-sm font-extrabold text-white flex items-center gap-1 justify-end">
-                                <i class="fa-brands fa-roblox text-xs text-gray-400"></i> ${match.totalValue.toLocaleString()}
-                            </span>
-                        </div>
-                        ${isMyMatch ? `
-                            <button onclick="cancelMatch('${match.id}')" class="bg-red-600 hover:bg-red-700 text-white font-bold px-4 py-2 rounded-xl text-xs transition">Cancel</button>
-                        ` : `
-                            <button onclick="openJoinMatchModal('${match.id}')" class="bg-pinkAccent hover:bg-pinkHover text-white font-bold px-5 py-2 rounded-xl text-xs transition shadow-lg shadow-pinkAccent/20">Join</button>
-                        `}
-                        <button onclick="openSpectateModal('${match.id}')" class="bg-darkBg hover:bg-panelBorder text-gray-300 px-3 py-2 rounded-xl border border-panelBorder text-xs transition" title="View Match">
-                            <i class="fa-solid fa-eye"></i>
-                        </button>
-                    </div>
-                `;
+                    `;
                 container.appendChild(card);
             });
         }
 
-        // ---------- CREATE MATCH ----------
+        // ─── CREATE MATCH ───
         function openCreateMatchModal() {
             if (!currentUser) { openLoginModal(); return; }
             selectedCreatePetIds = [];
@@ -1165,85 +1455,6 @@
 
         function closeCreateMatchModal() { document.getElementById('createMatchModal').classList.add('hidden'); }
 
-        function renderCreateMatchInventory() {
-            const container = document.getElementById('createMatchInventory');
-            const emptyBox = document.getElementById('emptyInventoryBox');
-            container.innerHTML = '';
-            const userPets = getPetsForUser(currentUser.username);
-            if (userPets.length === 0) {
-                container.classList.add('hidden');
-                emptyBox.classList.remove('hidden');
-                return;
-            }
-            container.classList.remove('hidden');
-            emptyBox.classList.add('hidden');
-
-            // sort
-            const sortVal = document.getElementById('createSortDropdown').value;
-            const sorted = [...userPets];
-            if (sortVal === 'high') sorted.sort((a, b) => b.value - a.value);
-            else sorted.sort((a, b) => a.value - b.value);
-
-            sorted.forEach(pet => {
-                const card = document.createElement('div');
-                const isSelected = selectedCreatePetIds.includes(pet.id);
-                card.className =
-                    `pet-grid-item bg-cardBg p-3 rounded-xl border ${isSelected ? 'pet-card-selected border-pinkAccent' : 'border-panelBorder'} transition text-center`;
-                card.dataset.name = pet.name.toLowerCase();
-                card.onclick = () => {
-                    const idx = selectedCreatePetIds.indexOf(pet.id);
-                    if (idx > -1) selectedCreatePetIds.splice(idx, 1);
-                    else if (selectedCreatePetIds.length < 20) selectedCreatePetIds.push(pet.id);
-                    else showNotification('error', 'Max 20 items per match.');
-                    renderCreateMatchInventory();
-                    updateCreateMatchSummary();
-                };
-                card.innerHTML = `
-                    <img src="${pet.image}" class="w-12 h-12 mx-auto object-contain mb-2">
-                    <span class="font-extrabold text-xs text-white block truncate">${escapeHtml(pet.name)}</span>
-                    <span class="text-xs text-amber-400 font-black">${pet.value} R$</span>
-                `;
-                container.appendChild(card);
-            });
-        }
-
-        function filterCreateMatchInventory() {
-            const q = document.getElementById('createMatchSearch').value.toLowerCase();
-            const items = document.querySelectorAll('#createMatchInventory .pet-grid-item');
-            items.forEach(el => {
-                const name = el.dataset.name || '';
-                el.style.display = name.includes(q) ? '' : 'none';
-            });
-        }
-
-        // quick select
-        function quickSelectPets(count) {
-            const container = document.getElementById('createMatchInventory');
-            const items = container.querySelectorAll('.pet-grid-item');
-            // select first 'count' visible items
-            const visible = [];
-            items.forEach(el => {
-                if (el.style.display !== 'none') visible.push(el);
-            });
-            // deselect all
-            selectedCreatePetIds = [];
-            for (let i = 0; i < Math.min(count, visible.length); i++) {
-                const petId = parseInt(visible[i].dataset.petId) || 0;
-                if (petId) selectedCreatePetIds.push(petId);
-            }
-            // re-render
-            renderCreateMatchInventory();
-            updateCreateMatchSummary();
-            // highlight pills
-            document.querySelectorAll('.quick-pill').forEach(p => p.classList.remove('active'));
-            const pillMap = { 1: 0, 5: 1, 10: 2, 15: 3 };
-            const idx = pillMap[count];
-            if (idx !== undefined) {
-                document.querySelectorAll('.quick-pill')[idx]?.classList.add('active');
-            }
-        }
-
-        // store pet ids on cards for quick select
         function renderCreateMatchInventory() {
             const container = document.getElementById('createMatchInventory');
             const emptyBox = document.getElementById('emptyInventoryBox');
@@ -1278,15 +1489,45 @@
                     updateCreateMatchSummary();
                 };
                 card.innerHTML = `
-                    <img src="${pet.image}" class="w-12 h-12 mx-auto object-contain mb-2">
-                    <span class="font-extrabold text-xs text-white block truncate">${escapeHtml(pet.name)}</span>
-                    <span class="text-xs text-amber-400 font-black">${pet.value} R$</span>
-                `;
+                        <img src="${pet.image}" class="w-12 h-12 mx-auto object-contain mb-2">
+                        <span class="font-extrabold text-xs text-white block truncate">${escapeHtml(pet.name)}</span>
+                        <span class="text-xs text-amber-400 font-black">${pet.value} R$</span>
+                    `;
                 container.appendChild(card);
             });
         }
 
-        // Update sort listener for create modal
+        function filterCreateMatchInventory() {
+            const q = document.getElementById('createMatchSearch').value.toLowerCase();
+            const items = document.querySelectorAll('#createMatchInventory .pet-grid-item');
+            items.forEach(el => {
+                const name = el.dataset.name || '';
+                el.style.display = name.includes(q) ? '' : 'none';
+            });
+        }
+
+        function quickSelectPets(count) {
+            const container = document.getElementById('createMatchInventory');
+            const items = container.querySelectorAll('.pet-grid-item');
+            const visible = [];
+            items.forEach(el => {
+                if (el.style.display !== 'none') visible.push(el);
+            });
+            selectedCreatePetIds = [];
+            for (let i = 0; i < Math.min(count, visible.length); i++) {
+                const petId = parseInt(visible[i].dataset.petId) || 0;
+                if (petId) selectedCreatePetIds.push(petId);
+            }
+            renderCreateMatchInventory();
+            updateCreateMatchSummary();
+            document.querySelectorAll('.quick-pill').forEach(p => p.classList.remove('active'));
+            const pillMap = { 1: 0, 5: 1, 10: 2, 15: 3 };
+            const idx = pillMap[count];
+            if (idx !== undefined) {
+                document.querySelectorAll('.quick-pill')[idx]?.classList.add('active');
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('createSortDropdown')?.addEventListener('change', function() {
                 renderCreateMatchInventory();
@@ -1362,7 +1603,7 @@
             } catch (e) {}
         }
 
-        // ---------- JOIN MATCH ----------
+        // ─── JOIN MATCH ───
         function openJoinMatchModal(matchId) {
             if (!currentUser) { openLoginModal(); return; }
             const match = publicMatches.find(m => m.id === matchId);
@@ -1370,11 +1611,11 @@
             activeJoinMatchId = matchId;
             selectedJoinPetIds = [];
             document.getElementById('joinMatchInfo').innerHTML = `
-                <div class="flex justify-between font-bold">
-                    <span class="text-gray-300">Opponent: ${escapeHtml(match.creator)}</span>
-                    <span class="text-amber-400">Wager: ${match.totalValue} R$</span>
-                </div>
-            `;
+                    <div class="flex justify-between font-bold">
+                        <span class="text-gray-300">Opponent: ${escapeHtml(match.creator)}</span>
+                        <span class="text-amber-400">Wager: ${match.totalValue} R$</span>
+                    </div>
+                `;
             document.getElementById('joinMatchModal').classList.remove('hidden');
             renderJoinMatchInventory();
             updateJoinMatchSummary();
@@ -1404,10 +1645,10 @@
                     updateJoinMatchSummary();
                 };
                 card.innerHTML = `
-                    <img src="${pet.image}" class="w-10 h-10 mx-auto object-contain mb-1">
-                    <span class="font-bold text-[10px] text-white block truncate">${escapeHtml(pet.name)}</span>
-                    <span class="text-[10px] text-amber-400 font-bold">${pet.value} R$</span>
-                `;
+                        <img src="${pet.image}" class="w-10 h-10 mx-auto object-contain mb-1">
+                        <span class="font-bold text-[10px] text-white block truncate">${escapeHtml(pet.name)}</span>
+                        <span class="text-[10px] text-amber-400 font-bold">${pet.value} R$</span>
+                    `;
                 container.appendChild(card);
             });
         }
@@ -1487,7 +1728,7 @@
                 showNotification('error', 'Match error'); }
         }
 
-        // ---------- SPECTATE ----------
+        // ─── SPECTATE ───
         let spectateMatchId = null;
 
         function openSpectateModal(matchId) {
@@ -1511,14 +1752,14 @@
             creatorItemsBox.innerHTML = '';
             match.pets.forEach(p => {
                 creatorItemsBox.innerHTML += `
-                    <div class="flex items-center justify-between bg-darkBg p-2 rounded-lg border border-panelBorder text-xs">
-                        <div class="flex items-center space-x-2">
-                            <img src="${p.image}" class="w-6 h-6 object-contain">
-                            <span class="font-bold text-white">${escapeHtml(p.name)}</span>
+                        <div class="flex items-center justify-between bg-darkBg p-2 rounded-lg border border-panelBorder text-xs">
+                            <div class="flex items-center space-x-2">
+                                <img src="${p.image}" class="w-6 h-6 object-contain">
+                                <span class="font-bold text-white">${escapeHtml(p.name)}</span>
+                            </div>
+                            <span class="font-extrabold text-pinkAccent">${p.value.toLocaleString()}</span>
                         </div>
-                        <span class="font-extrabold text-pinkAccent">${p.value.toLocaleString()}</span>
-                    </div>
-                `;
+                    `;
             });
             document.getElementById('specJoinerItems').innerHTML =
                 `<div class="text-center text-xs text-gray-500 py-4">Waiting for opponent...</div>`;
@@ -1540,7 +1781,7 @@
             openJoinMatchModal(spectateMatchId);
         }
 
-        // ---------- GIVEAWAY ----------
+        // ─── GIVEAWAY (create) ───
         function openGiveawayModal() {
             if (!currentUser) { openLoginModal(); return; }
             selectedGiveawayPetIds = [];
@@ -1580,10 +1821,10 @@
                     updateGiveawaySummary();
                 };
                 card.innerHTML = `
-                    <img src="${pet.image}" class="w-12 h-12 mx-auto object-contain mb-2">
-                    <span class="font-extrabold text-xs text-white block truncate">${escapeHtml(pet.name)}</span>
-                    <span class="text-xs text-amber-400 font-black">${pet.value} R$</span>
-                `;
+                        <img src="${pet.image}" class="w-12 h-12 mx-auto object-contain mb-2">
+                        <span class="font-extrabold text-xs text-white block truncate">${escapeHtml(pet.name)}</span>
+                        <span class="text-xs text-amber-400 font-black">${pet.value} R$</span>
+                    `;
                 container.appendChild(card);
             });
         }
@@ -1612,10 +1853,27 @@
             const totalVal = giveawayPets.reduce((s, p) => s + p.value, 0);
             inventories[currentUser.username] = userPets.filter(p => !selectedGiveawayPetIds.includes(p.id));
             saveState();
+
+            // create giveaway entry
+            const newGiveaway = {
+                id: 'GV-' + Date.now().toString(36).toUpperCase(),
+                creator: currentUser.username,
+                creatorAvatar: currentUser.avatar,
+                totalValue: totalVal,
+                winnerCount: 1,
+                entries: 0,
+                timeLeft: '00:' + String(giveawayTimeMinutes).padStart(2, '0'),
+                pets: giveawayPets,
+                createdAt: Date.now()
+            };
+            giveaways.push(newGiveaway);
+            saveState();
+
             closeGiveawayModal();
+            renderFeed();
             showNotification('success',
                 `Giveaway created! ${giveawayPets.length} pet(s) (${totalVal.toLocaleString()} R$) in ${giveawayTimeMinutes} min.`
-                );
+            );
             const timeNow = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             transactions.unshift({
                 user: currentUser.username,
@@ -1628,7 +1886,18 @@
             saveState();
         }
 
-        // ---------- PROFILE (with dynamic graph) ----------
+        function joinGiveaway(giveawayId) {
+            if (!currentUser) { openLoginModal(); return; }
+            const g = giveaways.find(gw => gw.id === giveawayId);
+            if (!g) return;
+            // In a real app, this would add the user to the giveaway
+            g.entries = (g.entries || 0) + 1;
+            saveState();
+            renderFeed();
+            showNotification('success', `You joined ${g.creator}'s giveaway!`);
+        }
+
+        // ─── PROFILE ───
         function openUserProfileModal(username, avatar) {
             document.getElementById('userDropdownMenu').classList.add('hidden');
             targetProfileUser = { username, avatar: avatar || 'https://via.placeholder.com/150' };
@@ -1651,44 +1920,33 @@
             document.getElementById('profileModalJoinDate').textContent = stats.joinDate ? 'Joined: ' + stats.joinDate :
                 'Joined: Aug 2026';
 
-            // ---- DYNAMIC GRAPH ----
             const history = stats.history || [];
             const points = [];
             let running = 0;
-            // always start at neutral
-            points.push(55); // y=55 is middle-ish (55 out of 60)
+            points.push(55);
             for (let i = 0; i < Math.min(history.length, 29); i++) {
                 running += history[i] || 0;
-                // map to y: 55 - (running * 2)  so +1 win goes up, -1 loss goes down
                 let y = 55 - (running * 2);
                 y = Math.max(5, Math.min(55, y));
                 points.push(y);
             }
-            // pad to 30 points
             while (points.length < 30) points.push(55);
 
-            // build svg polyline points
             const step = 300 / (points.length - 1);
             let pts = '';
-            let fillPts = '';
             let areaPts = '';
             points.forEach((y, i) => {
                 const x = Math.round(i * step);
                 pts += `${x},${y} `;
-                fillPts += `${x},${y} `;
                 areaPts += `${x},${y} `;
             });
-            // close area
-            const lastX = 300;
-            areaPts += `${lastX},60 0,60`;
+            areaPts += `300,60 0,60`;
 
             const graphLine = document.getElementById('graphLine');
-            const graphFill = document.getElementById('graphFill');
             const graphArea = document.getElementById('graphArea');
             const graphDot = document.getElementById('graphDot');
 
             if (graphLine) graphLine.setAttribute('points', pts.trim());
-            if (graphFill) graphFill.setAttribute('points', pts.trim());
             if (graphArea) graphArea.setAttribute('points', areaPts.trim());
             if (graphDot) {
                 const lastPt = points[points.length - 1] || 55;
@@ -1696,7 +1954,6 @@
                 graphDot.setAttribute('cy', lastPt);
             }
 
-            // ---- TIP BUTTON ----
             const tipBtn = document.getElementById('tipUserBtn');
             if (currentUser && currentUser.username.toLowerCase() === username.toLowerCase()) {
                 tipBtn.classList.add('hidden');
@@ -1714,7 +1971,7 @@
 
         function closeUserProfileModal() { document.getElementById('userProfileModal').classList.add('hidden'); }
 
-        // ---------- TIP ----------
+        // ─── TIP ───
         function openTipInventoryModal() {
             if (!currentUser) { openLoginModal(); return; }
             if (currentUser.username.toLowerCase() === targetProfileUser.username.toLowerCase()) {
@@ -1753,10 +2010,10 @@
                     updateTipSummary();
                 };
                 card.innerHTML = `
-                    <img src="${pet.image}" class="w-10 h-10 mx-auto object-contain mb-1">
-                    <span class="font-extrabold text-[10px] text-white block truncate">${escapeHtml(pet.name)}</span>
-                    <span class="text-[10px] text-amber-400 font-bold">${pet.value} R$</span>
-                `;
+                        <img src="${pet.image}" class="w-10 h-10 mx-auto object-contain mb-1">
+                        <span class="font-extrabold text-[10px] text-white block truncate">${escapeHtml(pet.name)}</span>
+                        <span class="text-[10px] text-amber-400 font-bold">${pet.value} R$</span>
+                    `;
                 container.appendChild(card);
             });
         }
@@ -1804,7 +2061,7 @@
             showNotification('success', `Tipped ${tippedPets.length} pet(s) to ${targetProfileUser.username}!`);
         }
 
-        // ---------- TRANSACTIONS ----------
+        // ─── TRANSACTIONS ───
         function openTransactionsModal() {
             if (!currentUser) return;
             document.getElementById('userDropdownMenu').classList.add('hidden');
@@ -1817,7 +2074,8 @@
             } else {
                 userTxs.forEach(tx => {
                     const row = document.createElement('div');
-                    row.className = 'flex items-center justify-between bg-darkBg p-3 rounded-xl border border-panelBorder text-xs';
+                    row.className =
+                        'flex items-center justify-between bg-darkBg p-3 rounded-xl border border-panelBorder text-xs';
                     let typeBadge = '',
                         details = '';
                     if (tx.type === 'TIP_SENT') {
@@ -1827,7 +2085,8 @@
                     } else if (tx.type === 'TIP_RECEIVED') {
                         typeBadge =
                             `<span class="bg-emerald-500/10 text-emerald-400 font-extrabold px-2 py-0.5 rounded border border-emerald-500/20"><i class="fa-solid fa-arrow-down-left-and-up-right-to-center"></i> TIP RECEIVED</span>`;
-                        details = `From <strong class="text-white">@${escapeHtml(tx.target)}</strong> (${tx.itemCount} items)`;
+                        details =
+                        `From <strong class="text-white">@${escapeHtml(tx.target)}</strong> (${tx.itemCount} items)`;
                     } else if (tx.type === 'DEPOSIT') {
                         typeBadge =
                             `<span class="bg-blue-500/10 text-blue-400 font-extrabold px-2 py-0.5 rounded border border-blue-500/20"><i class="fa-solid fa-download"></i> DEPOSIT</span>`;
@@ -1842,12 +2101,12 @@
                         details = tx.target ? `@${escapeHtml(tx.target)}` : '';
                     }
                     row.innerHTML = `
-                        <div class="flex items-center space-x-3">${typeBadge}<span class="text-gray-400">${details}</span></div>
-                        <div class="flex items-center space-x-3">
-                            <span class="font-extrabold text-amber-400 flex items-center gap-1"><i class="fa-brands fa-roblox text-xs"></i> ${tx.value.toLocaleString()} R$</span>
-                            <span class="text-[10px] text-gray-500">${tx.time}</span>
-                        </div>
-                    `;
+                            <div class="flex items-center space-x-3">${typeBadge}<span class="text-gray-400">${details}</span></div>
+                            <div class="flex items-center space-x-3">
+                                <span class="font-extrabold text-amber-400 flex items-center gap-1"><i class="fa-brands fa-roblox text-xs"></i> ${tx.value.toLocaleString()} R$</span>
+                                <span class="text-[10px] text-gray-500">${tx.time}</span>
+                            </div>
+                        `;
                     container.appendChild(row);
                 });
             }
@@ -1864,7 +2123,7 @@
             saveState();
         }
 
-        // ---------- INVENTORY ----------
+        // ─── INVENTORY ───
         function openInventoryModal() {
             if (!currentUser) return;
             document.getElementById('userDropdownMenu').classList.add('hidden');
@@ -1879,10 +2138,10 @@
                     const card = document.createElement('div');
                     card.className = 'bg-darkBg p-3 rounded-xl border border-panelBorder text-center shadow';
                     card.innerHTML = `
-                        <img src="${pet.image}" class="w-12 h-12 mx-auto object-contain mb-2">
-                        <span class="font-extrabold text-xs text-white block truncate">${escapeHtml(pet.name)}</span>
-                        <span class="text-xs text-amber-400 font-black">${pet.value.toLocaleString()} R$</span>
-                    `;
+                            <img src="${pet.image}" class="w-12 h-12 mx-auto object-contain mb-2">
+                            <span class="font-extrabold text-xs text-white block truncate">${escapeHtml(pet.name)}</span>
+                            <span class="text-xs text-amber-400 font-black">${pet.value.toLocaleString()} R$</span>
+                        `;
                     container.appendChild(card);
                 });
             }
@@ -1891,7 +2150,7 @@
 
         function closeInventoryModal() { document.getElementById('inventoryModal').classList.add('hidden'); }
 
-        // ---------- DEPOSIT ----------
+        // ─── DEPOSIT ───
         function openDepositModal() {
             closeCreateMatchModal();
             closeGiveawayModal();
@@ -1900,14 +2159,12 @@
 
         function closeDepositModal() { document.getElementById('depositModal').classList.add('hidden'); }
 
-        // ---------- ADMIN (fixed) ----------
+        // ─── ADMIN ───
         function openAdminModal() {
             if (!currentUser || !isAdminUser(currentUser.username)) return;
             const select = document.getElementById('adminTargetUser');
             select.innerHTML = '';
-            // show all users that have inventories or are in the list
             const allUsers = new Set(Object.keys(inventories));
-            // also add current user if not in set
             if (currentUser && !allUsers.has(currentUser.username)) allUsers.add(currentUser.username);
             allUsers.forEach(usr => {
                 const opt = document.createElement('option');
@@ -1932,9 +2189,9 @@
                 card.className =
                     'admin-user-pet flex items-center justify-between bg-cardBg p-2 rounded border border-panelBorder text-xs';
                 card.innerHTML = `
-                    <span class="text-white font-bold truncate">${escapeHtml(pet.name)}</span>
-                    <button onclick="adminRemovePet('${targetUser}', ${pet.id})" class="text-red-400 hover:text-red-300 text-xs px-2 py-1 bg-red-950/40 rounded border border-red-800">Delete</button>
-                `;
+                        <span class="text-white font-bold truncate">${escapeHtml(pet.name)}</span>
+                        <button onclick="adminRemovePet('${targetUser}', ${pet.id})" class="text-red-400 hover:text-red-300 text-xs px-2 py-1 bg-red-950/40 rounded border border-red-800">Delete</button>
+                    `;
                 container.appendChild(card);
             });
         }
@@ -1954,7 +2211,6 @@
                 value: petValue });
             saveState();
             renderAdminUserInventory();
-            // also update the dropdown if new user
             const select = document.getElementById('adminTargetUser');
             let exists = false;
             for (let opt of select.options) {
@@ -1981,12 +2237,12 @@
             showNotification('success', 'Pet removed by admin!');
         }
 
-        // ---------- SORT DROPDOWN ----------
+        // ─── SORT DROPDOWN ───
         document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('sortDropdown').addEventListener('change', renderMatches);
+            document.getElementById('sortDropdown').addEventListener('change', renderFeed);
         });
 
-        // ---------- INIT ----------
+        // ─── INIT ───
         document.addEventListener('DOMContentLoaded', () => {
             checkAuthSession();
             initDynamicOnlineCounter();
@@ -1994,12 +2250,8 @@
             fetchServerMatches();
             setInterval(fetchServerMatches, 2000);
             setInterval(loadPersistentChat, 3000);
-            // set default sort
             document.getElementById('sortDropdown').value = 'high';
-            // Coinflip URL if path is /coinflip
-            if (window.location.pathname === '/coinflip') {
-                // already good
-            }
+            if (window.location.pathname === '/coinflip') {}
         });
     </script>
 
