@@ -702,14 +702,7 @@
 
         /* ── chat sidebar width ── */
         .chat-sidebar {
-            min-width: 260px;
-            max-width: 300px;
-        }
-        @media (max-width: 1024px) {
-            .chat-sidebar {
-                min-width: unset;
-                max-width: unset;
-            }
+            /* Genişlik grid tarafından belirlenecek */
         }
 
         /* ── inventory modal ── */
@@ -1011,26 +1004,34 @@
                 grid-template-columns: 1fr;
             }
         }
+
         .container-max {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 0 1rem;
+            padding: 0 0.5rem;
         }
         @media (min-width: 1400px) {
             .container-max {
-                padding: 0 2rem;
+                padding: 0 1rem;
             }
         }
-        /* Grid layout fix - chat left, main right */
+
+        /* ── YENİ: Ana grid düzeni (chat sol, içerik sağ) ── */
         .main-grid {
             display: grid;
-            grid-template-columns: 280px 1fr;
-            gap: 1.5rem;
+            grid-template-columns: 240px 1fr;
+            gap: 1rem;
         }
         @media (max-width: 1024px) {
             .main-grid {
                 grid-template-columns: 1fr;
             }
+        }
+
+        /* Chat sidebar tam yükseklik */
+        .chat-sidebar {
+            height: 100%;
+            min-height: 600px;
         }
     </style>
 </head>
@@ -1113,10 +1114,10 @@
     </header>
 
     <!-- ====== MAIN LAYOUT ====== -->
-    <div class="flex-1 main-grid container-max p-6">
+    <div class="flex-1 main-grid container-max p-4">
 
         <!-- ====== SIDEBAR: CHAT + GIVEAWAYS ====== -->
-        <aside class="bg-cardBg rounded-2xl border border-panelBorder flex flex-col h-[680px] lg:h-full shadow-xl overflow-hidden chat-sidebar">
+        <aside class="bg-cardBg rounded-2xl border border-panelBorder flex flex-col h-full shadow-xl overflow-hidden chat-sidebar">
             <!-- Chat header -->
             <div class="p-4 border-b border-panelBorder bg-darkBg flex items-center justify-between flex-shrink-0">
                 <h2 class="font-bold text-xs text-white uppercase tracking-wider">Chat</h2>
